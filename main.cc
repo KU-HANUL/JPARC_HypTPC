@@ -1,7 +1,3 @@
-##woosueng
-
-
-
 #include "DetectorConstruction.hh"
 #include "PhysicsList.hh"
 #include "PrimaryGeneratorAction.hh"
