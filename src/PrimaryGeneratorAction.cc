@@ -152,7 +152,7 @@ void PrimaryGeneratorAction::GenerateTest(G4Event* anEvent, G4ThreeVector D, G4T
 
 void PrimaryGeneratorAction::GenerateTest72(G4Event* anEvent, EvtGen *evtGenerator, G4ThreeVector D, G4ThreeVector P)
 {
-  //G4cout<<"Start Generate Test2"<<G4endl;
+  //G4cout<<"Start Generate Test72"<<G4endl;
   /// mother particle momentum //
   double mass_km = 0.493677;
   double mass_proton = 0.938272081;
@@ -207,9 +207,9 @@ void PrimaryGeneratorAction::GenerateTest72(G4Event* anEvent, EvtGen *evtGenerat
 
 void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerator, G4ThreeVector D, G4ThreeVector P)
 {
-  //G4cout<<"Start Generate Test2"<<G4endl;
+  //G4cout<<"Start Generate Test45"<<G4endl;
   /// mother particle momentum //
-  double mass_km = 0.493677;
+  double mass_pi = 0.13957061;
   double mass_proton = 0.938272081;
   G4LorentzVector lv_beam;
   G4LorentzVector lv_target;
@@ -219,7 +219,7 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
   lv_beam.setX(P.x());
   lv_beam.setY(P.y());
   lv_beam.setZ(P.z());
-  lv_beam.setE(sqrt(mass_km*mass_km + pbeam*pbeam));
+  lv_beam.setE(sqrt(mass_pi*mass_pi + pbeam*pbeam));
 
   lv_target.setX(0.0);
   lv_target.setY(0.0);
@@ -253,7 +253,6 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
   */
   LvN1650.setVect(TVp);
   LvN1650.setE(sqrt(mass_n1650*mass_n1650+TVp.mag2()));
-  //LvN1650.setE(sqrt(1.664*1.664+TVp.mag2()));
 
   EvtVector4R pInit_n1650( LvN1650.e(), LvN1650.vect().x(), LvN1650.vect().y(), LvN1650.vect().z() );
   n1650 = EvtParticleFactory::particleFactory(N1650, pInit_n1650);
