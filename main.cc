@@ -1,5 +1,3 @@
-###########
-
 #include "DetectorConstruction.hh"
 #include "PhysicsList.hh"
 #include "PrimaryGeneratorAction.hh"
@@ -52,11 +50,7 @@ int main(int argc, char** argv)
     }
   else
     {
-      //confFile = "conf/accept/p760_t0.6_electron.conf";
-      //confFile = "conf/trigger/p730_zm650_f1.0.conf";
-      //confFile = "conf/trigger/p730_zm1000_f0.6.conf";
-      confFile = "conf/p730_t1.conf";
-      //confFile = "conf/beam.conf";
+      confFile = "conf/e72/p730_t1.conf";
     }
   ConfMan *confManager = new ConfMan( confFile );
   confManager->Initialize();

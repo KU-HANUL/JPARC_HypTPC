@@ -63,10 +63,10 @@
 //#include <boost/iostreams/copy.hpp>
 //#include <boost/iostreams/filter/gzip.hpp>
 
-PrimaryGeneratorAction::PrimaryGeneratorAction( DetectorConstruction *det, 
+PrimaryGeneratorAction::PrimaryGeneratorAction( DetectorConstruction *det,
 						AnalysisManager *analysisManager,
 						EvtGen *evtgen)
-  : G4VUserPrimaryGeneratorAction(), det_(det), 
+  : G4VUserPrimaryGeneratorAction(), det_(det),
     anaMan_(analysisManager),
     evtgen_(evtgen)
 {
@@ -91,7 +91,7 @@ void PrimaryGeneratorAction::GeneratePrimaries( G4Event *anEvent )
     {
       G4cout<<"Event# "<<event_num<<G4endl;
     }
-  
+
   ConfMan *confMan = ConfMan::GetConfManager();
   int reactionMode = confMan->ReactionMode();
 
@@ -110,7 +110,8 @@ void PrimaryGeneratorAction::GeneratePrimaries( G4Event *anEvent )
   switch(reactionMode)
     {
     case 1: GenerateTest(anEvent, D, P); break;
-    case 2: GenerateTest2(anEvent, evtgen_, D, P); break;
+    case 2: GenerateTest72(anEvent, evtgen_, D, P); break;
+    case 2: GenerateTest45(anEvent, evtgen_, D, P); break;
     }
 }
 
@@ -149,7 +150,7 @@ void PrimaryGeneratorAction::GenerateTest(G4Event* anEvent, G4ThreeVector D, G4T
   particleGun->GeneratePrimaryVertex( anEvent);
 }
 
-void PrimaryGeneratorAction::GenerateTest2(G4Event* anEvent, EvtGen *evtGenerator, G4ThreeVector D, G4ThreeVector P)
+void PrimaryGeneratorAction::GenerateTest72(G4Event* anEvent, EvtGen *evtGenerator, G4ThreeVector D, G4ThreeVector P)
 {
   //G4cout<<"Start Generate Test2"<<G4endl;
   /// mother particle momentum //
@@ -163,13 +164,13 @@ void PrimaryGeneratorAction::GenerateTest2(G4Event* anEvent, EvtGen *evtGenerato
   lv_beam.setX(P.x());
   lv_beam.setY(P.y());
   lv_beam.setZ(P.z());
-  lv_beam.setE(sqrt(mass_km*mass_km + pbeam*pbeam)); 
+  lv_beam.setE(sqrt(mass_km*mass_km + pbeam*pbeam));
 
   lv_target.setX(0.0);
   lv_target.setY(0.0);
   lv_target.setZ(0.0);
-  lv_target.setE(sqrt(mass_proton*mass_proton)); 
-  
+  lv_target.setE(sqrt(mass_proton*mass_proton));
+
   lv_particle = lv_beam + lv_target;
 
   // make mother particle //
@@ -187,7 +188,7 @@ void PrimaryGeneratorAction::GenerateTest2(G4Event* anEvent, EvtGen *evtGenerato
       G4cout<<"### Beam momentum is not enough to generate Lam1663 ###"<<G4endl;
       return;
     }
-  /* 
+  /*
   G4cout<<"########################### Test  ##############################"<<G4endl;
   G4cout<<"Momentum of K-: "<<pbeam << " GeV/c" <<G4endl;
   G4cout<<"Invariant mass of K + p: "<<lv_particle.m() << " GeV/c2" <<G4endl;
@@ -204,10 +205,65 @@ void PrimaryGeneratorAction::GenerateTest2(G4Event* anEvent, EvtGen *evtGenerato
   GenerateDecay(anEvent, evtGenerator, lam1663, D);
 }
 
+void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerator, G4ThreeVector D, G4ThreeVector P)
+{
+  //G4cout<<"Start Generate Test2"<<G4endl;
+  /// mother particle momentum //
+  double mass_km = 0.493677;
+  double mass_proton = 0.938272081;
+  G4LorentzVector lv_beam;
+  G4LorentzVector lv_target;
+  G4LorentzVector lv_particle;
+  double pbeam = P.mag();
+
+  lv_beam.setX(P.x());
+  lv_beam.setY(P.y());
+  lv_beam.setZ(P.z());
+  lv_beam.setE(sqrt(mass_km*mass_km + pbeam*pbeam));
+
+  lv_target.setX(0.0);
+  lv_target.setY(0.0);
+  lv_target.setZ(0.0);
+  lv_target.setE(sqrt(mass_proton*mass_proton));
+
+  lv_particle = lv_beam + lv_target;
+
+  // make mother particle //
+  EvtParticle* n1650(0);
+  static EvtId N1650 = EvtPDL::getId(std::string("N(1650)0"));
+  G4LorentzVector LvN1650;
+  G4ThreeVector TVp (lv_particle.x(), lv_particle.y(), lv_particle.z());
+  G4ThreeVector TVx (D.x(), D.y(), D.z());
+
+  double mass_n1650 = sqrt((lv_beam.e()+lv_target.e())*(lv_beam.e()+lv_target.e()) - pbeam*pbeam);
+
+  // check total energy //
+  if(mass_n1650 < 1.6 )
+    {
+      G4cout<<"### Beam momentum is not enough to generate N1650 ###"<<G4endl;
+      return;
+    }
+  /*
+  G4cout<<"########################### Test  ##############################"<<G4endl;
+  G4cout<<"Momentum of K-: "<<pbeam << " GeV/c" <<G4endl;
+  G4cout<<"Invariant mass of K + p: "<<lv_particle.m() << " GeV/c2" <<G4endl;
+  G4cout<<"Momentum of N1650: "<< TVp.mag() << " GeV/c"<<G4endl;
+  G4cout<<"Mass of N1650: "<< mass_n1650 << " GeV/c2" <<G4endl;
+  G4cout<<"################################################################" << G4endl;
+  */
+  LvN1650.setVect(TVp);
+  LvN1650.setE(sqrt(mass_n1650*mass_n1650+TVp.mag2()));
+  //LvN1650.setE(sqrt(1.664*1.664+TVp.mag2()));
+
+  EvtVector4R pInit_n1650( LvN1650.e(), LvN1650.vect().x(), LvN1650.vect().y(), LvN1650.vect().z() );
+  n1650 = EvtParticleFactory::particleFactory(N1650, pInit_n1650);
+  GenerateDecay(anEvent, evtGenerator, n1650, D);
+}
+
 void PrimaryGeneratorAction::GenerateDecay(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector D)
 {
 
-                                                                     
+
   static EvtStdHep evtstdhep;
   static EvtSecondary evtsecondary;
 
@@ -245,8 +301,8 @@ void PrimaryGeneratorAction::GenerateDecay(G4Event* anEvent, EvtGen *evtGenerato
   EvtVector4R p4,x4;
   int n_beam = 0; // number of beams
 
-  
-  
+
+
   for(int i=0;i<evtstdhep.getNPart();i++)
     {
       j=i+1;
@@ -254,19 +310,19 @@ void PrimaryGeneratorAction::GenerateDecay(G4Event* anEvent, EvtGen *evtGenerato
       int jmotherlast=evtstdhep.getLastMother(i)+1;
       int jdaugfirst=evtstdhep.getFirstDaughter(i)+1;
       int jdauglast=evtstdhep.getLastDaughter(i)+1;
-      
+
       partnum=evtstdhep.getStdHepID(i);
-  
+
       istat=evtstdhep.getIStat(i);
-  
+
       p4=evtstdhep.getP4(i);
       x4=evtstdhep.getX4(i);
-   
+
       px=p4.get(1);
       py=p4.get(2);
       pz=p4.get(3);
       e=p4.get(0);
-   
+
       x=x4.get(1)+D.x();
       y=x4.get(2)+D.y();
       z=x4.get(3)+D.z();
@@ -314,18 +370,18 @@ void PrimaryGeneratorAction::GenerateDecay(G4Event* anEvent, EvtGen *evtGenerato
 
       p4=evtstdhep.getP4(i);
       x4=evtstdhep.getX4(i);
-   
+
       px=p4.get(1);
       py=p4.get(2);
       pz=p4.get(3);
       e=p4.get(0);
-   
+
       x=x4.get(1)+D.x();
       y=x4.get(2)+D.y();
       z=x4.get(3)+D.z();
       t=x4.get(0);
       m=p4.mass();
-      
+
       partnum=evtstdhep.getStdHepID(i);
       G4cout<<"ID: " << j<< "  Particle Num: "<<partnum<<"  mf: "<<jmotherfirst<< "  ml: "<<jmotherlast << "  df: "<<jdaugfirst << "  dl: "<<jdauglast<<G4endl;
       G4cout<< "   p: "<<(float)sqrt(px*px+py*py+pz*pz) << " e: " << (float)e << " t: "<< (float)t<< " m: "<< (float)m <<G4endl;
@@ -345,9 +401,9 @@ void PrimaryGeneratorAction::makeGun(G4Event* anEvent, int partnum, EvtVector4R 
   G4ThreeVector beampu = beamp/beamp.mag();
   G4double energy = (p4.get(0) - p4.mass())*GeV;
   //G4double energy = beamp.mag()*GeV;
-  double time = x4.get(0); 
+  double time = x4.get(0);
   G4double g4time =  time * ns;
-  
+
   //std::cout<<"Beam energy: "<< energy << std::endl;
   //G4cout<<"###############  beam generated  #################" << G4endl;
   //G4cout<<"particle: "<<partnum<< " vertex(x,y,z) ("<< beamx.x() << ", " << beamx.y() << ", " << beamx.z() << ") "
@@ -362,4 +418,3 @@ void PrimaryGeneratorAction::makeGun(G4Event* anEvent, int partnum, EvtVector4R 
   particleGun->GeneratePrimaryVertex( anEvent);
 
 }
-

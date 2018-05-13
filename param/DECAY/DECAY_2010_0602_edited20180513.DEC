@@ -10684,7 +10684,7 @@ Alias MyAntiLambda0 anti-Lambda0
 ChargeConj MyLambda0 MyAntiLambda0
 
 Decay Lambda(1663)0
-1.000000000 MyLambda0 eta                   PHSP;  
+1.000000000 MyLambda0 eta                   PHSP;
 Enddecay
 CDecay anti-Lambda(1663)0
 
@@ -10692,5 +10692,15 @@ Decay MyLambda0
 1.00  p+ pi- PHSP;
 Enddecay
 CDecay MyAntiLambda0
+
+Decay N(1650)0
+1.000000000 pi- pi+ n0                    PHSP;
+Enddecay
+CDecay anti-N(1650)0
+
+Decay delta(1660)0
+1.000000000 pi+ pi+ n0                    PHSP;
+Enddecay
+CDecay anti-delta(1660)0
 
 End
