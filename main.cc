@@ -1,3 +1,7 @@
+##woosueng
+
+
+
 #include "DetectorConstruction.hh"
 #include "PhysicsList.hh"
 #include "PrimaryGeneratorAction.hh"
@@ -39,7 +43,7 @@
 //////////////////////////
 
 int main(int argc, char** argv)
-{  
+{
   CLHEP::HepRandom::setTheSeed((unsigned)time(NULL));
 
   //Conf file//
@@ -93,7 +97,7 @@ int main(int argc, char** argv)
   EvtGen *evtgen(0);
   ConfMan *confMan = ConfMan::GetConfManager();
   if( confMan->ExistEvtData1() && confMan->ExistEvtData1()){
-    //Initialize the generator - read in the decay table and particle properties                                      
+    //Initialize the generator - read in the decay table and particle properties
     evtgen = new EvtGen( confMan->EvtGenDecayName().c_str(),
                          confMan->EvtGenPDLName().c_str(),
                          (EvtRandomEngine*)&eng,
@@ -122,7 +126,7 @@ int main(int argc, char** argv)
   RunAction *runAction = new RunAction( anaMan );
   EventAction *eventAction = new EventAction( anaMan );
   SteppingAction* stepAction = new SteppingAction( detector, eventAction );
-  
+
 
   runManager->SetUserAction(priGen);
   runManager->SetUserAction(runAction);
@@ -142,22 +146,22 @@ int main(int argc, char** argv)
     {
       ui = new G4UIExecutive(argc, argv);
     }
- 
+
   if (!ui)   // batch mode
     {
       //G4String fileName1 = argv[3];
       //AnalysisManager::GetInstance()->SetRootFileName(fileName1);
-      
+
       G4String command = "/control/execute ";
       G4String fileName2 = argv[1];
       UImanager->ApplyCommand(command+fileName2);
     }
   else  // interactive mode : define UI session
-    {  
+    {
       //AnalysisManager::GetInstance()->SetRootFileName("default.root");
       //G4UIExecutive* ui = new G4UIExecutive(argc, argv);
-      G4cout<<"Test2"<<G4endl;    
-      UImanager->ApplyCommand("/control/execute vis.mac"); 
+      G4cout<<"Test2"<<G4endl;
+      UImanager->ApplyCommand("/control/execute vis.mac");
       ui->SessionStart();
       delete ui;
     }
@@ -167,5 +171,3 @@ int main(int argc, char** argv)
 
   return 0;
 }
-
-  
