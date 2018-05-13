@@ -1,0 +1,29 @@
+
+/vis/open OGLSX 900*900
+#/vis/open VRML2FILE
+#/vis/open DAWNFILE
+
+/vis/drawVolume
+
+
+#/vis/viewer/set/background white
+
+#/vis/viewer/set/style wireframe	
+
+#/vis/scene/add/trajectories smooth
+#/vis/modeling/trajectories/create/drawByCharge
+#/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
+#/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 3
+
+#/vis/scene/endOfEventAction accumulate
+
+#/vis/viewer/flush
+
+#/vis/viewer/set/viewpointThetaPhi  45.001 45.00
+/vis/viewer/set/viewpointThetaPhi  90.001 90.00
+#/vis/viewer/set/style surface
+#/vis/viewer/set/style wireframe
+#/vis/viewer/set/hiddenEdge 1 
+
+/run/beamOn 100000
+#/run/beamOn 10
