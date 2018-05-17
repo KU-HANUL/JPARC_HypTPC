@@ -1,7 +1,7 @@
 /*
   MaterialList.hh
   2007/4  K.Shirotori
-  2010/4/15 T.Takahashi              
+  2010/4/15 T.Takahashi
 
 */
 
@@ -97,10 +97,12 @@ public:
 
   G4Material *G10;
   G4Material *Mylar;
+  G4Material *BC404;
+
 private:
   MaterialList( const MaterialList & );
   MaterialList & operator=(const MaterialList & );
- 
+
 };
 
 #endif

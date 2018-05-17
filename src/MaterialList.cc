@@ -1,7 +1,7 @@
 /*
   MaterialList.cc
   2007/4  K.Shirotori
-  2010/4/15 T.Takahashi 
+  2010/4/15 T.Takahashi
 */
 
 #include "MaterialList.hh"
@@ -24,7 +24,7 @@ MaterialList::MaterialList()
   elB10= new G4Element( "Boron10"   , "B10",  5.,  10.0     *g/mole );
   elB11= new G4Element( "Boron11"   , "B11",  5.,  11.0     *g/mole );
   elC  = new G4Element( "Carbon"    , "C"  ,  6.,  12.011   *g/mole );
-  elN  = new G4Element( "Nitrogen"  , "N"  ,  7.,  14.00674 *g/mole ); 
+  elN  = new G4Element( "Nitrogen"  , "N"  ,  7.,  14.00674 *g/mole );
   elO  = new G4Element( "Oxygen"    , "O"  ,  8.,  15.9994  *g/mole );
   elNa = new G4Element( "Na"        , "Na" , 11.,  23.0     *g/mole );
   elAl = new G4Element( "Aluminum"  , "Al" , 13.,  26.981539*g/mole );
@@ -42,7 +42,7 @@ MaterialList::MaterialList()
   elGe = new G4Element( "Germanium" , "Ge" , 32.,  72.61    *g/mole );
   elMo = new G4Element( "Molybdenum", "Mo" , 42.,  95.94    *g/mole );
   elI  = new G4Element( "I"         , "I"  , 53., 127.0     *g/mole );
-  elCs = new G4Element( "Cesium"    , "Cs" , 55., 132.9054  *g/mole) ; 
+  elCs = new G4Element( "Cesium"    , "Cs" , 55., 132.9054  *g/mole) ;
   elW  = new G4Element( "Tungstem"  , "W"  , 74., 183.84    *g/mole );
   elPt = new G4Element( "Platinum"  , "Pt" , 78., 195.08    *g/mole );
   elPb = new G4Element( "Lead"      , "Pb" , 82., 207.2     *g/mole );
@@ -51,19 +51,19 @@ MaterialList::MaterialList()
   // Simple Materials, Compounds & Mixtures
   HeGas = new G4Material( "HeGas", 2.,  4.002602*g/mole, 0.1787*mg/cm3 );
   HeLiq = new G4Material( "HeLiq", 2.,  4.002602*g/mole, 0.1249* g/cm3 );
-  Li    = new G4Material( "Li",    3.,  6.941   *g/mole, 0.534 * g/cm3 ); 
-  Be    = new G4Material( "Be",    4.,  9.012182*g/mole, 1.85  * g/cm3 ); 
-  B10   = new G4Material( "B10",   5., 10.0     *g/mole, 1.42  * g/cm3 ); 
-  B11   = new G4Material( "B11",   5., 11.0     *g/mole, 2.38  * g/cm3 ); 
-  C     = new G4Material( "C",     6., 12.0     *g/mole, 1.8   * g/cm3 ); 
-  Al    = new G4Material( "Al",   13., 26.981539*g/mole, 2.70  * g/cm3 ); 
-  ArGas = new G4Material( "ArGas",18., 39.948   *g/mole, 1.7834*mg/cm3 ); 
-  Ti    = new G4Material( "Ti",   22., 47.867   *g/mole, 4.54  * g/cm3 );  
+  Li    = new G4Material( "Li",    3.,  6.941   *g/mole, 0.534 * g/cm3 );
+  Be    = new G4Material( "Be",    4.,  9.012182*g/mole, 1.85  * g/cm3 );
+  B10   = new G4Material( "B10",   5., 10.0     *g/mole, 1.42  * g/cm3 );
+  B11   = new G4Material( "B11",   5., 11.0     *g/mole, 2.38  * g/cm3 );
+  C     = new G4Material( "C",     6., 12.0     *g/mole, 1.8   * g/cm3 );
+  Al    = new G4Material( "Al",   13., 26.981539*g/mole, 2.70  * g/cm3 );
+  ArGas = new G4Material( "ArGas",18., 39.948   *g/mole, 1.7834*mg/cm3 );
+  Ti    = new G4Material( "Ti",   22., 47.867   *g/mole, 4.54  * g/cm3 );
   Fe    = new G4Material( "Fe",   26., 55.847   *g/mole, 7.87  * g/cm3 );
   Ni    = new G4Material( "Ni",   28., 58.69    *g/mole, 8.902 * g/cm3 );
-  Cu    = new G4Material( "Cu",   29., 63.546   *g/mole, 8.96  * g/cm3 ); 
-  Ge    = new G4Material( "Ge",   32., 72.61    *g/mole, 5.323 * g/cm3 ); 
-  W     = new G4Material( "W",    74.,183.84    *g/mole,19.3   * g/cm3 ); 
+  Cu    = new G4Material( "Cu",   29., 63.546   *g/mole, 8.96  * g/cm3 );
+  Ge    = new G4Material( "Ge",   32., 72.61    *g/mole, 5.323 * g/cm3 );
+  W     = new G4Material( "W",    74.,183.84    *g/mole,19.3   * g/cm3 );
   Pt    = new G4Material( "Pt",   78.,195.08    *g/mole,21.45  * g/cm3 );
   Pb    = new G4Material( "Pb",   82.,207.2     *g/mole,11.35  * g/cm3 );
 
@@ -72,7 +72,7 @@ MaterialList::MaterialList()
   Vacuum-> AddElement( elO, 30.*perCent );
 
   Air = new G4Material( "Air", 1.290*mg/cm3, 2 );
-  Air->AddElement( elN, 70.*perCent ); 
+  Air->AddElement( elN, 70.*perCent );
   Air->AddElement( elO, 30.*perCent );
 
   Water= new G4Material( "Water", 1.*g/cm3, 2 );
@@ -83,7 +83,7 @@ MaterialList::MaterialList()
   BGO-> AddElement( elBi, 4 );
   BGO-> AddElement( elGe, 3 );
   BGO-> AddElement( elO, 12 );
-  
+
   PWO= new G4Material( "PWO", 8.28*g/cm3, 3 );
   PWO-> AddElement(elPb, 1 );
   PWO-> AddElement(elW,  1 );
@@ -160,7 +160,7 @@ MaterialList::MaterialList()
   IsoButaneGas->AddElement(elC,4);
 
   // P10 Gas
-  // Ar (90) Methane (10) by volume 
+  // Ar (90) Methane (10) by volume
   P10Gas = new G4Material("P10Gas", 1.6767*mg/cm3, 2, kStateGas );
   P10Gas->AddMaterial(ArGas,      0.9573);
   P10Gas->AddMaterial(MethaneGas, 0.0427);
@@ -171,14 +171,14 @@ MaterialList::MaterialList()
   Ar50Ethane50Gas->AddMaterial(EthaneGas, 0.4294);
 
   // Ar::IsoButhane=80:20
-  Ar80IsoButane20Gas = new G4Material("Ar:IsoButane=80:20", 
+  Ar80IsoButane20Gas = new G4Material("Ar:IsoButane=80:20",
 				      1.9455*mg/cm3, 2, kStateGas );
   Ar80IsoButane20Gas->AddMaterial(ArGas,        0.7333);
   Ar80IsoButane20Gas->AddMaterial(IsoButaneGas, 0.2667);
 
-  G10 =  new G4Material("NemaG10", 
+  G10 =  new G4Material("NemaG10",
 			1.700*g/cm3,
-			4			
+			4
 			);
   G10->AddElement(elSi, 1);
   G10->AddElement(elO, 2);
@@ -193,7 +193,12 @@ MaterialList::MaterialList()
   Mylar->AddElement(elC, 5);
   Mylar->AddElement(elH, 4);
 
-  //  G4cout << "MaterialList::Constructor" << G4endl; 
+  //Saint-Gobain BC404 Scintillator
+  BC404 = new G4Material( "BC404", 1.032*g/cm3, 2 );
+  BC404 -> AddElement( elC, 474 );
+  BC404 -> AddElement( elH, 521 );
+
+  //  G4cout << "MaterialList::Constructor" << G4endl;
 }
 
 MaterialList::~MaterialList()
@@ -238,7 +243,7 @@ MaterialList::~MaterialList()
   delete Li;
   delete HeLiq;
   delete HeGas;
-  
+
   delete elBi;
   delete elPb;
   delete elPt;
@@ -246,7 +251,7 @@ MaterialList::~MaterialList()
   delete elCs;
   delete elI;
   delete elMo;
-  delete elZn; 
+  delete elZn;
   delete elGe;
   delete elCu;
   delete elNi;
@@ -272,6 +277,7 @@ MaterialList::~MaterialList()
   delete elH;
   delete G10;
   delete Mylar;
+  delete BC404;
 }
 
 G4Material * MaterialList::chooseMaterial( int id )
