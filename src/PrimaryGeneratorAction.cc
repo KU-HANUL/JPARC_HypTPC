@@ -130,7 +130,7 @@ G4ParticleGun * PrimaryGeneratorAction::chooseGun( const G4String & name  )
 {
 }
 
-void PrimaryGeneratorAction::GenerateTest(G4Event* anEvent, G4ThreeVector D, G4ThreeVector P)
+void PrimaryGeneratorAction::GenerateTestKaon(G4Event* anEvent, G4ThreeVector D, G4ThreeVector P)
 {
   double mass_km = 0.493677;
   //particleGun -> SetParticleDefinition (particleTable -> FindParticle("kaonT1"));
