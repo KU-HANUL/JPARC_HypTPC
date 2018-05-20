@@ -40,7 +40,8 @@ public:
   */
 public:
   void GeneratePrimaries( G4Event *anEvent );
-  void GenerateTest( G4Event *anEvent, G4ThreeVector D, G4ThreeVector P );
+  void GenerateTestKaon( G4Event *anEvent, G4ThreeVector D, G4ThreeVector P );
+  void GenerateTestPion( G4Event *anEvent, G4ThreeVector D, G4ThreeVector P );
   void GenerateTest72( G4Event *anEvent, EvtGen *evt, G4ThreeVector D, G4ThreeVector P);
   void GenerateTest45( G4Event *anEvent, EvtGen *evt, G4ThreeVector D, G4ThreeVector P);
 

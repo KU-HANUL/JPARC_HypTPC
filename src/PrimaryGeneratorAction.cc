@@ -109,9 +109,10 @@ void PrimaryGeneratorAction::GeneratePrimaries( G4Event *anEvent )
   //G4cout<<"Reaction Mode: "<< reactionMode << G4endl;
   switch(reactionMode)
     {
-    case 1: GenerateTest(anEvent, D, P); break;
-    case 2: GenerateTest72(anEvent, evtgen_, D, P); break;
-    case 2: GenerateTest45(anEvent, evtgen_, D, P); break;
+    case 1: GenerateTestKaon(anEvent, D, P); break;
+    case 2: GenerateTestPion(anEvent, D, P); break;
+    case 3: GenerateTest72(anEvent, evtgen_, D, P); break;
+    case 4: GenerateTest45(anEvent, evtgen_, D, P); break;
     }
 }
 
@@ -144,6 +145,24 @@ void PrimaryGeneratorAction::GenerateTest(G4Event* anEvent, G4ThreeVector D, G4T
 
   particleGun->SetParticleMomentumDirection ( beampu );
   //particleGun->SetParticleMomentum ( beamp );
+  particleGun->SetParticleTime ( 0.0 );
+  particleGun->SetParticlePosition( beamx );
+  particleGun->SetParticleEnergy( energy );
+  particleGun->GeneratePrimaryVertex( anEvent);
+}
+
+void PrimaryGeneratorAction::GenerateTestPi(G4Event* anEvent, G4ThreeVector D, G4ThreeVector P)
+{
+  double mass_pi = 0.13957061;
+  particleGun -> SetParticleDefinition (particleTable -> FindParticle("pi-"));
+  //G4ThreeVector dir = G4RandomDirection();
+  G4ThreeVector beamx ( D.x(), D.y(), D.z());
+  G4ThreeVector beamp ( P.x(), P.y(), P.z());
+  G4ThreeVector beampu =  beamp/beamp.mag();
+  G4double energy = (sqrt(mass_pi*mass_pi+beamp.mag2()) - mass_pi )*GeV;
+  //std::cout<<"Beam energy: "<< energy /GeV << std::endl;
+
+  particleGun->SetParticleMomentumDirection ( beampu );
   particleGun->SetParticleTime ( 0.0 );
   particleGun->SetParticlePosition( beamx );
   particleGun->SetParticleEnergy( energy );
