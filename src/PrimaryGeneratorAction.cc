@@ -151,7 +151,7 @@ void PrimaryGeneratorAction::GenerateTestKaon(G4Event* anEvent, G4ThreeVector D,
   particleGun->GeneratePrimaryVertex( anEvent);
 }
 
-void PrimaryGeneratorAction::GenerateTestPi(G4Event* anEvent, G4ThreeVector D, G4ThreeVector P)
+void PrimaryGeneratorAction::GenerateTestPion(G4Event* anEvent, G4ThreeVector D, G4ThreeVector P)
 {
   double mass_pi = 0.13957061;
   particleGun -> SetParticleDefinition (particleTable -> FindParticle("pi-"));
