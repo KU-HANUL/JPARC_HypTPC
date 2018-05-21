@@ -58,12 +58,12 @@ public:
   // Geometry
   GeomMan *GetGeomManager( void ) { return GeomManager_; }
 
-  // Field                                                                                                 
+  // Field
   bool ExistField( void ) const { return fField_; }
   const std::string & FieldMapName( void ) const { return FieldMapName_; }
   double GetFieldScale( void ) const { return FieldScale_; }
 
-  // Stepping Action                                                                                  
+  // Stepping Action
   int StepFlag( void ) const { return fStepping; }
   bool DoesStopInSC( void ) const { return GetFStopSC(fStepping); }
   bool DoesGamStopInSC( void ) const { return GetFStopSCGam(fStepping); }
@@ -71,7 +71,7 @@ public:
   bool DoesGamStop( void ) const { return GetFStopGam(fStepping); }
   bool DoesEStop( void ) const { return GetFStopE(fStepping); }
 
-  // Physics Process                                                                            
+  // Physics Process
   /*
   int PhysFlag( void ) const { return fPhysProc; }
   bool ExistEMProc( void ) const { return GetFPhysProcEM(fPhysProc); }
@@ -87,6 +87,7 @@ public:
 
   // Reaction mode //
   int ReactionMode( void ) const { return ReactionMode_; }
+  int BeamMomentumMode( void ) const { return BeamMomentumMode_; }
 
   // Beam //
   double GetBeamPX( void ) const { return bpx_; }
@@ -101,7 +102,7 @@ private:
   static ConfMan *confManager_;
   std::string ConfFileName_;
 
-  // Field                                                                                                 
+  // Field
   bool fField_;
   std::string FieldMapName_;
   double FieldScale_;
@@ -110,7 +111,7 @@ private:
   std::string GeomFileName_;
   GeomMan *GeomManager_;
 
-  // Steping Action                                                                             
+  // Steping Action
   int fStepping;
 
   // EvtGen //
@@ -120,7 +121,8 @@ private:
 
   // Reaction mode //
   int ReactionMode_;
-  
+  int BeamMomentumMode_;
+
   // Beam //
   double bpx_;
   double bpy_;

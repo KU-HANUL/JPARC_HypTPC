@@ -21,6 +21,7 @@ ConfMan::ConfMan( const std::string & filename )
     fStepping(0),
     EvtGenDecayName_(defEvtGenDecayFile), EvtGenPDLName_(defEvtGenPDLFile),
     ReactionMode_(0),
+    BeamMomentumMode_(0),
     bpx_(0), bpy_(0), bpz_(0), bvx_(0), bvy_(0), bvz_(0)
 {
   static const std::string funcname="[ConfMan::ConfMan]";
@@ -85,7 +86,7 @@ bool ConfMan::Initialize( void )
       }
       */
       //
-      // Stepping Action                                                                              
+      // Stepping Action
       else if( sscanf(buf,"SCSTOP: %lf", &val1 )==1 )
         if(val1) fStepping=FStopSCOn(fStepping);
         else     fStepping=FStopSCOff(fStepping);
@@ -133,12 +134,14 @@ bool ConfMan::Initialize( void )
       // Reaction //
       else if( sscanf(buf,"REACTION: %d", &id )==1 )
         ReactionMode_=id;
+      else if( sscanf(buf,"BEAMMOMENTUMMODE: %d", &id )==1 )
+        BeamMomentumMode_=id;
       //
       else {
 	std::cout << funcname << ": un-recognized record\n"
 		  << buf << std::endl;
       }
-    } 
+    }
   }
 
   fclose(fp);

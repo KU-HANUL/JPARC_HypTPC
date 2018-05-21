@@ -94,6 +94,7 @@ void PrimaryGeneratorAction::GeneratePrimaries( G4Event *anEvent )
 
   ConfMan *confMan = ConfMan::GetConfManager();
   int reactionMode = confMan->ReactionMode();
+  int momMode = confMan->BeamMomentumMode();
 
   //vertex point and beam momentum
   bpx_ = confMan->GetBeamPX();
@@ -112,7 +113,7 @@ void PrimaryGeneratorAction::GeneratePrimaries( G4Event *anEvent )
     case 1: GenerateTestKaon(anEvent, D, P); break;
     case 2: GenerateTestPion(anEvent, D, P); break;
     case 3: GenerateTest72(anEvent, evtgen_, D, P); break;
-    case 4: GenerateTest45(anEvent, evtgen_, D, P); break;
+    case 4: GenerateTest45(anEvent, evtgen_, D, P, momMode ); break;
     }
 }
 
@@ -224,7 +225,7 @@ void PrimaryGeneratorAction::GenerateTest72(G4Event* anEvent, EvtGen *evtGenerat
   GenerateDecay(anEvent, evtGenerator, lam1663, D);
 }
 
-void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerator, G4ThreeVector D, G4ThreeVector P)
+void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerator, G4ThreeVector D, G4ThreeVector P, int momMode)
 {
   //G4cout<<"Start Generate Test45"<<G4endl;
   /// mother particle momentum //
@@ -250,14 +251,18 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
   // make mother particle //
   EvtParticle* Nstar(0);
   //static EvtId evtid_N = EvtPDL::getId(std::string("N(1650)0"));
-  static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1460)0")); //p=0.635 GeV/c
-  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1580)0")); //p=0.835 GeV/c
-  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1690)0")); //p=1.035 GeV/c
-  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1800)0")); //p=1.235 GeV/c
-  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1900)0")); //p=1.435 GeV/c
-  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1990)0")); //p=1.635 GeV/c
-  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(2090)0")); //p=1.835 GeV/c
-  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(2160)0")); //p=2.000 GeV/c
+  if(momMode==0) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1460)0")); //p=0.635 GeV/c
+  else if(momMode==1) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1580)0")); //p=0.835 GeV/c
+  else if(momMode==2) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1690)0")); //p=1.035 GeV/c
+  else if(momMode==3) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1800)0")); //p=1.235 GeV/c
+  else if(momMode==4) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1900)0")); //p=1.435 GeV/c
+  else if(momMode==5) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1990)0")); //p=1.635 GeV/c
+  else if(momMode==6) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(2090)0")); //p=1.835 GeV/c
+  else if(momMode==7) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(2160)0")); //p=2.000 GeV/c
+  else{
+    G4cout<<"### No Particle data in param/EVT ###"<<G4endl;
+    return;
+  }
 
   G4LorentzVector Lv_N;
   G4ThreeVector TVp (lv_particle.x(), lv_particle.y(), lv_particle.z());

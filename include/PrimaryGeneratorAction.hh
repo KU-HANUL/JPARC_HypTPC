@@ -43,7 +43,7 @@ public:
   void GenerateTestKaon( G4Event *anEvent, G4ThreeVector D, G4ThreeVector P );
   void GenerateTestPion( G4Event *anEvent, G4ThreeVector D, G4ThreeVector P );
   void GenerateTest72( G4Event *anEvent, EvtGen *evt, G4ThreeVector D, G4ThreeVector P);
-  void GenerateTest45( G4Event *anEvent, EvtGen *evt, G4ThreeVector D, G4ThreeVector P);
+  void GenerateTest45( G4Event *anEvent, EvtGen *evt, G4ThreeVector D, G4ThreeVector P, int momMode);
 
 protected:
   DetectorConstruction *det_;
