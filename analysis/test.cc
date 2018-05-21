@@ -16,7 +16,7 @@
 
 using namespace std;
 
-void hodo()
+void test()
 {
   bool pdf=false;
   //bool pdf=true;
@@ -28,8 +28,7 @@ void hodo()
   std::cout<<"data chain load"<<std::endl;
   std::cout<<std::endl;
 
-  //TFile *file = new TFile("../rootfile/e45/p1035_pipip.root","READ");
-  TFile *file = new TFile("../rootfile/e45/p1035_elastic.root","READ");
+  TFile *file = new TFile("../rootfile/e45/p1035_pipip.root","READ");
   TTree *tree = (TTree*)file->Get("tree");
   if(tree == 0) std::cout << "data open error : " << std::endl;
 
@@ -78,11 +77,10 @@ void hodo()
   TCanvas *can_multi = new TCanvas("can_multi","",1200,1200);
   TCanvas *can_pid = new TCanvas("can_pid","",1200,1200);
   TCanvas *can_tof = new TCanvas("can_tof","",1200,1200);
-  can_tof -> Divide(2,1);
   TCanvas *can_ran_tof[6];
   for(int i=0;i<6;i++){
     can_ran_tof[i]=new TCanvas(Form("can_ran_tof%d",i),Form("can_ran_tof%d",i),1200,1200);
-    can_ran_tof[i]->Divide(2,1);
+    //can_ran_tof[i]->Divide(2,1);
   }
   TCanvas *can_tofpid = new TCanvas("can_tofpid","",1200,1200);
   TCanvas *can_ran_tofpid[6];
@@ -91,23 +89,24 @@ void hodo()
   }
 
   double det_resol[6]={0.150,0.160,0.170,0.180,0.190,0.200};
+  int resol[6]={150,160,170,180,190,200};
   TH1D *hist_pid =new TH1D("hist_pid","Hodoscope PID",4600,-2300,2300);
   TH1D *hist_multi =new TH1D("hist_multi","Hodoscope Multiplicity",10,0,10);
   TH1D *hist_multi_pi=new TH1D("hist_multi_pi","Hodoscope Multiplicity",10,0,10);
   TH1D *hist_tof_p=new TH1D("hist_tof_p","Time of flight",100,0,5);
   TH1D *hist_tof_pi=new TH1D("hist_tof_pi","Time of flight",100,0,5);
   TH1D *hist_deltatof=new TH1D("hist_deltatof","#Delta Time of flight",100,0,5);
-  TH2D *hist_tofpid=new TH2D("hist_tofpid","TOF(#beta) vs p/q",1000,-1.5,1.5,1000,0.2,1.2);
+  TH2D *hist_tofpid=new TH2D("hist_tofpid","TOF(#beta) vs p/q",500,-1.5,1.5,500,0.2,1.2);
 
   TH1D *hist_ran_p[6];
   TH1D *hist_ran_pi[6];
   TH1D *hist_ran_deltatof[6];
   TH2D *hist_ran_tofpid[6];
   for(int i=0;i<6;i++){
-    hist_ran_p[i]=new TH1D(Form("hist_ran_p%d",i),Form("Time of flight /w #sigma = %f ps",det_resol[i]),100,0,5);
-    hist_ran_pi[i]=new TH1D(Form("hist_ran_pi%d",i),Form("Time of flight /w #sigma = %f ps",det_resol[i]),100,0,5);
-    hist_ran_deltatof[i]=new TH1D(Form("hist_ran_deltatof%d",i),Form("#Delta Time of flight /w #sigma = %f ps",det_resol[i]*1000),100,0,5);
-    hist_ran_tofpid[i]=new TH2D(Form("hist_ran_tofpid%d",i),Form("TOF(#beta) vs p/q /w #sigma = %f ps",det_resol[i]*1000),1000,-1.5,1.5,1000,0.2,1.2);
+    hist_ran_p[i]=new TH1D(Form("hist_ran_p%d",i),Form("Time of flight /w #sigma = %d ps",resol[i]),100,0,5);
+    hist_ran_pi[i]=new TH1D(Form("hist_ran_pi%d",i),Form("Time of flight /w #sigma = %d ps",resol[i]),100,0,5);
+    hist_ran_deltatof[i]=new TH1D(Form("hist_ran_deltatof%d",i),Form("#Delta Time of flight /w #sigma = %d ps",resol[i]),100,0,5);
+    hist_ran_tofpid[i]=new TH2D(Form("hist_ran_tofpid%d",i),Form("TOF(#beta) vs p/q /w #sigma = %d ps",resol[i]),500,-1.5,1.5,500,0.2,1.2);
   }
   double c=0.299792458;
   int event_w_2hits=0,event_w_2hits_wPpi=0; //flag for counting events with multi hits
@@ -181,41 +180,46 @@ void hodo()
   hist_multi->GetXaxis()->SetTitle("Multiplicity of TPC hodo ");
   hist_multi->GetYaxis()->SetTitle("Counts");
 
-  can_tof->cd(1);
+
+  //can_tof->cd(1);
+  can_tof->cd();
   hist_tof_pi->Draw();
   hist_tof_p->Draw("same");
   hist_tof_pi->SetLineColor(kRed);
   hist_tof_pi->GetXaxis()->SetTitle("TOF(ns) ");
   hist_tof_pi->GetYaxis()->SetTitle("Counts");
 
-  can_tof->cd(2);
-  hist_deltatof->Draw();
-  hist_deltatof->GetXaxis()->SetTitle("TOF(ns) ");
-  hist_deltatof->GetYaxis()->SetTitle("Counts");
+  /*
+    hist_deltatof->Draw();
+    hist_deltatof->GetXaxis()->SetTitle("TOF(ns) ");
+    hist_deltatof->GetYaxis()->SetTitle("Counts");
+  */
 
   can_tofpid->cd();
   hist_tofpid->Draw("colz");
   hist_tofpid->GetXaxis()->SetTitle("p/q(GeV/c/q)");
   hist_tofpid->GetYaxis()->SetTitle("#beta");
+  hist_tofpid->GetZaxis()->SetRangeUser(0,15);
 
   for(int i=0;i<6;i++){
-    can_ran_tof[i]->cd(1);
+    can_ran_tof[i]->cd();
     hist_ran_pi[i]->Draw();
     hist_ran_p[i]->Draw("same");
     hist_ran_pi[i]->SetLineColor(kRed);
     hist_ran_pi[i]->GetXaxis()->SetTitle("TOF(ns) ");
     hist_ran_pi[i]->GetYaxis()->SetTitle("Counts");
 
-    can_ran_tof[i]->cd(2);
-    hist_ran_deltatof[i]->Draw();
-    hist_ran_deltatof[i]->GetXaxis()->SetTitle("TOF(ns) ");
-    hist_ran_deltatof[i]->GetYaxis()->SetTitle("Counts");
+    /*
+      hist_ran_deltatof[i]->Draw();
+      hist_ran_deltatof[i]->GetXaxis()->SetTitle("TOF(ns) ");
+      hist_ran_deltatof[i]->GetYaxis()->SetTitle("Counts");
+    */
 
     can_ran_tofpid[i]->cd();
     hist_ran_tofpid[i]->Draw("colz");
     hist_ran_tofpid[i]->GetXaxis()->SetTitle("p/q(GeV/c/q)");
     hist_ran_tofpid[i]->GetYaxis()->SetTitle("#beta");
-
+    hist_ran_tofpid[i]->GetZaxis()->SetRangeUser(0,15);
   }
 
   if(pdf){

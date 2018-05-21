@@ -88,6 +88,7 @@ public:
   // Reaction mode //
   int ReactionMode( void ) const { return ReactionMode_; }
   int BeamMomentumMode( void ) const { return BeamMomentumMode_; }
+  int PionCharge( void ) const { return PionCharge_ }
 
   // Beam //
   double GetBeamPX( void ) const { return bpx_; }
@@ -122,6 +123,7 @@ private:
   // Reaction mode //
   int ReactionMode_;
   int BeamMomentumMode_;
+  int PionCharge_;
 
   // Beam //
   double bpx_;
