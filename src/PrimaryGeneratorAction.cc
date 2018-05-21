@@ -317,14 +317,15 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
     return;
     }
   */
-  if(momMode==0) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1460)0")); //p=0.635 GeV/c
-  else if(momMode==1) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1580)0")); //p=0.835 GeV/c
-  else if(momMode==2) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1690)0")); //p=1.035 GeV/c
-  else if(momMode==3) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1800)0")); //p=1.235 GeV/c
-  else if(momMode==4) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1900)0")); //p=1.435 GeV/c
-  else if(momMode==5) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1990)0")); //p=1.635 GeV/c
-  else if(momMode==6) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(2090)0")); //p=1.835 GeV/c
-  else if(momMode==7) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(2160)0")); //p=2.000 GeV/c
+  static EvtId evtid_N;
+  if(momMode==0) evtid_N = EvtPDL::getId(std::string("PhaseSpace(1460)0")); //p=0.635 GeV/c
+  else if(momMode==1) evtid_N = EvtPDL::getId(std::string("PhaseSpace(1580)0")); //p=0.835 GeV/c
+  else if(momMode==2) evtid_N = EvtPDL::getId(std::string("PhaseSpace(1690)0")); //p=1.035 GeV/c
+  else if(momMode==3) evtid_N = EvtPDL::getId(std::string("PhaseSpace(1800)0")); //p=1.235 GeV/c
+  else if(momMode==4) evtid_N = EvtPDL::getId(std::string("PhaseSpace(1900)0")); //p=1.435 GeV/c
+  else if(momMode==5) evtid_N = EvtPDL::getId(std::string("PhaseSpace(1990)0")); //p=1.635 GeV/c
+  else if(momMode==6) evtid_N = EvtPDL::getId(std::string("PhaseSpace(2090)0")); //p=1.835 GeV/c
+  else if(momMode==7) evtid_N = EvtPDL::getId(std::string("PhaseSpace(2160)0")); //p=2.000 GeV/c
   else{
     G4cout<<"### No Particle data in param/EVT ###"<<G4endl;
     return;
