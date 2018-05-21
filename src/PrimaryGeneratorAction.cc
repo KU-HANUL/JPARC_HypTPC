@@ -256,7 +256,7 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
 
   // make mother particle //
   EvtParticle* Nstar(0);
-  static EvtId evtid_N;
+  EvtId evtid_N;
   if(C==-1){
     if(momMode==0)  evtid_N = EvtPDL::getId(std::string("PhaseSpace(1460)0")); //p=0.635 GeV/c
     else if(momMode==1)  evtid_N = EvtPDL::getId(std::string("PhaseSpace(1580)0")); //p=0.835 GeV/c
