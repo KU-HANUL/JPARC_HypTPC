@@ -186,6 +186,9 @@ void ConfMan::PrintParameters( void )
 
   std::cout << "************ Reaction Mode *************" << std::endl;
   std::cout << "Reaction Mode: " << ReactionMode_ << std::endl;
+  std::cout << "************ Reaction Mode(E45) *************" << std::endl;
+  std::cout << "Beam Momentum Mode: " << BeamMomentumMode_ << std::endl;
+  std::cout << "Pion Charge: " << PionCharge_ << std::endl;
 
   std::cout << "************ Beam *************" << std::endl;
   std::cout << "Beam Momentum: (" << bpx_ <<","<<bpy_<<","<<bpz_<<")" << "GeV/c" << std::endl;
