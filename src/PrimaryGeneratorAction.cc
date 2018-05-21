@@ -291,6 +291,7 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
   }
   */
 
+  /*
   if(C!=-1&&C!=1){
     G4cout<<"### Put a pion charge information ###"<<G4endl;
     return;
@@ -315,7 +316,12 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
     G4cout<<"### No Particle data in param/EVT ###"<<G4endl;
     return;
   }
-
+  */
+  if(momMode==0) static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1460)0")); //p=0.635 GeV/c
+  else{
+    G4cout<<"### No Particle data in param/EVT ###"<<G4endl;
+    return;
+  }
 
   G4LorentzVector Lv_N;
   G4ThreeVector TVp (lv_particle.x(), lv_particle.y(), lv_particle.z());
