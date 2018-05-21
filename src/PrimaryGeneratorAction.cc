@@ -266,7 +266,7 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
   double mass_N = sqrt((lv_beam.e()+lv_target.e())*(lv_beam.e()+lv_target.e()) - pbeam*pbeam);
 
   // check total energy //
-  if(mass_N < 1.6 )
+  if(mass_N < 0.938272081 + 2*0.13957061 ) //p, pi, pi mass sum
     {
       G4cout<<"### Beam momentum is not enough to generate Particle ###"<<G4endl;
       return;
