@@ -1,284 +1,255 @@
-//////////////////////////////////////////////////////////
-// This class has been automatically generated on
-// Fri May 18 18:30:16 2018 by ROOT version 6.10/04
-// from TTree tree/EvtGen tree
-// found on file: p1035_pipip.root
-//////////////////////////////////////////////////////////
-
-#ifndef e45_h
-#define e45_h
-
-#include <TROOT.h>
-#include <TChain.h>
 #include <TFile.h>
+#include <TTree.h>
+#include <TH1D.h>
+#include <TH2D.h>
+#include <TH3D.h>
+#include <TF1.h>
+#include <TCanvas.h>
+#include <TMath.h>
+#include <TChain.h>
+#include <TStyle.h>
+#include <TRandom.h>
+#include <TROOT.h>
+#include <fstream>
+#include <iostream>
+#include <TPad.h>
 
-// Header file for the classes stored in the TTree if any.
+static int numb = 0;
+using namespace std;
 
-class e45 {
-public :
-   TTree          *fChain;   //!pointer to the analyzed TTree or TChain
-   Int_t           fCurrent; //!current Tree number in a TChain
+class e45{
+  TCanvas *can_multi[100];
+  TCanvas *can_pid[100];
+  TCanvas *can_tof[100];
+  TCanvas *can_ran_tof[6][100];;
+  TCanvas *can_tofpid[100];
+  TCanvas *can_ran_tofpid[6][100];;
+  for(int i=0;i<6;i++){
+    can_ran_tofpid[i]=new TCanvas(Form("can_ran_tofpid%d",i),Form("can_ran_tofpid%d",i),1200,1200);
+  }
 
-// Fixed size dimensions of array or collections stored in the TTree if any.
+}
 
-   // Declaration of leaf types
-   Int_t           event;
-   Int_t           nEvt;
-   Int_t           evtid[1];   //[nEvt]
-   Int_t           evtpid[1];   //[nEvt]
-   Int_t           evttrid[1];   //[nEvt]
-   Int_t           evtfm[1];   //[nEvt]
-   Int_t           evtlm[1];   //[nEvt]
-   Int_t           evtfd[1];   //[nEvt]
-   Int_t           evtld[1];   //[nEvt]
-   Double_t        evttime[1];   //[nEvt]
-   Double_t        evtpx[1];   //[nEvt]
-   Double_t        evtpy[1];   //[nEvt]
-   Double_t        evtpz[1];   //[nEvt]
-   Double_t        evtvx[1];   //[nEvt]
-   Double_t        evtvy[1];   //[nEvt]
-   Double_t        evtvz[1];   //[nEvt]
-   Double_t        evtm[1];   //[nEvt]
-   Int_t           nBeam;
-   Double_t        bpx[1];   //[nBeam]
-   Double_t        bpy[1];   //[nBeam]
-   Double_t        bpz[1];   //[nBeam]
-   Double_t        bvx[1];   //[nBeam]
-   Double_t        bvy[1];   //[nBeam]
-   Double_t        bvz[1];   //[nBeam]
-   Int_t           nhTpcPad;
-   Int_t           tpcpad[182];   //[nhTpcPad]
-   Double_t        tpcpadedep[182];   //[nhTpcPad]
-   Double_t        tpcpadtime[182];   //[nhTpcPad]
-   Double_t        tpcpadposx[182];   //[nhTpcPad]
-   Double_t        tpcpadposy[182];   //[nhTpcPad]
-   Double_t        tpcpadposz[182];   //[nhTpcPad]
-   Double_t        tpcpadmomx[182];   //[nhTpcPad]
-   Double_t        tpcpadmomy[182];   //[nhTpcPad]
-   Double_t        tpcpadmomz[182];   //[nhTpcPad]
-   Int_t           tpcpadtrid[182];   //[nhTpcPad]
-   Double_t        tpcpadpath[182];   //[nhTpcPad]
-   Int_t           tpcpadpid[182];   //[nhTpcPad]
-   Int_t           nhTof;
-   Int_t           tofseg[10];   //[nhTof]
-   Double_t        tofedep[10];   //[nhTof]
-   Double_t        toftime[10];   //[nhTof]
-   Double_t        tofposx[10];   //[nhTof]
-   Double_t        tofposy[10];   //[nhTof]
-   Double_t        tofposz[10];   //[nhTof]
-   Double_t        tofmomx[10];   //[nhTof]
-   Double_t        tofmomy[10];   //[nhTof]
-   Double_t        tofmomz[10];   //[nhTof]
-   Int_t           toftrid[10];   //[nhTof]
-   Double_t        tofpath[10];   //[nhTof]
-   Int_t           tofpid[10];   //[nhTof]
-   Int_t           tofparentid1[10];   //[nhTof]
-   Int_t           tofparentid2[10];   //[nhTof]
-   Int_t           tofparentid3[10];   //[nhTof]
-   Int_t           tofparentpid1[10];   //[nhTof]
-   Int_t           tofparentpid2[10];   //[nhTof]
-   Int_t           tofparentpid3[10];   //[nhTof]
-   Int_t           nhTarget;
-   Int_t           targetseg[10];   //[nhTarget]
-   Double_t        targetedep[10];   //[nhTarget]
-   Double_t        targettime[10];   //[nhTarget]
-   Double_t        targetposx[10];   //[nhTarget]
-   Double_t        targetposy[10];   //[nhTarget]
-   Double_t        targetposz[10];   //[nhTarget]
-   Double_t        targetmomx[10];   //[nhTarget]
-   Double_t        targetmomy[10];   //[nhTarget]
-   Double_t        targetmomz[10];   //[nhTarget]
-   Int_t           targettrid[10];   //[nhTarget]
-   Double_t        targetpath[10];   //[nhTarget]
-   Int_t           targetpid[10];   //[nhTarget]
+void e45(TFile *file, double *resolution, double *error_resolution){
 
-   // List of branches
-   TBranch        *b_event;   //!
-   TBranch        *b_nEvt;   //!
-   TBranch        *b_evtid;   //!
-   TBranch        *b_evtpid;   //!
-   TBranch        *b_evttrid;   //!
-   TBranch        *b_evtfm;   //!
-   TBranch        *b_evtlm;   //!
-   TBranch        *b_evtfd;   //!
-   TBranch        *b_evtld;   //!
-   TBranch        *b_evttime;   //!
-   TBranch        *b_evtpx;   //!
-   TBranch        *b_evtpy;   //!
-   TBranch        *b_evtpz;   //!
-   TBranch        *b_evtvx;   //!
-   TBranch        *b_evtvy;   //!
-   TBranch        *b_evtvz;   //!
-   TBranch        *b_evtm;   //!
-   TBranch        *b_nBeam;   //!
-   TBranch        *b_bpx;   //!
-   TBranch        *b_bpy;   //!
-   TBranch        *b_bpz;   //!
-   TBranch        *b_bvx;   //!
-   TBranch        *b_bvy;   //!
-   TBranch        *b_bvz;   //!
-   TBranch        *b_nhTpcPad;   //!
-   TBranch        *b_tpcpad;   //!
-   TBranch        *b_tpcpadedep;   //!
-   TBranch        *b_tpcpadtime;   //!
-   TBranch        *b_tpcpadposx;   //!
-   TBranch        *b_tpcpadposy;   //!
-   TBranch        *b_tpcpadposz;   //!
-   TBranch        *b_tpcpadmomx;   //!
-   TBranch        *b_tpcpadmomy;   //!
-   TBranch        *b_tpcpadmomz;   //!
-   TBranch        *b_tpcpadtrid;   //!
-   TBranch        *b_tpcpadpath;   //!
-   TBranch        *b_tpcpadpid;   //!
-   TBranch        *b_nhTof;   //!
-   TBranch        *b_tofseg;   //!
-   TBranch        *b_tofedep;   //!
-   TBranch        *b_toftime;   //!
-   TBranch        *b_tofposx;   //!
-   TBranch        *b_tofposy;   //!
-   TBranch        *b_tofposz;   //!
-   TBranch        *b_tofmomx;   //!
-   TBranch        *b_tofmomy;   //!
-   TBranch        *b_tofmomz;   //!
-   TBranch        *b_toftrid;   //!
-   TBranch        *b_tofpath;   //!
-   TBranch        *b_tofpid;   //!
-   TBranch        *b_tofparentid1;   //!
-   TBranch        *b_tofparentid2;   //!
-   TBranch        *b_tofparentid3;   //!
-   TBranch        *b_tofparentpid1;   //!
-   TBranch        *b_tofparentpid2;   //!
-   TBranch        *b_tofparentpid3;   //!
-   TBranch        *b_nhTarget;   //!
-   TBranch        *b_targetseg;   //!
-   TBranch        *b_targetedep;   //!
-   TBranch        *b_targettime;   //!
-   TBranch        *b_targetposx;   //!
-   TBranch        *b_targetposy;   //!
-   TBranch        *b_targetposz;   //!
-   TBranch        *b_targetmomx;   //!
-   TBranch        *b_targetmomy;   //!
-   TBranch        *b_targetmomz;   //!
-   TBranch        *b_targettrid;   //!
-   TBranch        *b_targetpath;   //!
-   TBranch        *b_targetpid;   //!
+  bool pdf=false;
+  //bool pdf=true;
+  bool printout=false;
+  //bool printout=true;
 
-   e45(TTree *tree=0);
-   virtual ~e45();
+  //gStyle->SetOptStat(0);
+  //data load
+  std::cout<<"data chain load"<<std::endl;
+  std::cout<<std::endl;
 
-   virtual Int_t    GetEntry(Long64_t entry);
-   virtual void     Init(TTree *tree);
-};
+  TFile *file = new TFile("../rootfile/e45/p1035_pipip.root","READ");
+  TTree *tree = (TTree*)file->Get("tree");
+  if(tree == 0) std::cout << "data open error : " << std::endl;
 
-#endif
+  int nhTof;
+  int event;
+  int nEvt;
+  int tofpid[100];
+  double toftime[100];
+  double tofedep[100];
+  double tofmomx[100];
+  double tofmomy[100];
+  double tofmomz[100];
+  double tofpath[100];
 
-#ifdef e45_cxx
-e45::e45(TTree *tree) : fChain(0)
-{
-// if parameter tree is not specified (or zero), connect the file
-// used to generate this class and read the Tree.
-   if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("../rootfiles/e45/p1035_pipip.root");
-      if (!f || !f->IsOpen()) {
-         f = new TFile("p1035_pipip.root");
+  /*
+  int tofseg[nhTof];
+  double tofposx[nhTof];
+  double tofposy[nhTof];
+  double tofposz[nhTof];
+  int toftrid[nhTof];
+  int tofparentpid1[nhTof];
+  int tofparentpid2[nhTof];
+  int tofparentpid3[nhTof];
+  */
+  tree->SetBranchAddress("nhTof",&nhTof);
+  tree->SetBranchAddress("event",&event);
+  tree->SetBranchAddress("nEvt",&nEvt);
+  tree->SetBranchAddress("tofpid",tofpid);
+  tree->SetBranchAddress("toftime",toftime);
+  tree->SetBranchAddress("tofedep",tofedep);
+  tree->SetBranchAddress("tofmomx",tofmomx);
+  tree->SetBranchAddress("tofmomy",tofmomy);
+  tree->SetBranchAddress("tofmomz",tofmomz);
+  tree->SetBranchAddress("tofpath",tofpath);
+  /*
+  tree->SetBranchAddress("tofseg",tofseg);
+  tree->SetBranchAddress("tofposx",tofposx);
+  tree->SetBranchAddress("tofposy",tofposy);
+  tree->SetBranchAddress("tofposz",tofposz);
+  tree->SetBranchAddress("toftrid",toftrid);
+  tree->SetBranchAddress("tofparentpid1",tofparentpid1);
+  tree->SetBranchAddress("tofparentpid2",tofparentpid2);
+  tree->SetBranchAddress("tofparentpid3",tofparentpid3);
+  */
+
+  TCanvas *can_multi = new TCanvas("can_multi","",1200,1200);
+  TCanvas *can_pid = new TCanvas("can_pid","",1200,1200);
+  TCanvas *can_tof = new TCanvas("can_tof","",1200,1200);
+  can_tof -> Divide(2,1);
+  TCanvas *can_ran_tof[6];
+  for(int i=0;i<6;i++){
+    can_ran_tof[i]=new TCanvas(Form("can_ran_tof%d",i),Form("can_ran_tof%d",i),1200,1200);
+    can_ran_tof[i]->Divide(2,1);
+  }
+  TCanvas *can_tofpid = new TCanvas("can_tofpid","",1200,1200);
+  TCanvas *can_ran_tofpid[6];
+  for(int i=0;i<6;i++){
+    can_ran_tofpid[i]=new TCanvas(Form("can_ran_tofpid%d",i),Form("can_ran_tofpid%d",i),1200,1200);
+  }
+
+  double det_resol[6]={0.150,0.160,0.170,0.180,0.190,0.200};
+  TH1D *hist_pid =new TH1D("hist_pid","Hodoscope PID",4600,-2300,2300);
+  TH1D *hist_multi =new TH1D("hist_multi","Hodoscope Multiplicity",10,0,10);
+  TH1D *hist_multi_pi=new TH1D("hist_multi_pi","Hodoscope Multiplicity",10,0,10);
+  TH1D *hist_tof_p=new TH1D("hist_tof_p","Time of flight",100,0,5);
+  TH1D *hist_tof_pi=new TH1D("hist_tof_pi","Time of flight",100,0,5);
+  TH1D *hist_deltatof=new TH1D("hist_deltatof","#Delta Time of flight",100,0,5);
+  TH2D *hist_tofpid=new TH2D("hist_tofpid","TOF(#beta) vs p/q",1000,-1.5,1.5,1000,0.2,1.2);
+
+  TH1D *hist_ran_p[6];
+  TH1D *hist_ran_pi[6];
+  TH1D *hist_ran_deltatof[6];
+  TH2D *hist_ran_tofpid[6];
+  for(int i=0;i<6;i++){
+    hist_ran_p[i]=new TH1D(Form("hist_ran_p%d",i),Form("Time of flight /w #sigma = %f ps",det_resol[i]),100,0,5);
+    hist_ran_pi[i]=new TH1D(Form("hist_ran_pi%d",i),Form("Time of flight /w #sigma = %f ps",det_resol[i]),100,0,5);
+    hist_ran_deltatof[i]=new TH1D(Form("hist_ran_deltatof%d",i),Form("#Delta Time of flight /w #sigma = %f ps",det_resol[i]*1000),100,0,5);
+    hist_ran_tofpid[i]=new TH2D(Form("hist_ran_tofpid%d",i),Form("TOF(#beta) vs p/q /w #sigma = %f ps",det_resol[i]*1000),1000,-1.5,1.5,1000,0.2,1.2);
+  }
+  double c=0.299792458;
+  int event_w_2hits=0,event_w_2hits_wPpi=0; //flag for counting events with multi hits
+  int count_p,count_pi; //flag for counting p,pi
+  double tof_p,tof_pi; // time of flight of p,pi w/o detector resolution
+  double beta_p,beta_pi; // beta of p,pi w/o detector resolution
+  double path_p,path_pi; // path length of p,pi
+  double tof_ran_p,tof_ran_pi; // time of flight of p,pi w/ detector resolution
+  double beta_ran_p,beta_ran_pi; // beta of p,pi w/ detector resolutiona
+  double p_p,p_pi; //p,pi momentum
+  TRandom *eventgen = new TRandom();
+
+  int nevent=tree->GetEntries();
+  for(int i=0;i<nevent;i++){
+    tree -> GetEntry(i);
+    count_p=0;
+    count_pi=0;
+    hist_multi -> Fill(nhTof); //Hodoscope multiplicity
+    if(nhTof>1) event_w_2hits++; //counting multi-hit events
+    for(int j=0;j<nhTof;j++){
+      hist_pid -> Fill(tofpid[j]); //PID
+      if(tofpid[j]==-211){ //for selecting events w/ pi
+	count_pi++;
+	tof_pi=toftime[j];
+	path_pi=tofpath[j]/1000; //pi pathlength(mm -> m)
+	beta_pi=(path_pi/toftime[j])/c;
+	p_pi=TMath::Sqrt(tofmomx[j]*tofmomx[j]+tofmomy[j]*tofmomy[j]+tofmomz[j]*tofmomz[j]);
       }
-      f->GetObject("tree",tree);
-   }
-   Init(tree);
-}
+      if(tofpid[j]==2212){ //for selecting events w/ p
+	count_p++;
+	tof_p=toftime[j];
+	path_p=tofpath[j]/1000; //p pathlength(mm -> m)
+	beta_p=(path_p/toftime[j])/c;
+	p_p=TMath::Sqrt(tofmomx[j]*tofmomx[j]+tofmomy[j]*tofmomy[j]+tofmomz[j]*tofmomz[j]);
+      }
+    }
+    if(count_p==1&&count_pi==1){ // selecting events w/ p,pi
+      hist_multi_pi -> Fill(nhTof); //counting multi-hit events w/ p,pi
+      event_w_2hits_wPpi++; //counting multi-hit events w/ p,pi
 
-e45::~e45()
-{
-   if (!fChain) return 0;
-   delete fChain->GetCurrentFile();
-}
+      // w/o detector resolution
+      hist_tof_p -> Fill(tof_p); //tof of p and pi
+      hist_tof_pi -> Fill(tof_pi);
+      hist_deltatof -> Fill(tof_p-tof_pi); //time difference of p,pi's tof
+      hist_tofpid -> Fill(1.0*p_p,beta_p);
+      hist_tofpid -> Fill(-1.0*p_pi,beta_pi);
+      // w/ detector resolution
+      for(int j=0;j<6;j++){
+	tof_ran_p=eventgen->Gaus(tof_p,det_resol[j]);
+	tof_ran_pi=eventgen->Gaus(tof_pi,det_resol[j]);
+	beta_p=(path_p/tof_ran_p)/c;
+	beta_pi=(path_pi/tof_ran_pi)/c;
 
-Int_t e45::GetEntry(Long64_t entry)
-{
-// Read contents of entry.
-   if (!fChain) return 0;
-   return fChain->GetEntry(entry);
-}
+	hist_ran_p[j] -> Fill(tof_ran_p); //tof of p and pi
+	hist_ran_pi[j]-> Fill(tof_ran_pi);
+	hist_ran_deltatof[j]-> Fill(tof_ran_p-tof_ran_pi); //time difference of p,pi's tof
+	hist_ran_tofpid[j] -> Fill(1.0*p_p,beta_p);
+	hist_ran_tofpid[j] -> Fill(-1.0*p_pi,beta_pi);
+      }
+    }
+  }
+  can_pid -> cd();
+  hist_pid->Draw();
+  hist_pid->GetXaxis()->SetTitle("PID(PDG encording) ");
+  hist_pid->GetYaxis()->SetTitle("Counts");
 
-void e45::Init(TTree *tree)
-{
+  can_multi->cd();
+  hist_multi->Draw();
+  hist_multi_pi->Draw("same");
+  hist_multi_pi->SetLineColor(kRed);
+  hist_multi->GetXaxis()->SetTitle("Multiplicity of TPC hodo ");
+  hist_multi->GetYaxis()->SetTitle("Counts");
 
-   // Set branch addresses and branch pointers
-   if (!tree) return;
-   fChain = tree;
-   fCurrent = -1;
-   fChain->SetMakeClass(1);
+  can_tof->cd(1);
+  hist_tof_pi->Draw();
+  hist_tof_p->Draw("same");
+  hist_tof_pi->SetLineColor(kRed);
+  hist_tof_pi->GetXaxis()->SetTitle("TOF(ns) ");
+  hist_tof_pi->GetYaxis()->SetTitle("Counts");
 
-   fChain->SetBranchAddress("event", &event, &b_event);
-   fChain->SetBranchAddress("nEvt", &nEvt, &b_nEvt);
-   fChain->SetBranchAddress("evtid", &evtid, &b_evtid);
-   fChain->SetBranchAddress("evtpid", &evtpid, &b_evtpid);
-   fChain->SetBranchAddress("evttrid", &evttrid, &b_evttrid);
-   fChain->SetBranchAddress("evtfm", &evtfm, &b_evtfm);
-   fChain->SetBranchAddress("evtlm", &evtlm, &b_evtlm);
-   fChain->SetBranchAddress("evtfd", &evtfd, &b_evtfd);
-   fChain->SetBranchAddress("evtld", &evtld, &b_evtld);
-   fChain->SetBranchAddress("evttime", &evttime, &b_evttime);
-   fChain->SetBranchAddress("evtpx", &evtpx, &b_evtpx);
-   fChain->SetBranchAddress("evtpy", &evtpy, &b_evtpy);
-   fChain->SetBranchAddress("evtpz", &evtpz, &b_evtpz);
-   fChain->SetBranchAddress("evtvx", &evtvx, &b_evtvx);
-   fChain->SetBranchAddress("evtvy", &evtvy, &b_evtvy);
-   fChain->SetBranchAddress("evtvz", &evtvz, &b_evtvz);
-   fChain->SetBranchAddress("evtm", &evtm, &b_evtm);
-   fChain->SetBranchAddress("nBeam", &nBeam, &b_nBeam);
-   fChain->SetBranchAddress("bpx", bpx, &b_bpx);
-   fChain->SetBranchAddress("bpy", bpy, &b_bpy);
-   fChain->SetBranchAddress("bpz", bpz, &b_bpz);
-   fChain->SetBranchAddress("bvx", bvx, &b_bvx);
-   fChain->SetBranchAddress("bvy", bvy, &b_bvy);
-   fChain->SetBranchAddress("bvz", bvz, &b_bvz);
-   fChain->SetBranchAddress("nhTpcPad", &nhTpcPad, &b_nhTpcPad);
-   fChain->SetBranchAddress("tpcpad", tpcpad, &b_tpcpad);
-   fChain->SetBranchAddress("tpcpadedep", tpcpadedep, &b_tpcpadedep);
-   fChain->SetBranchAddress("tpcpadtime", tpcpadtime, &b_tpcpadtime);
-   fChain->SetBranchAddress("tpcpadposx", tpcpadposx, &b_tpcpadposx);
-   fChain->SetBranchAddress("tpcpadposy", tpcpadposy, &b_tpcpadposy);
-   fChain->SetBranchAddress("tpcpadposz", tpcpadposz, &b_tpcpadposz);
-   fChain->SetBranchAddress("tpcpadmomx", tpcpadmomx, &b_tpcpadmomx);
-   fChain->SetBranchAddress("tpcpadmomy", tpcpadmomy, &b_tpcpadmomy);
-   fChain->SetBranchAddress("tpcpadmomz", tpcpadmomz, &b_tpcpadmomz);
-   fChain->SetBranchAddress("tpcpadtrid", tpcpadtrid, &b_tpcpadtrid);
-   fChain->SetBranchAddress("tpcpadpath", tpcpadpath, &b_tpcpadpath);
-   fChain->SetBranchAddress("tpcpadpid", tpcpadpid, &b_tpcpadpid);
-   fChain->SetBranchAddress("nhTof", &nhTof, &b_nhTof);
-   fChain->SetBranchAddress("tofseg", tofseg, &b_tofseg);
-   fChain->SetBranchAddress("tofedep", tofedep, &b_tofedep);
-   fChain->SetBranchAddress("toftime", toftime, &b_toftime);
-   fChain->SetBranchAddress("tofposx", tofposx, &b_tofposx);
-   fChain->SetBranchAddress("tofposy", tofposy, &b_tofposy);
-   fChain->SetBranchAddress("tofposz", tofposz, &b_tofposz);
-   fChain->SetBranchAddress("tofmomx", tofmomx, &b_tofmomx);
-   fChain->SetBranchAddress("tofmomy", tofmomy, &b_tofmomy);
-   fChain->SetBranchAddress("tofmomz", tofmomz, &b_tofmomz);
-   fChain->SetBranchAddress("toftrid", toftrid, &b_toftrid);
-   fChain->SetBranchAddress("tofpath", tofpath, &b_tofpath);
-   fChain->SetBranchAddress("tofpid", tofpid, &b_tofpid);
-   fChain->SetBranchAddress("tofparentid1", tofparentid1, &b_tofparentid1);
-   fChain->SetBranchAddress("tofparentid2", tofparentid2, &b_tofparentid2);
-   fChain->SetBranchAddress("tofparentid3", tofparentid3, &b_tofparentid3);
-   fChain->SetBranchAddress("tofparentpid1", tofparentpid1, &b_tofparentpid1);
-   fChain->SetBranchAddress("tofparentpid2", tofparentpid2, &b_tofparentpid2);
-   fChain->SetBranchAddress("tofparentpid3", tofparentpid3, &b_tofparentpid3);
-   fChain->SetBranchAddress("nhTarget", &nhTarget, &b_nhTarget);
-   fChain->SetBranchAddress("targetseg", targetseg, &b_targetseg);
-   fChain->SetBranchAddress("targetedep", targetedep, &b_targetedep);
-   fChain->SetBranchAddress("targettime", targettime, &b_targettime);
-   fChain->SetBranchAddress("targetposx", targetposx, &b_targetposx);
-   fChain->SetBranchAddress("targetposy", targetposy, &b_targetposy);
-   fChain->SetBranchAddress("targetposz", targetposz, &b_targetposz);
-   fChain->SetBranchAddress("targetmomx", targetmomx, &b_targetmomx);
-   fChain->SetBranchAddress("targetmomy", targetmomy, &b_targetmomy);
-   fChain->SetBranchAddress("targetmomz", targetmomz, &b_targetmomz);
-   fChain->SetBranchAddress("targettrid", targettrid, &b_targettrid);
-   fChain->SetBranchAddress("targetpath", targetpath, &b_targetpath);
-   fChain->SetBranchAddress("targetpid", targetpid, &b_targetpid);
-}
+  can_tof->cd(2);
+  hist_deltatof->Draw();
+  hist_deltatof->GetXaxis()->SetTitle("TOF(ns) ");
+  hist_deltatof->GetYaxis()->SetTitle("Counts");
 
+  can_tofpid->cd();
+  hist_tofpid->Draw("colz");
+  hist_tofpid->GetXaxis()->SetTitle("p/q(GeV/c/q)");
+  hist_tofpid->GetYaxis()->SetTitle("#beta");
 
-#endif // #ifdef e45_cxx
+  for(int i=0;i<6;i++){
+    can_ran_tof[i]->cd(1);
+    hist_ran_pi[i]->Draw();
+    hist_ran_p[i]->Draw("same");
+    hist_ran_pi[i]->SetLineColor(kRed);
+    hist_ran_pi[i]->GetXaxis()->SetTitle("TOF(ns) ");
+    hist_ran_pi[i]->GetYaxis()->SetTitle("Counts");
+
+    can_ran_tof[i]->cd(2);
+    hist_ran_deltatof[i]->Draw();
+    hist_ran_deltatof[i]->GetXaxis()->SetTitle("TOF(ns) ");
+    hist_ran_deltatof[i]->GetYaxis()->SetTitle("Counts");
+
+    can_ran_tofpid[i]->cd();
+    hist_ran_tofpid[i]->Draw("colz");
+    hist_ran_tofpid[i]->GetXaxis()->SetTitle("p/q(GeV/c/q)");
+    hist_ran_tofpid[i]->GetYaxis()->SetTitle("#beta");
+
+  }
+
+  if(pdf){
+    can_pid ->SaveAs("pdf/hodo_pid");
+    can_multi ->SaveAs("pdf/hodo_multiplicity");
+    can_tof ->SaveAs("pdf/hodo_tof");
+    for(int i=0;i<6;i++){
+      can_ran_tof[i] ->SaveAs(Form("pdf/hodo_tof_%d",i));
+    }
+    can_tofpid ->SaveAs("pdf/hodo_tofpid");
+    for(int i=0;i<6;i++){
+      can_ran_tofpid[i] ->SaveAs(Form("pdf/hodo_tofpid_%d",i));
+    }
+
+  }
+
+  if(printout){
+    std::cout<<""<<std::endl;
+    std::cout<<"Event number  : "<<nevent<<std::endl;
+    std::cout<<"2 hits        : "<<event_w_2hits<<std::endl;
+    std::cout<<"2 hits w/ P pi: "<<event_w_2hits_wPpi<<std::endl;
+    std::cout<<"Percentage    : "<<(double) event_w_2hits/nevent *100<<"("<<(double) event_w_2hits_wPpi/nevent *100<<") %"<<std::endl;
+  }
+}//end

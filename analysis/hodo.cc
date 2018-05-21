@@ -28,7 +28,8 @@ void hodo()
   std::cout<<"data chain load"<<std::endl;
   std::cout<<std::endl;
 
-  TFile *file = new TFile("../rootfile/e45/p1035_pipip.root","READ");
+  //TFile *file = new TFile("../rootfile/e45/p1035_pipip.root","READ");
+  TFile *file = new TFile("../rootfile/e45/p1035_elastic.root","READ");
   TTree *tree = (TTree*)file->Get("tree");
   if(tree == 0) std::cout << "data open error : " << std::endl;
 

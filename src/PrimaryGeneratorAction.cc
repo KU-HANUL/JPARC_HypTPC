@@ -248,34 +248,43 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
   lv_particle = lv_beam + lv_target;
 
   // make mother particle //
-  EvtParticle* n1650(0);
-  static EvtId N1650 = EvtPDL::getId(std::string("N(1650)0"));
-  G4LorentzVector LvN1650;
+  EvtParticle* Nstar(0);
+  //static EvtId evtid_N = EvtPDL::getId(std::string("N(1650)0"));
+  static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1460)0")); //p=0.635 GeV/c
+  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1580)0")); //p=0.835 GeV/c
+  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1690)0")); //p=1.035 GeV/c
+  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1800)0")); //p=1.235 GeV/c
+  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1900)0")); //p=1.435 GeV/c
+  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(1990)0")); //p=1.635 GeV/c
+  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(2090)0")); //p=1.835 GeV/c
+  //static EvtId evtid_N = EvtPDL::getId(std::string("PhaseSpace(2160)0")); //p=2.000 GeV/c
+
+  G4LorentzVector Lv_N;
   G4ThreeVector TVp (lv_particle.x(), lv_particle.y(), lv_particle.z());
   G4ThreeVector TVx (D.x(), D.y(), D.z());
 
-  double mass_n1650 = sqrt((lv_beam.e()+lv_target.e())*(lv_beam.e()+lv_target.e()) - pbeam*pbeam);
+  double mass_N = sqrt((lv_beam.e()+lv_target.e())*(lv_beam.e()+lv_target.e()) - pbeam*pbeam);
 
   // check total energy //
-  if(mass_n1650 < 1.6 )
+  if(mass_N < 1.6 )
     {
-      G4cout<<"### Beam momentum is not enough to generate N1650 ###"<<G4endl;
+      G4cout<<"### Beam momentum is not enough to generate Particle ###"<<G4endl;
       return;
     }
   /*
   G4cout<<"########################### Test  ##############################"<<G4endl;
   G4cout<<"Momentum of K-: "<<pbeam << " GeV/c" <<G4endl;
   G4cout<<"Invariant mass of K + p: "<<lv_particle.m() << " GeV/c2" <<G4endl;
-  G4cout<<"Momentum of N1650: "<< TVp.mag() << " GeV/c"<<G4endl;
-  G4cout<<"Mass of N1650: "<< mass_n1650 << " GeV/c2" <<G4endl;
+  G4cout<<"Momentum of generated particle: "<< TVp.mag() << " GeV/c"<<G4endl;
+  G4cout<<"Mass of generated particle: "<< mass_N << " GeV/c2" <<G4endl;
   G4cout<<"################################################################" << G4endl;
   */
-  LvN1650.setVect(TVp);
-  LvN1650.setE(sqrt(mass_n1650*mass_n1650+TVp.mag2()));
+  Lv_N.setVect(TVp);
+  Lv_N.setE(sqrt(mass_N*mass_N+TVp.mag2()));
 
-  EvtVector4R pInit_n1650( LvN1650.e(), LvN1650.vect().x(), LvN1650.vect().y(), LvN1650.vect().z() );
-  n1650 = EvtParticleFactory::particleFactory(N1650, pInit_n1650);
-  GenerateDecay(anEvent, evtGenerator, n1650, D);
+  EvtVector4R pInit_N( Lv_N.e(), Lv_N.vect().x(), Lv_N.vect().y(), Lv_N.vect().z() );
+  Nstar = EvtParticleFactory::particleFactory(evtid_N, pInit_N);
+  GenerateDecay(anEvent, evtGenerator, evtid_N, D);
 }
 
 void PrimaryGeneratorAction::GenerateDecay(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector D)
