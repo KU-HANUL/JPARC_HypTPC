@@ -2,7 +2,7 @@
 %%Title: pdf/hodo_multiplicity ( A 4)
 %%Pages: (atend)
 %%Creator: ROOT Version 6.10/04
-%%CreationDate: Sat May 19 18:17:43 2018
+%%CreationDate: Tue May 22 17:58:24 2018
 %%Orientation: Landscape
 %%DocumentNeededResources: ProcSet (FontSetInit)
 %%EndComments
@@ -78,47 +78,38 @@ newpath  gsave  90 r 0 -594 t  28 20 t .25 .25 scale  gsave
 %%Page: 1 1
  gsave  gsave 
  1 1 Zone
- gsave  0 0 t black[  ] 0 sd 3 lw 1 1 1 c 2948 1632 0 0 bf black 1 1 1 c 2358 1305 295 163 bf black 2358 1305 295 163 bl 0 0 0.6 c 1 1 1 c black 0 0 0.6 c 295 221 m 236 X 623 Y 235 X 562 Y 236 X -764 Y 236 X -358 Y 236 X -93 Y 236 X -22 Y 236 X -5 Y
- 236 X -1 Y 471 X s black 295 163 m 2358 X s 295 202 m -39 Y s 342 183 m -20 Y s 389 183 m -20 Y s 436 183 m -20 Y s 483 183 m -20 Y s 531 202 m -39 Y s 578 183 m -20 Y s 625 183 m -20 Y s 672 183 m -20 Y s 719 183 m -20 Y s 766 202 m -39 Y s 814 183
- m -20 Y s 861 183 m -20 Y s 908 183 m -20 Y s 955 183 m -20 Y s 1002 202 m -39 Y s 1049 183 m -20 Y s 1097 183 m -20 Y s 1144 183 m -20 Y s 1191 183 m -20 Y s 1238 202 m -39 Y s 1285 183 m -20 Y s 1333 183 m -20 Y s 1380 183 m -20 Y s 1427 183 m -20
- Y s 1474 202 m -39 Y s 1521 183 m -20 Y s 1568 183 m -20 Y s 1616 183 m -20 Y s 1663 183 m -20 Y s 1710 202 m -39 Y s 1757 183 m -20 Y s 1804 183 m -20 Y s 1851 183 m -20 Y s 1899 183 m -20 Y s 1946 202 m -39 Y s 1993 183 m -20 Y s 2040 183 m -20 Y
- s 2087 183 m -20 Y s 2134 183 m -20 Y s 2182 202 m -39 Y s 2229 183 m -20 Y s 2276 183 m -20 Y s 2323 183 m -20 Y s 2370 183 m -20 Y s 2417 202 m -39 Y s 2465 183 m -20 Y s 2512 183 m -20 Y s 2559 183 m -20 Y s 2606 183 m -20 Y s 2653 202 m -39 Y s
+ gsave  0 0 t black[  ] 0 sd 3 lw 1 1 1 c 2948 1632 0 0 bf black 1 1 1 c 2358 1305 295 163 bf black 2358 1305 295 163 bl 0 0 0.6 c 1 1 1 c black 0 0 0.6 c 295 216 m 337 X 631 Y 337 X 559 Y 337 X -1212 Y 336 X -30 Y 337 X -1 Y 674 X s black 295 163 m
+ 2358 X s 295 202 m -39 Y s 362 183 m -20 Y s 430 183 m -20 Y s 497 183 m -20 Y s 564 183 m -20 Y s 632 202 m -39 Y s 699 183 m -20 Y s 766 183 m -20 Y s 834 183 m -20 Y s 901 183 m -20 Y s 969 202 m -39 Y s 1036 183 m -20 Y s 1103 183 m -20 Y s 1171
+ 183 m -20 Y s 1238 183 m -20 Y s 1306 202 m -39 Y s 1373 183 m -20 Y s 1440 183 m -20 Y s 1508 183 m -20 Y s 1575 183 m -20 Y s 1642 202 m -39 Y s 1710 183 m -20 Y s 1777 183 m -20 Y s 1845 183 m -20 Y s 1912 183 m -20 Y s 1979 202 m -39 Y s 2047
+ 183 m -20 Y s 2114 183 m -20 Y s 2182 183 m -20 Y s 2249 183 m -20 Y s 2316 202 m -39 Y s 2384 183 m -20 Y s 2451 183 m -20 Y s 2518 183 m -20 Y s 2586 183 m -20 Y s 2653 202 m -39 Y s
  gsave  2948 1632 0 0 C 278.07 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (0) show NC gr 
- gsave  2948 1632 0 0 C 519.228 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (1) show NC gr 
- gsave  2948 1632 0 0 C 750.542 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (2) show NC gr 
- gsave  2948 1632 0 0 C 986.779 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (3) show NC gr 
- gsave  2948 1632 0 0 C 1223.01 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (4) show NC gr 
- gsave  2948 1632 0 0 C 1459.25 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (5) show NC gr 
- gsave  2948 1632 0 0 C 1693.03 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (6) show NC gr 
- gsave  2948 1632 0 0 C 1929.26 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (7) show NC gr 
- gsave  2948 1632 0 0 C 2165.5 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (8) show NC gr 
- gsave  2948 1632 0 0 C 2401.74 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (9) show NC gr 
- gsave  2948 1632 0 0 C 2623.21 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (10) show NC gr 
- gsave  2948 1632 0 0 C 2067.07 56.5983 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (Multiplicity of TPC hodo ) show NC gr  295 163 m 1305 Y s 366 163 m -71 X s 330 189 m -35 X s 330 215 m -35 X s 330 242 m -35 X s 330 268 m -35 X s 366 294 m -71 X s
- 330 320 m -35 X s 330 346 m -35 X s 330 373 m -35 X s 330 399 m -35 X s 366 425 m -71 X s 330 451 m -35 X s 330 477 m -35 X s 330 503 m -35 X s 330 530 m -35 X s 366 556 m -71 X s 330 582 m -35 X s 330 608 m -35 X s 330 634 m -35 X s 330 660 m -35 X
- s 366 687 m -71 X s 330 713 m -35 X s 330 739 m -35 X s 330 765 m -35 X s 330 791 m -35 X s 366 818 m -71 X s 330 844 m -35 X s 330 870 m -35 X s 330 896 m -35 X s 330 922 m -35 X s 366 948 m -71 X s 330 975 m -35 X s 330 1001 m -35 X s 330 1027 m
- -35 X s 330 1053 m -35 X s 366 1079 m -71 X s 330 1105 m -35 X s 330 1132 m -35 X s 330 1158 m -35 X s 330 1184 m -35 X s 366 1210 m -71 X s 330 1236 m -35 X s 330 1262 m -35 X s 330 1289 m -35 X s 330 1315 m -35 X s 366 1341 m -71 X s 366 1341 m
- -71 X s 330 1367 m -35 X s 330 1393 m -35 X s 330 1420 m -35 X s 330 1446 m -35 X s
+ gsave  2948 1632 0 0 C 620.12 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (1) show NC gr 
+ gsave  2948 1632 0 0 C 952.327 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (2) show NC gr 
+ gsave  2948 1632 0 0 C 1289.46 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (3) show NC gr 
+ gsave  2948 1632 0 0 C 1626.58 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (4) show NC gr 
+ gsave  2948 1632 0 0 C 1963.71 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (5) show NC gr 
+ gsave  2948 1632 0 0 C 2300.84 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (6) show NC gr 
+ gsave  2948 1632 0 0 C 2637.97 110.736 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (7) show NC gr 
+ gsave  2948 1632 0 0 C 2067.07 56.5983 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (Multiplicity of TPC hodo ) show NC gr  295 163 m 1305 Y s 366 163 m -71 X s 330 203 m -35 X s 330 244 m -35 X s 330 284 m -35 X s 330 324 m -35 X s 366 364 m -71 X s
+ 330 404 m -35 X s 330 445 m -35 X s 330 485 m -35 X s 330 525 m -35 X s 366 565 m -71 X s 330 606 m -35 X s 330 646 m -35 X s 330 686 m -35 X s 330 726 m -35 X s 366 766 m -71 X s 330 807 m -35 X s 330 847 m -35 X s 330 887 m -35 X s 330 927 m -35 X
+ s 366 968 m -71 X s 330 1008 m -35 X s 330 1048 m -35 X s 330 1088 m -35 X s 330 1128 m -35 X s 366 1169 m -71 X s 330 1209 m -35 X s 330 1249 m -35 X s 330 1289 m -35 X s 330 1330 m -35 X s 366 1370 m -71 X s 366 1370 m -71 X s 330 1410 m -35 X s
+ 330 1450 m -35 X s
  gsave  2948 1632 0 0 C 248.54 145.187 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (0) show NC gr 
- gsave  2948 1632 0 0 C 159.952 275.609 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (5000) show NC gr 
- gsave  2948 1632 0 0 C 127.961 406.031 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (10000) show NC gr 
- gsave  2948 1632 0 0 C 127.961 536.453 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (15000) show NC gr 
- gsave  2948 1632 0 0 C 127.961 669.336 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (20000) show NC gr 
- gsave  2948 1632 0 0 C 127.961 799.758 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (25000) show NC gr 
- gsave  2948 1632 0 0 C 127.961 930.18 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (30000) show NC gr 
- gsave  2948 1632 0 0 C 127.961 1060.6 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (35000) show NC gr 
- gsave  2948 1632 0 0 C 127.961 1191.02 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (40000) show NC gr 
- gsave  2948 1632 0 0 C 127.961 1321.45 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (45000) show NC gr 
+ gsave  2948 1632 0 0 C 127.961 346.972 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (10000) show NC gr 
+ gsave  2948 1632 0 0 C 127.961 546.296 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (20000) show NC gr 
+ gsave  2948 1632 0 0 C 127.961 748.081 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (30000) show NC gr 
+ gsave  2948 1632 0 0 C 127.961 949.867 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (40000) show NC gr 
+ gsave  2948 1632 0 0 C 127.961 1149.19 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (50000) show NC gr 
+ gsave  2948 1632 0 0 C 127.961 1350.98 t 0 r /Helvetica findfont 54.1375 sf 0 0 m (60000) show NC gr 
  gsave  2948 1632 0 0 C 66.4414 1299.3 t 90 r /Helvetica findfont 54.1375 sf 0 0 m (Counts) show NC gr  1 1 1 c black
  gsave  2948 1632 0 0 C 1107.36 1557.68 t 0 r /Helvetica findfont 73.8238 sf 0 0 m (Hodoscope Multiplicity) show NC gr  1 1 1 c 590 261 2299 1264 bf black 2299 1264 m 590 X s 2889 1264 m 261 Y s 2889 1525 m -590 X s 2299 1525 m -261 Y s 1 1 1 c black
  gsave  2948 1632 0 0 C 2475.56 1476.48 t 0 r /Helvetica findfont 56.5983 sf 0 0 m (hist_multi) show NC gr  2299 1460 m 590 X s
  gsave  2948 1632 0 0 C 2327.91 1407.57 t 0 r /Helvetica findfont 56.5983 sf 0 0 m (Entries ) show NC gr 
- gsave  2948 1632 0 0 C 2687.19 1407.57 t 0 r /Helvetica findfont 56.5983 sf 0 0 m ( 99993) show NC gr 
+ gsave  2948 1632 0 0 C 2687.19 1407.57 t 0 r /Helvetica findfont 56.5983 sf 0 0 m ( 99994) show NC gr 
  gsave  2948 1632 0 0 C 2327.91 1341.13 t 0 r /Helvetica findfont 56.5983 sf 0 0 m (Mean  ) show NC gr 
- gsave  2948 1632 0 0 C 2687.19 1341.13 t 0 r /Helvetica findfont 56.5983 sf 0 0 m (  2.015) show NC gr 
+ gsave  2948 1632 0 0 C 2687.19 1341.13 t 0 r /Helvetica findfont 56.5983 sf 0 0 m (  1.623) show NC gr 
  gsave  2948 1632 0 0 C 2327.91 1277.15 t 0 r /Helvetica findfont 56.5983 sf 0 0 m (Std Dev   ) show NC gr 
- gsave  2948 1632 0 0 C 2682.27 1277.15 t 0 r /Helvetica findfont 56.5983 sf 0 0 m ( 0.9291) show NC gr  1 0 0 c 1 1 1 c black 1 0 0 c 295 163 m 471 X 1086 Y 236 X -699 Y 236 X -296 Y 236 X -72 Y 236 X -16 Y 236 X -2 Y 236 X -1 Y 471 X s 1 1 1 c
- black
+ gsave  2948 1632 0 0 C 2672.42 1277.15 t 0 r /Helvetica findfont 56.5983 sf 0 0 m ( 0.5659) show NC gr  1 0 0 c 1 1 1 c black 1 0 0 c 295 163 m 674 X 1237 Y 337 X -1206 Y 336 X -30 Y 337 X -1 Y 674 X s 1 1 1 c black
  gsave  2948 1632 0 0 C 1107.36 1557.68 t 0 r /Helvetica findfont 73.8238 sf 0 0 m (Hodoscope Multiplicity) show NC gr  gr showpage
  gr 
 %%Trailer

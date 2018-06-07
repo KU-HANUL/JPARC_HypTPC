@@ -91,14 +91,6 @@ void hodo()
   for(int i=0;i<6;i++){
     can_ran_ptof[i]=new TCanvas(Form("can_ran_ptof%d",i),Form("can_ran_ptof%d",i),1200,1200);
   }
-  TCanvas *can_seg = new TCanvas("can_seg","",1200,1200);
-  can_seg -> Divide(2,1);
-  TCanvas *can_path = new TCanvas("can_path","",1200,1200);
-  can_path -> Divide(2,1);
-  TCanvas *can_momentum  = new TCanvas("can_momentum","",1200,1200);
-  can_momentum -> Divide(2,1);
-  TCanvas *can_tofseg  = new TCanvas("can_tofseg","",1200,1200);
-  can_tofseg -> Divide(2,1);
 
   double ecut=1.0; //energy cut
   int resol[6]={150,160,170,180,190,200}; //ps
@@ -106,20 +98,11 @@ void hodo()
   TH1D *hist_pid =new TH1D("hist_pid","Hodoscope PID",4600,-2300,2300);
   TH1D *hist_multi =new TH1D("hist_multi","Hodoscope Multiplicity",7,0,7);
   TH1D *hist_multi_pi=new TH1D("hist_multi_pi","Hodoscope Multiplicity",7,0,7);
-  TH1D *hist_tof_p=new TH1D("hist_tof_p","P Time of flight",100,0,5);
-  TH1D *hist_tof_pi=new TH1D("hist_tof_pi","pi Time of flight",100,0,5);
-  TH1D *hist_seg_p=new TH1D("hist_seg_p","P segment id",32,0,32);
-  TH1D *hist_seg_pi=new TH1D("hist_seg_pi","pi segment id",32,0,32);
-  TH1D *hist_path_p=new TH1D("hist_path_p","P path id",1000,0,2);
-  TH1D *hist_path_pi=new TH1D("hist_path_pi","pi path id",1000,0,2);
-  TH1D *hist_p_p=new TH1D("hist_p_p","P momentum",1000,0,2);
-  TH1D *hist_p_pi=new TH1D("hist_p_pi","pi momentum",1000,0,2);
-
+  TH1D *hist_tof_p=new TH1D("hist_tof_p","Time of flight",100,0,5);
+  TH1D *hist_tof_pi=new TH1D("hist_tof_pi","Time of flight",100,0,5);
   TH1D *hist_deltatof=new TH1D("hist_deltatof","#Delta Time of flight",100,0,5);
   TH2D *hist_pbeta=new TH2D("hist_pbeta","#beta vs p/q",500,-1.5,1.5,500,0.2,1.2);
   TH2D *hist_ptof=new TH2D("hist_ptof","TOF vs p/q",500,-1.5,1.5,500,0,20);
-  TH2D *hist_tofseg_p=new TH2D("hist_tofseg_p","P, TOF vs seg",32,0,32,500,0,20);
-  TH2D *hist_tofseg_pi=new TH2D("hist_tofseg_pi","pi, TOF vs seg",32,0,32,500,0,20);
 
   TH1D *hist_ran_p[6];
   TH1D *hist_ran_pi[6];
@@ -190,12 +173,6 @@ void hodo()
       //hist_multi_pi -> Fill(total_count); //counting multi-hit events w/ p,pi
       hist_multi_pi -> Fill(count_all); //counting multi-hit events w/ p,pi
       event_w_2hits_wPpi++; //counting multi-hit events w/ p,pi
-      hist_seg_p -> Fill(seg_p);
-      hist_seg_pi -> Fill(seg_pi);
-      hist_path_p -> Fill(path_p);
-      hist_path_pi -> Fill(path_pi);
-      hist_p_p -> Fill(p_p);
-      hist_p_pi -> Fill(p_pi);
 
       // w/o detector resolution
       hist_tof_p -> Fill(tof_p); //tof of p and pi
@@ -206,9 +183,6 @@ void hodo()
       hist_ptof -> Fill(1.0*p_p,tof_p);
       //hist_ptof -> Fill(-1.0*p_pi,tof_pi);
       hist_ptof -> Fill(1.0*p_pi,tof_pi);
-      hist_tofseg_p -> Fill(seg_p,tof_p);
-      hist_tofseg_pi -> Fill(seg_pi,tof_pi);
-
       // w/ detector resolution
       for(int j=0;j<6;j++){
 	tof_ran_p=eventgen->Gaus(tof_p,det_resol[j]);
@@ -257,26 +231,6 @@ void hodo()
   hist_ptof->GetXaxis()->SetTitle("p/q(GeV/c/q)");
   hist_ptof->GetYaxis()->SetTitle("tof(ns)");
   hist_ptof->GetZaxis()->SetRangeUser(0,15);
-
-  can_seg -> cd(1);
-  hist_seg_p -> Draw();
-  can_seg -> cd(2);
-  hist_seg_pi -> Draw();
-
-  can_path -> cd(1);
-  hist_path_p -> Draw();
-  can_path -> cd(2);
-  hist_path_pi -> Draw();
-
-  can_momentum -> cd(1);
-  hist_p_p -> Draw();
-  can_momentum -> cd(2);
-  hist_p_pi -> Draw();
-
-  can_tofseg -> cd(1);
-  hist_tofseg_p -> Draw("colz");
-  can_tofseg -> cd(2);
-  hist_tofseg_pi -> Draw("colz");
 
   for(int i=0;i<6;i++){
     can_ran_tof[i]->cd();

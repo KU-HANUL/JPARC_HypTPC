@@ -48,27 +48,28 @@ void TofSD::Initialize( G4HCofThisEvent *HCE )
 G4bool TofSD::ProcessHits( G4Step *aStep,
 			   G4TouchableHistory *ROhist )
 {
-  
+
   G4double edep = aStep->GetTotalEnergyDeposit();
   if(edep == 0.) return false;
-  
+
   G4Track *aTrack = aStep->GetTrack();
   const G4VTouchable *theTouchable = aStep->GetPreStepPoint()->GetTouchable();
   G4VPhysicalVolume *vol=theTouchable->GetVolume();
   G4String hitName = vol->GetName();
   G4int hitSegment = vol->GetCopyNo();
-  
+
   //G4cout << "[TofSD]TofSD: " << hitName <<  " " << hitSegment << G4endl;
 
-  
+
   G4int nHits = TofCollection->entries();
   G4ThreeVector hitpos = aStep->GetPreStepPoint()->GetPosition();
   G4double hittime = aTrack->GetGlobalTime();
   G4int trackNo = aTrack->GetTrackID();
   G4ThreeVector hitmom = aTrack->GetMomentum();
   G4double path = aTrack->GetTrackLength();
+  G4ThreeVector vtxpos = aTrack->GetVertexPosition();
   //G4cout<< "pathlength=" << path<<G4endl;
-  
+
   //Decay Particle Tracking
   G4int PartID= aTrack->GetDefinition()->GetPDGEncoding();
 
@@ -89,7 +90,7 @@ G4bool TofSD::ProcessHits( G4Step *aStep,
       else
       {
       MID[0] = MID1;
-      MPID[0] = parentTrajectory -> GetPDGEncoding(); 
+      MPID[0] = parentTrajectory -> GetPDGEncoding();
       }
 	}
   */
@@ -108,20 +109,20 @@ G4bool TofSD::ProcessHits( G4Step *aStep,
 	  MID1 = parentTrajectory->GetParentID();
 	  //MID[i+1] = MID1;
 	  //std::cout<<"PartID: "<< PartID << " TrackID: " << trackNo << " i: "<< i << " MID: " << MID[i] << " MPID: "<< MPID[i] << std::endl;
-	  
+
 	}
       else
 	{
 	  MID[i] = 0;
-	  MPID[i] = 0; 
+	  MPID[i] = 0;
 	}
     }
-  
-  
+
+
   /*
     while(MID!=0)
     {
-    
+
     if(parentTrajectory==0)
     {
     G4cout << "[TofSD] Trajectory trace back failed - no parent found." << G4endl;
@@ -164,7 +165,7 @@ G4bool TofSD::ProcessHits( G4Step *aStep,
 	    }
 	}
     }
-  
+
   TofHit *aHit = new TofHit();
   aHit->SetPass();
   aHit->SetSegmentID( hitSegment );
@@ -176,6 +177,8 @@ G4bool TofSD::ProcessHits( G4Step *aStep,
   aHit->SetTrackNo( trackNo );
   aHit->SetLocalPos( hitposl.x(), hitposl.z() );
   aHit->SetPathLength( path );
+  aHit->SetVtxPos( vtxpos );
+
   aHit->SetHitParticleID( PartID );
   aHit->SetParentID1( MID[0] );
   aHit->SetParentID2( MID[1] );
@@ -187,10 +190,10 @@ G4bool TofSD::ProcessHits( G4Step *aStep,
   TofCollection->insert( aHit );
 
 #if 0
-  G4cout << "[TofSD] " << "Layer=" << hitLayer 
-	 << " Seg=" << hitSegment 
-	 << " edep=" << edep/keV << "keV"  
-	 << " G: " << hitpos << "  L: " << hitposl 
+  G4cout << "[TofSD] " << "Layer=" << hitLayer
+	 << " Seg=" << hitSegment
+	 << " edep=" << edep/keV << "keV"
+	 << " G: " << hitpos << "  L: " << hitposl
 	 <<" P: "<< hitmom << G4endl;
 #endif
 
@@ -235,7 +238,7 @@ void TofSD::PrintAll() const
 
 T01Trajectory* TofSD::GetParentTrajectory(G4int parentID)
 {
-  G4TrajectoryContainer* container = 
+  G4TrajectoryContainer* container =
     G4RunManager::GetRunManager()->GetCurrentEvent()->GetTrajectoryContainer();
   if(container==0) return 0;
   size_t nTraj = container->size();

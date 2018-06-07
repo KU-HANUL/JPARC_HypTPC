@@ -36,6 +36,7 @@ private:
   G4ThreeVector pos_;
   G4ThreeVector mom_;
   G4ThreeVector lmom_;
+  G4ThreeVector vtxpos_;
   G4int trackNo_;
   G4bool fSignal_;
   G4double xl_, yl_;
@@ -64,11 +65,12 @@ public:
   void SetMom( const G4ThreeVector &mom ) { mom_=mom; }
   void SetLMom( const G4ThreeVector &mom ) { lmom_=mom; }
   void SetPathLength( G4double path ) { path_ = path; }
+  void SetVtxPos( const G4ThreeVector &pos ) { vtxpos_=pos; }
   void SetTrackNo( G4int no ) { trackNo_=no; }
   void SetTrueSignal() { fSignal_=true; }
   void SetFalseSignal() { fSignal_=false; }
   void SetLocalPos( G4double x, G4double y ) { xl_=x; yl_=y; }
-  void SetHitParticleID( G4int id ) 
+  void SetHitParticleID( G4int id )
   { HitPartID_ = id; }
 
   G4int GetPass() const { return pass_; }
@@ -85,12 +87,13 @@ public:
   G4ThreeVector GetMom( void ) const { return mom_; }
   G4ThreeVector GetLMom( void ) const { return lmom_; }
   G4double GetPathLength( void ) const { return path_; }
+  G4ThreeVector GetVtxPos( void ) const { return vtxpos_; }
   G4int GetTrackNo( void ) const { return trackNo_; }
   G4bool IsTrueSignal() const { return fSignal_; }
   G4double GetXLocal( void ) const { return xl_; }
   G4double GetYLocal( void ) const { return yl_; }
-  G4int GetHitParticleID( void ) const 
-  { 
+  G4int GetHitParticleID( void ) const
+  {
     return HitPartID_;
   }
 };
@@ -107,6 +110,6 @@ inline void TofHit::operator delete( void *aHit )
 {
   TofHitAllocator.FreeSingle( static_cast<TofHit *>( aHit ) );
 }
-		       
+
 
 #endif
