@@ -24,12 +24,12 @@ class AnalysisManager
 {
 public:
   void BeginOfRun(const G4Run*);
-  void EndOfRun(const G4Run*); 
-  void BeginOfEvent(const G4Event*); 
+  void EndOfRun(const G4Run*);
+  void BeginOfEvent(const G4Event*);
   void EndOfEvent(const G4Event*);
   void SetRootFileName(G4String file){ outfile=file; }
 
-  
+
 private:
   G4String outfile;
   TFile *hfile;
@@ -113,6 +113,9 @@ private:
   double tofmomz[num_tofhit];
   int toftrid[num_tofhit];
   double tofpath[num_tofhit];
+  double tofvtxx[num_tofhit];
+  double tofvtxy[num_tofhit];
+  double tofvtxz[num_tofhit];
   int tofpid[num_tofhit];
   int tofparentid1[num_tofhit];
   int tofparentid2[num_tofhit];

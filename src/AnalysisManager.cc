@@ -111,6 +111,9 @@ void AnalysisManager::BeginOfRun(const G4Run*)
   tree->Branch("tofmomz", tofmomz, "tofmomz[nhTof]/D");
   tree->Branch("toftrid", toftrid, "toftrid[nhTof]/I");
   tree->Branch("tofpath", tofpath, "tofpath[nhTof]/D");
+  tree->Branch("tofvtxx", tofvtxx, "tofvtxx[nhTof]/D");
+  tree->Branch("tofvtxy", tofvtxy, "tofvtxy[nhTof]/D");
+  tree->Branch("tofvtxz", tofvtxz, "tofvtxz[nhTof]/D");
   tree->Branch("tofpid", tofpid, "tofpid[nhTof]/I");
   tree->Branch("tofparentid1", tofparentid1, "tofparentid1[nhTof]/I");
   tree->Branch("tofparentid2", tofparentid2, "tofparentid2[nhTof]/I");
@@ -132,7 +135,7 @@ void AnalysisManager::BeginOfRun(const G4Run*)
   tree->Branch("targettrid", targettrid, "targettrid[nhTarget]/I");
   tree->Branch("targetpath", targetpath, "targetpath[nhTarget]/D");
   tree->Branch("targetpid", targetpid, "targetpid[nhTarget]/I");
-  
+
   event = 0;
 
 
@@ -244,6 +247,9 @@ void AnalysisManager::EndOfEvent(const G4Event* anEvent)
       tofmomz[i] = aHit->GetMom().z()*0.001;
       toftrid[i] = aHit->GetTrackNo();
       tofpath[i] = aHit->GetPathLength();
+      tofvtxx[i] = aHit->GetVtxPos().x();
+      tofvtxy[i] = aHit->GetVtxPos().y();
+      tofvyxz[i] = aHit->GetVtxPos().z();
       tofpid[i] = aHit->GetHitParticleID();
       tofparentid1[i] = aHit->GetParentID1();
       tofparentid2[i] = aHit->GetParentID2();
@@ -283,11 +289,11 @@ void AnalysisManager::EndOfEvent(const G4Event* anEvent)
   nBeam = 0;
 }
 
-void AnalysisManager::SetEvtGen(int j, int partnum, 
-				int jmotherfirst, 
-				int jmotherlast, 
-				int jdaugfirst, 
-				int jdauglast, 
+void AnalysisManager::SetEvtGen(int j, int partnum,
+				int jmotherfirst,
+				int jmotherlast,
+				int jdaugfirst,
+				int jdauglast,
 				int tr_id,
 				EvtVector4R x,
 				EvtVector4R p
