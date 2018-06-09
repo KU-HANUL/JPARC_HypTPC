@@ -249,7 +249,7 @@ void AnalysisManager::EndOfEvent(const G4Event* anEvent)
       tofpath[i] = aHit->GetPathLength();
       tofvtxx[i] = aHit->GetVtxPos().x();
       tofvtxy[i] = aHit->GetVtxPos().y();
-      tofvyxz[i] = aHit->GetVtxPos().z();
+      tofvtxz[i] = aHit->GetVtxPos().z();
       tofpid[i] = aHit->GetHitParticleID();
       tofparentid1[i] = aHit->GetParentID1();
       tofparentid2[i] = aHit->GetParentID2();
