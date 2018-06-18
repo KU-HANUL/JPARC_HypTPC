@@ -52,6 +52,7 @@ void AnalysisManager::Terminate ( void ) const
 
 void AnalysisManager::BeginOfRun(const G4Run*)
 {
+  G4cout<<"[AnalysisManager] Begin of Run: "<<G4endl;
   G4SDManager* SDManager = G4SDManager::GetSDMpointer();
 
   hfile = new TFile(outfile, "RECREATE");
@@ -144,6 +145,7 @@ void AnalysisManager::BeginOfRun(const G4Run*)
 
 void AnalysisManager::EndOfRun(const G4Run*)
 {
+  G4cout<<"[AnalysisManager] End of Event: "<<G4endl;
   tree->Write();
   hfile->Write();
   hfile->Close();
@@ -152,7 +154,7 @@ void AnalysisManager::EndOfRun(const G4Run*)
 void AnalysisManager::BeginOfEvent(const G4Event*)
 {
   nEvt = 0;
-  //G4cout<<"[AnalysisManager] Begin of Event: "<<nEvt<<G4endl;
+  G4cout<<"[AnalysisManager] Begin of Event: "<<nEvt<<G4endl;
 }
 
 void AnalysisManager::EndOfEvent(const G4Event* anEvent)
@@ -281,7 +283,8 @@ void AnalysisManager::EndOfEvent(const G4Event* anEvent)
 
   tree->Fill();
   event++;
-  //G4cout<<"[AnalysisManager]Event: "<<event<<" nEvt: "<<nEvt << " nhTarget: " << nhTarget<<G4endl;
+
+  G4cout<<"[AnalysisManager]Event: "<<event<<" nEvt: "<<nEvt << " nhTarget: " << nhTarget<<G4endl;
   nEvt = 0;
   nhTpcPad = 0;
   nhTof = 0;
@@ -299,6 +302,7 @@ void AnalysisManager::SetEvtGen(int j, int partnum,
 				EvtVector4R p
 				)
 {
+  G4cout<<"[AnalysisManager] setEvtGen : "<<nEvt<<G4endl;
   if(nEvt < j) nEvt =j;
   evtid[j-1]=j;
   evtpid[j-1] = partnum;
@@ -323,6 +327,7 @@ void AnalysisManager::SetBeam(int j,
 			      G4ThreeVector P
 			      )
 {
+  G4cout<<"[AnalysisManager] SetBeam : "<<nEvt<<G4endl;
   nBeam = j;
   bpx[j-1] = P.x();
   bpy[j-1] = P.y();

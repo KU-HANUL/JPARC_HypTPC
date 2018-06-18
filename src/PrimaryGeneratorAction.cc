@@ -315,7 +315,7 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
 
   EvtVector4R pInit_N( Lv_N.e(), Lv_N.vect().x(), Lv_N.vect().y(), Lv_N.vect().z() );
   Nstar = EvtParticleFactory::particleFactory(evtid_N, pInit_N);
-  GenerateDecay(anEvent, evtGenerator,Nstar, D);
+  GenerateDecay(anEvent, evtGenerator, Nstar, D);
 }
 
 void PrimaryGeneratorAction::GenerateDecay(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector D)
@@ -358,8 +358,6 @@ void PrimaryGeneratorAction::GenerateDecay(G4Event* anEvent, EvtGen *evtGenerato
 
   EvtVector4R p4,x4;
   int n_beam = 0; // number of beams
-
-
 
   for(int i=0;i<evtstdhep.getNPart();i++)
     {
@@ -439,6 +437,7 @@ void PrimaryGeneratorAction::GenerateDecay(G4Event* anEvent, EvtGen *evtGenerato
       z=x4.get(3)+D.z();
       t=x4.get(0);
       m=p4.mass();
+      G4cout<<"x : "<<x<<" y " <<y<<" z: "<<z<<G4endl;
 
       partnum=evtstdhep.getStdHepID(i);
       G4cout<<"ID: " << j<< "  Particle Num: "<<partnum<<"  mf: "<<jmotherfirst<< "  ml: "<<jmotherlast << "  df: "<<jdaugfirst << "  dl: "<<jdauglast<<G4endl;

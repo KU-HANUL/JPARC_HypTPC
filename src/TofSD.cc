@@ -59,8 +59,6 @@ G4bool TofSD::ProcessHits( G4Step *aStep,
   G4int hitSegment = vol->GetCopyNo();
 
   //G4cout << "[TofSD]TofSD: " << hitName <<  " " << hitSegment << G4endl;
-
-
   G4int nHits = TofCollection->entries();
   G4ThreeVector hitpos = aStep->GetPreStepPoint()->GetPosition();
   G4double hittime = aTrack->GetGlobalTime();
