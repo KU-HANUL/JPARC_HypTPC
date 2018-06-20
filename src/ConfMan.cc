@@ -21,9 +21,11 @@ ConfMan::ConfMan( const std::string & filename )
     fStepping(0),
     EvtGenDecayName_(defEvtGenDecayFile), EvtGenPDLName_(defEvtGenPDLFile),
     ReactionMode_(0),
+    BeamMode_(0),
     BeamMomentumMode_(0),
     PionCharge_(0),
-    bpx_(0), bpy_(0), bpz_(0), bvx_(0), bvy_(0), bvz_(0)
+    bpx_(0), bpy_(0), bpz_(0), bvx_(0), bvy_(0), bvz_(0),
+    sigmabvx_(0), sigmabvy_(0), sigmabvz_(0)
 {
   static const std::string funcname="[ConfMan::ConfMan]";
   if( confManager_ ){
@@ -130,11 +132,19 @@ bool ConfMan::Initialize( void )
 	  bvy_=val2;
 	  bvz_=val3;
 	}
+      else if( sscanf(buf,"VERTEXSIGMA: %lf %lf %lf", &val1, &val2, &val3  )==3 )
+	{
+	  sigmabvx_=val1;
+	  sigmabvy_=val2;
+	  sigmabvz_=val3;
+	}
 
       //
       // Reaction //
       else if( sscanf(buf,"REACTION: %d", &id )==1 )
         ReactionMode_=id;
+      else if( sscanf(buf,"BEAMMODE: %d", &id )==1 )
+        BeamMode_=id;
       else if( sscanf(buf,"BEAMMOMENTUMMODE: %d", &id )==1 )
         BeamMomentumMode_=id;
       else if( sscanf(buf,"PIONCHARGE: %d", &id )==1 )

@@ -897,7 +897,6 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 {
   // material //
 
-  //std::cout<<"Test: " << mat_C <<std::endl;
   /// Physics World ///
   // param //
   const G4double RIN_PW = 0.0*mm;
@@ -936,7 +935,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   /// Target ///
   // param //
   const G4double RIN_Target = 0.0*mm;
-  const G4double ROUT_Target= 53.0/2.0*mm; // target radius 53 mm
+  const G4double ROUT_Target= 54.0/2.0*mm; // target radius 54 mm
   const G4double DZ_Target  = 100.0/2.0*mm; // target length 100 mm
   const G4double STANG_Target = 0.*deg;
   const G4double EDANG_Target = 360.*deg;
@@ -1156,8 +1155,8 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 
   /// Target holder SideWall2///
   // param //
-  const G4double RIN_TargetHolder_SideWall2= 53.0/2.0*mm;
-  const G4double ROUT_TargetHolder_SideWall2 = (53.0/2.0+0.25)*mm;
+  const G4double RIN_TargetHolder_SideWall2 = 54.0/2.0*mm;
+  const G4double ROUT_TargetHolder_SideWall2 = (54.0/2.0+0.25)*mm;
   //const G4double DZ_TargetHolder_SideWall2 = (DZ_PW*2.0-DZ_PW_DOWN-DZ_Target*2.0)/2.0*mm;
   const G4double DZ_TargetHolder_SideWall2 = (DZ_Target*2.0 + 12.0*2.0)/2.0*mm;
   const G4double STANG_TargetHolder_SideWall2 = 0.*deg;
@@ -1294,7 +1293,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 
   /// Bottom plate3 ///
   // param //
-  const G4double RIN_TargetHolder_BottomPlate3= 0.0*mm;
+  const G4double RIN_TargetHolder_BottomPlate3 = 0.0*mm;
   const G4double ROUT_TargetHolder_BottomPlate3 = (RIN_TargetHolder_SideWall2/mm) *mm;
   const G4double DZ_TargetHolder_BottomPlate3 = DZ_TargetHolder_BottomPlate1;
   const G4double STANG_TargetHolder_BottomPlate3 = 0.*deg;

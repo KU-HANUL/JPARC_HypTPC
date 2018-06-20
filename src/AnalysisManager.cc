@@ -153,7 +153,7 @@ void AnalysisManager::EndOfRun(const G4Run*)
 
 void AnalysisManager::BeginOfEvent(const G4Event*)
 {
-  nEvt = 0;
+  //nEvt = 0;
   G4cout<<"[AnalysisManager] Begin of Event: "<<nEvt<<G4endl;
 }
 

@@ -94,17 +94,26 @@ void PrimaryGeneratorAction::GeneratePrimaries( G4Event *anEvent )
 
   ConfMan *confMan = ConfMan::GetConfManager();
   int reactionMode = confMan->ReactionMode();
+  int beamMode = confMan->BeamMode();
+
   int momMode = confMan->BeamMomentumMode();
   int C = confMan->PionCharge();
 
   //vertex point and beam momentum
-  bpx_ = confMan->GetBeamPX();
-  bpy_ = confMan->GetBeamPY();
-  bpz_ = confMan->GetBeamPZ();
   bvx_ = confMan->GetBeamVX();
   bvy_ = confMan->GetBeamVY();
   bvz_ = confMan->GetBeamVZ();
-  G4ThreeVector D(bvx_, bvy_, bvz_);
+  if(beamMode==1){
+    double bvx = G4RandGauss::shoot(bvx_,sigmabvx_);
+    double bvy = G4RandGauss::shoot(bvy_,sigmabvy_);
+    double bvz = G4RandGauss::shoot(bvz_,sigmabvz_);
+    G4ThreeVector D(bvx, bvy, bvz);
+  }
+  else G4ThreeVector D(bvx_, bvy_, bvz_);
+
+  bpx_ = confMan->GetBeamPX();
+  bpy_ = confMan->GetBeamPY();
+  bpz_ = confMan->GetBeamPZ();
   G4ThreeVector P(bpx_, bpy_, bpz_);
   anaMan_->SetBeam(1, D, P);
 

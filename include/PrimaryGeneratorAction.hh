@@ -68,7 +68,9 @@ protected:
   double bvx_; //beam vertex
   double bvy_;
   double bvz_;
-
+  double sigmabvx_;
+  double sigmabvy_;
+  double sigmabvz_;
 
 private:
   //AnalysisManager* anaMgr;
