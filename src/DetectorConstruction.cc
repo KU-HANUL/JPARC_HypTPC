@@ -1019,7 +1019,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   G4LogicalVolume* logicDetectorTHSW2 = new G4LogicalVolume(solidDetectorTHSW2,
 							    mat_Mylar,
 							    G4String(fullNameTHSW2.c_str()));
-  logicDetectorTHSW2->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
+  logicDetectorTHSW2->SetVisAttributes(new G4VisAttributes(G4Color::Red()));
 
   G4RotationMatrix rot_THSW2;
   //G4ThreeVector TVTHSW2 ( 0, 0, (DZ_PW_DOWN+DZ_Target*2.0)/2.0);
