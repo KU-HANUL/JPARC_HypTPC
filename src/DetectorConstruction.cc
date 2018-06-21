@@ -982,7 +982,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 					  STANG_TargetHolder_SideWall1,
 					  EDANG_TargetHolder_SideWall1);
 
-  G4LogicalVolume* logicDetectorTHSW1 = new G4LogicalVolume(solidDetectorTHSW1_sub10,
+  G4LogicalVolume* logicDetectorTHSW1 = new G4LogicalVolume(solidDetectorTHSW1,
 							    mat_G10,
 							    G4String(fullNameTHSW1.c_str()));
   logicDetectorTHSW1->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
