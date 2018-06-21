@@ -974,7 +974,6 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   const G4double EDANG_TargetHolder_SideWall1 = 360.*deg;
   std::string fullNameTHSW1 = "TPC_TargetHolder_SideWall1";
 
-  // Making window to SideWall1 //
   G4Tubs* solidDetectorTHSW1 = new G4Tubs(G4String(fullNameTHSW1.c_str()),
 					  RIN_TargetHolder_SideWall1,
 					  ROUT_TargetHolder_SideWall1,
@@ -1020,7 +1019,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   G4LogicalVolume* logicDetectorTHSW2 = new G4LogicalVolume(solidDetectorTHSW2,
 							    mat_Mylar,
 							    G4String(fullNameTHSW2.c_str()));
-  logicDetectorTHSW2->SetVisAttributes(new G4VisAttributes(G4Color::Cyan()));
+  logicDetectorTHSW2->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
 
   G4RotationMatrix rot_THSW2;
   //G4ThreeVector TVTHSW2 ( 0, 0, (DZ_PW_DOWN+DZ_Target*2.0)/2.0);
@@ -1055,7 +1054,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   G4LogicalVolume* logicDetectorTHSW3 = new G4LogicalVolume(solidDetectorTHSW3,
 							    mat_G10,
 							    G4String(fullNameTHSW3.c_str()));
-  logicDetectorTHSW3->SetVisAttributes(new G4VisAttributes(G4Color::Blue()));
+  logicDetectorTHSW3->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
 
   G4RotationMatrix rot_THSW3;
   G4ThreeVector TVTHSW3 ( 0, 0, (DZ_PW_DOWN+DZ_Target*2.0)/2.0);
@@ -1089,7 +1088,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   G4LogicalVolume* logicDetectorTHBP1 = new G4LogicalVolume(solidDetectorTHBP1,
 							    mat_G10,
 							    G4String(fullNameTHBP1.c_str()));
-  logicDetectorTHBP1->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
+  logicDetectorTHBP1->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
 
   G4RotationMatrix rot_THBP1;
   G4ThreeVector TVTHBP1 ( 0, 0, -DZ_TargetHolder_SideWall1 + DZ_TargetHolder_BottomPlate1);
@@ -1123,7 +1122,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   G4LogicalVolume* logicDetectorTHBP2 = new G4LogicalVolume(solidDetectorTHBP2,
 							    mat_G10,
 							    G4String(fullNameTHBP2.c_str()));
-  logicDetectorTHBP2->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
+  logicDetectorTHBP2->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
 
   G4RotationMatrix rot_THBP2;
   G4ThreeVector TVTHBP2 ( 0, 0, -DZ_PW + DZ_PW_DOWN + DZ_Target-DZ_Target - DZ_TargetHolder_BottomPlate2);
