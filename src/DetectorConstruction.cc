@@ -304,7 +304,7 @@ void DetectorConstruction::MakeSCMagnet(G4VPhysicalVolume *pMother)
   G4LogicalVolume* logicDetectorCF = new G4LogicalVolume(solidDetectorCF,
 							 NistMan->FindOrBuildMaterial("G4_Fe"),
 							 G4String(fullNameCore.c_str()));
-  logicDetectorCF->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
+  logicDetectorCF->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
 
   G4RotationMatrix rot_CoreFrame;
   rot_CoreFrame.rotateX(90.*deg);
@@ -446,7 +446,7 @@ void DetectorConstruction::MakeHypTPC(G4VPhysicalVolume *pMother, G4ThreeVector 
 							 mat_air,
 							 G4String(fullNamePW.c_str()));
 
-  logicDetectorPW->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
+  logicDetectorPW->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
 
   // position //
   G4RotationMatrix rot_PW = rot;
@@ -523,7 +523,7 @@ void DetectorConstruction::MakeHypTPC(G4VPhysicalVolume *pMother, G4ThreeVector 
   G4LogicalVolume* logicDetectorTPC = new G4LogicalVolume(solidDetectorTPC,
 							  mat_p10,
 							  G4String(fullNameTPC.c_str()));
-  logicDetectorTPC->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
+  logicDetectorTPC->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
   G4RotationMatrix rot_TPC;
   //rot_TPC.rotateX(-90.*deg);
   G4VPhysicalVolume *Phys_TPC = new G4PVPlacement(G4Transform3D(rot_TPC, G4ThreeVector(0, 0, 0)),
@@ -982,7 +982,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   G4LogicalVolume* logicDetectorTHSW1 = new G4LogicalVolume(solidDetectorTHSW1,
 							    mat_G10,
 							    G4String(fullNameTHSW1.c_str()));
-  logicDetectorTHSW1->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
+  logicDetectorTHSW1->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
 
   G4RotationMatrix rot_THSW1;
   G4ThreeVector TVTHSW1 ( 0, 0, 0.);
@@ -1017,7 +1017,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   G4LogicalVolume* logicDetectorTHSW2 = new G4LogicalVolume(solidDetectorTHSW2,
 							    mat_Mylar,
 							    G4String(fullNameTHSW2.c_str()));
-  logicDetectorTHSW2->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
+  logicDetectorTHSW2->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
 
   G4RotationMatrix rot_THSW2;
   //G4ThreeVector TVTHSW2 ( 0, 0, (DZ_PW_DOWN+DZ_Target*2.0)/2.0);
@@ -1052,7 +1052,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   G4LogicalVolume* logicDetectorTHSW3 = new G4LogicalVolume(solidDetectorTHSW3,
 							    mat_G10,
 							    G4String(fullNameTHSW3.c_str()));
-  logicDetectorTHSW3->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
+  logicDetectorTHSW3->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
 
   G4RotationMatrix rot_THSW3;
   G4ThreeVector TVTHSW3 ( 0, 0, (DZ_PW_DOWN+DZ_Target*2.0)/2.0);
@@ -1246,7 +1246,7 @@ void DetectorConstruction::MakeHypTPC2(G4VPhysicalVolume *pMother, G4ThreeVector
 							 mat_air,
 							 G4String(fullNamePW.c_str()));
 
-  logicDetectorPW->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
+  logicDetectorPW->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
 
   // position //
   G4RotationMatrix rot_PW = rot;
@@ -1337,7 +1337,7 @@ void DetectorConstruction::MakeHypTPC2(G4VPhysicalVolume *pMother, G4ThreeVector
   G4LogicalVolume* logicDetectorTPC = new G4LogicalVolume(solidDetectorTPC_sub,
 							  mat_p10,
 							  G4String(fullNameTPC.c_str()));
-  logicDetectorTPC->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
+  logicDetectorTPC->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
   G4RotationMatrix rot_TPC;
   //rot_TPC.rotateX(-90.*deg);
   G4VPhysicalVolume *Phys_TPC = new G4PVPlacement(G4Transform3D(rot_TPC, G4ThreeVector(0, 0, 0)),
