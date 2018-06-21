@@ -968,8 +968,10 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   /// Target holder Sidewall1///
 
   // param //
-  const G4double RIN_TargetHolder_SideWall1 = (80.0/2.0-1.5)*mm;
-  const G4double ROUT_TargetHolder_SideWall1= 80.0/2.0*mm;
+  //const G4double RIN_TargetHolder_SideWall1 = (80.0/2.0-1.5)*mm;
+  //const G4double ROUT_TargetHolder_SideWall1= 80.0/2.0*mm;
+  const G4double RIN_TargetHolder_SideWall1 = (65.0/2.0)*mm;
+  const G4double RIN_TargetHolder_SideWall1 = (65.0/2.0+1.0)*mm;
   const G4double DZ_TargetHolder_SideWall1 = 418.0/2.0*mm;
   const G4double STANG_TargetHolder_SideWall1 = 0.*deg;
   const G4double EDANG_TargetHolder_SideWall1 = 360.*deg;

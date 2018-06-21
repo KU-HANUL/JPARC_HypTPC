@@ -68,7 +68,7 @@ protected:
   double bvx_; //beam vertex
   double bvy_;
   double bvz_;
-  double sigmabvx_;
+  double sigmabvx_; //beam vertex sigma
   double sigmabvy_;
   double sigmabvz_;
 

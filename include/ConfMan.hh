@@ -134,6 +134,9 @@ private:
   double bvx_;
   double bvy_;
   double bvz_;
+  double sigmabvx_;
+  double sigmabvy_;
+  double sigmabvz_;
 
 private:
   bool InitializeParameterFiles( void );
