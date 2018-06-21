@@ -65,6 +65,7 @@ protected:
   G4Material *mat_Scin;
   G4Material *mat_G10;
   G4Material *mat_Mylar;
+  G4Material *mat_Vacuum;
 
   G4MagneticField *field_;
 };
