@@ -105,10 +105,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   mat_p10 = mList_->P10Gas;
   mat_C = mList_->C;
   mat_LH2 = mList_->LiqH2;
-  //mat_Scin = mList_->Scin;
   mat_Scin = mList_->BC404;
   mat_G10 = mList_->G10;
   mat_Mylar = mList_->Mylar;
+  mat_Vacuum = mList_->Vacuum;
 
   //field_=MakeUniformMagField( 1.0*tesla );
 
@@ -153,7 +153,6 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   ///MakeHypTPC( physiWorld, TPCPos, TPCRot  );
   MakeHypTPC2( physiWorld, TPCPos, TPCRot  );
   ///MakeTarget( physiWorld, TargetPos, TargetRot );
-
   MakeTargetH( physiWorld, TargetPos, TargetRot );
 
   G4ThreeVector TargetDummyPos ( 0., 0., -143.0);// for LH2 target
@@ -900,7 +899,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   /// Physics World ///
   // param //
   const G4double RIN_PW = 0.0*mm;
-  const G4double ROUT_PW= 80.0/2.0*mm;
+  const G4double ROUT_PW= 65.0/2.0+1.0*mm;
   const G4double DZ_PW  = 418.0/2.0*mm; // target tpc center (y-axis), up 350 mm, down 68 mm.
   const G4double DZ_PW_DOWN = (118-50.0)*mm;
   const G4double STANG_PW = 0.*deg;
@@ -916,7 +915,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 				       EDANG_PW);
 
   G4LogicalVolume* logicDetectorPW = new G4LogicalVolume(solidDetectorPW,
-							 mat_air,
+							 mat_Vacuum,
 							 G4String(fullNamePW.c_str()));
   //logicDetectorPW->SetVisAttributes(new G4VisAttributes(G4Color::Blue()));
 
@@ -968,10 +967,8 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   /// Target holder Sidewall1///
 
   // param //
-  //const G4double RIN_TargetHolder_SideWall1 = (80.0/2.0-1.5)*mm;
-  //const G4double ROUT_TargetHolder_SideWall1= 80.0/2.0*mm;
   const G4double RIN_TargetHolder_SideWall1 = (65.0/2.0)*mm;
-  const G4double RIN_TargetHolder_SideWall1 = (65.0/2.0+1.0)*mm;
+  const G4double ROUT_TargetHolder_SideWall1 = (65.0/2.0+1.0)*mm;
   const G4double DZ_TargetHolder_SideWall1 = 418.0/2.0*mm;
   const G4double STANG_TargetHolder_SideWall1 = 0.*deg;
   const G4double EDANG_TargetHolder_SideWall1 = 360.*deg;
@@ -1354,7 +1351,7 @@ void DetectorConstruction::MakeHypTPC2(G4VPhysicalVolume *pMother, G4ThreeVector
   /// Target hole ///
   // param //
   const G4double RIN_TH = 0.0*mm;
-  const G4double ROUT_TH= 80.0/2.0*mm;
+  const G4double ROUT_TH= 65.0/2.0+1.0*mm;
   const G4double DZ_TH  = (418.0)/2.0*mm; // target tpc center (y-axis), up 350 mm, down 68 mm.
   const G4double STANG_TH = 0.*deg;
   const G4double EDANG_TH = 360.*deg;
