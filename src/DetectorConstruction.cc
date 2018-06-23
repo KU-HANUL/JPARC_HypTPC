@@ -71,7 +71,7 @@ G4MagneticField * DetectorConstruction::MakeUniformMagField( G4double fieldValue
   G4MagneticField *field=0;
   G4FieldManager* fieldMan = G4TransportationManager::GetTransportationManager()->GetFieldManager();
   if( fieldValue!=0. )
-    {
+    { 
       field = new G4UniformMagField( G4ThreeVector( 0., fieldValue , 0. ));
       fieldMan->CreateChordFinder( field );
     }
@@ -84,7 +84,7 @@ G4MagneticField * DetectorConstruction::MakeUniformMagField( G4double fieldValue
 G4MagneticField * DetectorConstruction::MakeMagFieldFromMap( const std::string & filename,
 							     double NormFac )
 {
-
+  
   G4MagneticField *field = new SCField( filename, NormFac );
   G4FieldManager *fieldManager = G4TransportationManager::GetTransportationManager()->GetFieldManager();
   fieldManager->SetDetectorField( field );
@@ -105,21 +105,21 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   mat_p10 = mList_->P10Gas;
   mat_C = mList_->C;
   mat_LH2 = mList_->LiqH2;
+  //mat_Scin = mList_->Scin;
   mat_Scin = mList_->BC404;
   mat_G10 = mList_->G10;
   mat_Mylar = mList_->Mylar;
-  mat_Vacuum = mList_->Vacuum;
 
   //field_=MakeUniformMagField( 1.0*tesla );
-
+  
   ConfMan *confMan = ConfMan::GetConfManager();
   //int GeomFlag = confMan->GeomFlag();
 
-  //world volume
+  //world volume                                                                                        
   G4LogicalVolume* logicWorld = new G4LogicalVolume( new G4Box("World", 5*m/2, 5*m/2, 5*m/2), NistMan->FindOrBuildMaterial("G4_Galactic"), "World");
   logicWorld->SetVisAttributes(G4VisAttributes::Invisible);
   G4VPhysicalVolume* physiWorld = new G4PVPlacement(0,G4ThreeVector(),logicWorld,"World",0,false,0);
-
+  
   if(confMan->ExistField())
     {
       double fieldscale = confMan->GetFieldScale();
@@ -130,7 +130,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     {
       field_=MakeUniformMagField( 0.8*tesla );
     }
-
+  
 
   G4ThreeVector TPCPos ( 0.0, 0.0, 0.0*mm);
   G4RotationMatrix TPCRot;
@@ -138,7 +138,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   TPCRot.rotateY(90.*deg);
   const G4double target_offset = 143.*mm;
   const G4double DZ_Target = 15.*mm;
-  const G4double DZ_TargetHolder  = 295.*mm; // in old code 310.*mm. it is placed out of TPC Frame.
+  const G4double DZ_TargetHolder  = 295.*mm; // in old code 310.*mm. it is placed out of TPC Frame.   
   //G4ThreeVector TargetPos ( 0., target_offset , (DZ_TargetHolder/2.));// for C target
   G4ThreeVector TargetPos ( 0., target_offset , 91.0);// for LH2 target
   //G4ThreeVector TargetPos ( 0., 0., 0.);
@@ -153,20 +153,21 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   ///MakeHypTPC( physiWorld, TPCPos, TPCRot  );
   MakeHypTPC2( physiWorld, TPCPos, TPCRot  );
   ///MakeTarget( physiWorld, TargetPos, TargetRot );
-  MakeTargetH( physiWorld, TargetPos, TargetRot );
 
+  MakeTargetH( physiWorld, TargetPos, TargetRot );
+  
   G4ThreeVector TargetDummyPos ( 0., 0., -143.0);// for LH2 target
   //G4ThreeVector TargetDummyPos ( 0., 0., -650.0);// for LH2 target
   G4RotationMatrix TargetDummyRot;
   //MakeTargetDummy( physiWorld, TargetDummyPos, TargetDummyRot );
 
-
+  
   return physiWorld;
 }
 
 void DetectorConstruction::MakeSCMagnet(G4VPhysicalVolume *pMother)
 {
-  /// SCMagnet Core ///
+  /// SCMagnet Core ///                                                                                      
   //  parameters  //
   G4double size_core_Width[4];
   size_core_Width[0] = 1550*mm;
@@ -253,12 +254,12 @@ void DetectorConstruction::MakeSCMagnet(G4VPhysicalVolume *pMother)
 					  size_core_SideGap[i]/2.,
 					  size_core_Gap[i]/2.);
       solidTubeCF[i]          = new G4Tubs(G4String((fullNameCore+Form("_Hole_%d",i)).c_str()),
-					   0,
-					   size_core_Rad[i],
-					   2000*mm,
-					   0,
+					   0, 
+					   size_core_Rad[i], 
+					   2000*mm, 
+					   0, 
 					   2.*M_PI*rad);
-
+      
       solidBoxCF_subCorner[i] = new G4SubtractionSolid(G4String((fullNameCore+Form("_SubCorner_%d",i)).c_str()),
 						       solidBoxCF_subOuter[i],
 						       solidBoxCF_subInner[i],
@@ -280,44 +281,44 @@ void DetectorConstruction::MakeSCMagnet(G4VPhysicalVolume *pMother)
 						       rot,
 						       G4ThreeVector(0,-size_core_center_sub_position,0));
       solidBoxCF_Chamber[i]   = new G4SubtractionSolid(G4String((fullNameCore+Form("_Chamber_%d",i)).c_str())  ,
-						       solidBoxCF_subSide_2[i],
+						       solidBoxCF_subSide_2[i], 
 						       solidTubeCF[i],
-						       0,
+						       0, 
 						       G4ThreeVector(0,0,0));
     }
-
-  G4SubtractionSolid* SolidCF1 = new G4SubtractionSolid(G4String((fullNameCore+"_Solid_1").c_str()),
-							solidBoxCF_Chamber[0],
-							solidBoxCF_Chamber[1],
-							0,
+  
+  G4SubtractionSolid* SolidCF1 = new G4SubtractionSolid(G4String((fullNameCore+"_Solid_1").c_str()), 
+							solidBoxCF_Chamber[0], 
+							solidBoxCF_Chamber[1], 
+							0, 
 							G4ThreeVector(0,0,0));
-  G4SubtractionSolid* SolidCF2 = new G4SubtractionSolid(G4String((fullNameCore+"_Solid_2").c_str()),
-							solidBoxCF_Chamber[2],
-							solidBoxCF_Chamber[3],
-							0,
+  G4SubtractionSolid* SolidCF2 = new G4SubtractionSolid(G4String((fullNameCore+"_Solid_2").c_str()), 
+							solidBoxCF_Chamber[2], 
+							solidBoxCF_Chamber[3], 
+							0, 
 							G4ThreeVector(0,0,0));
-  G4UnionSolid* solidDetectorCF = new G4UnionSolid(G4String((fullNameCore).c_str()),
-						   SolidCF1, SolidCF2,
-						   0,
+  G4UnionSolid* solidDetectorCF = new G4UnionSolid(G4String((fullNameCore).c_str()), 
+						   SolidCF1, SolidCF2, 
+						   0, 
 						   G4ThreeVector(0,0,0));
-
-  G4LogicalVolume* logicDetectorCF = new G4LogicalVolume(solidDetectorCF,
-							 NistMan->FindOrBuildMaterial("G4_Fe"),
+  
+  G4LogicalVolume* logicDetectorCF = new G4LogicalVolume(solidDetectorCF, 
+							 NistMan->FindOrBuildMaterial("G4_Fe"), 
 							 G4String(fullNameCore.c_str()));
-  logicDetectorCF->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
-
+  logicDetectorCF->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
+  
   G4RotationMatrix rot_CoreFrame;
   rot_CoreFrame.rotateX(90.*deg);
-  G4VPhysicalVolume *phys_SDMaget_CoreFrame = new G4PVPlacement(G4Transform3D(rot_CoreFrame,
-									      G4ThreeVector(0, 0, 0)),
-								G4String(fullNameCore.c_str()),
-								logicDetectorCF,
-								pMother,
-								false,
+  G4VPhysicalVolume *phys_SDMaget_CoreFrame = new G4PVPlacement(G4Transform3D(rot_CoreFrame, 
+									      G4ThreeVector(0, 0, 0)), 
+								G4String(fullNameCore.c_str()), 
+								logicDetectorCF, 
+								pMother, 
+								false, 
 								0);
 
   ///      ///
-
+  
   /// SCCoil Support ///
   // param //
   G4double CoilSupPos_height = 250*mm;
@@ -329,43 +330,43 @@ void DetectorConstruction::MakeSCMagnet(G4VPhysicalVolume *pMother)
   G4double GapHeight = 62*mm;
   std::string fullNameCoilSup = "SCCoilSup";
   // //
-  G4Tubs* solidTube_Sup = new G4Tubs(G4String((fullNameCoilSup+"Main")).c_str(),
+  G4Tubs* solidTube_Sup = new G4Tubs(G4String((fullNameCoilSup+"Main")).c_str(), 
 				     RadIn,
 				     RadOut,
 				     SupHeight/2.,
 				     0,
 				     360*deg);
-  G4Tubs* solidTube_Sub = new G4Tubs(G4String((fullNameCoilSup+"Sub")).c_str(),
+  G4Tubs* solidTube_Sub = new G4Tubs(G4String((fullNameCoilSup+"Sub")).c_str(), 
 				     GapRadIn,
 				     GapRadOut+20*mm,
 				     GapHeight/2.,
 				     0,
 				     360*deg);
-  G4SubtractionSolid* solidDetectorCS = new G4SubtractionSolid( G4String((fullNameCoilSup).c_str()),
-								solidTube_Sup,
-								solidTube_Sub,
-								0,
+  G4SubtractionSolid* solidDetectorCS = new G4SubtractionSolid( G4String((fullNameCoilSup).c_str()), 
+								solidTube_Sup, 
+								solidTube_Sub, 
+								0, 
 								G4ThreeVector(0,0,0));
 
-  G4LogicalVolume* logicDetectorCS = new G4LogicalVolume(solidDetectorCS,
-							 NistMan->FindOrBuildMaterial("G4_Fe"),
+  G4LogicalVolume* logicDetectorCS = new G4LogicalVolume(solidDetectorCS, 
+							 NistMan->FindOrBuildMaterial("G4_Fe"), 
 							 G4String(fullNameCoilSup.c_str()));
 
   logicDetectorCS->SetVisAttributes(new G4VisAttributes(G4Color::Blue()));
 
   G4RotationMatrix rot_CoilSupport;
   rot_CoilSupport.rotateX(90.*deg);
-
-  G4VPhysicalVolume *phys_SDCoilSupport_Up =   new G4PVPlacement(G4Transform3D(rot_CoilSupport, G4ThreeVector(0, CoilSupPos_height, 0)),
-								 G4String((fullNameCoilSup+"Up")).c_str(),
-								 logicDetectorCS,
-								 pMother,
-								 false,
+  
+  G4VPhysicalVolume *phys_SDCoilSupport_Up =   new G4PVPlacement(G4Transform3D(rot_CoilSupport, G4ThreeVector(0, CoilSupPos_height, 0)), 
+								 G4String((fullNameCoilSup+"Up")).c_str(), 
+								 logicDetectorCS, 
+								 pMother, 
+								 false, 
 								 0);
-  G4VPhysicalVolume *phys_SDCoilSupport_Down =   new G4PVPlacement(G4Transform3D(rot_CoilSupport, G4ThreeVector(0, -CoilSupPos_height, 0)),
-								   G4String((fullNameCoilSup+"Down")).c_str(),
-								   logicDetectorCS, pMother,
-								   false,
+  G4VPhysicalVolume *phys_SDCoilSupport_Down =   new G4PVPlacement(G4Transform3D(rot_CoilSupport, G4ThreeVector(0, -CoilSupPos_height, 0)), 
+								   G4String((fullNameCoilSup+"Down")).c_str(), 
+								   logicDetectorCS, pMother, 
+								   false, 
 								   0);
   /// ///
 
@@ -441,12 +442,12 @@ void DetectorConstruction::MakeHypTPC(G4VPhysicalVolume *pMother, G4ThreeVector 
 						 z_PW,
 						 rmin_PW,
 						 rmax_PW);
-
+  
   G4LogicalVolume* logicDetectorPW = new G4LogicalVolume(solidDetectorPW,
 							 mat_air,
 							 G4String(fullNamePW.c_str()));
 
-  logicDetectorPW->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
+  logicDetectorPW->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
 
   // position //
   G4RotationMatrix rot_PW = rot;
@@ -482,7 +483,7 @@ void DetectorConstruction::MakeHypTPC(G4VPhysicalVolume *pMother, G4ThreeVector 
 						 z_FC,
 						 rmin_FC,
 						 rmax_FC);
-
+  
   G4LogicalVolume* logicDetectorFC = new G4LogicalVolume(solidDetectorFC,
 							 mat_p10,
 							 G4String(fullNameFC.c_str()));
@@ -496,7 +497,7 @@ void DetectorConstruction::MakeHypTPC(G4VPhysicalVolume *pMother, G4ThreeVector 
 							     false,
 							     0);
   /// ///
-
+  
   /// TPC frame ///
   // param //
   const G4double STANG_TPC     = 22.5*deg;
@@ -507,7 +508,7 @@ void DetectorConstruction::MakeHypTPC(G4VPhysicalVolume *pMother, G4ThreeVector 
   const G4double ROUT_TPC      = 574./2.*mm;
   const G4double DZ_TPC_OFFSET = 0.*mm;
   std::string fullNameTPC = "TPC_Frame";
-
+  
   double z_TPC[2] = {-DZ_TPC/2.,DZ_TPC/2.};
   double rmin_TPC[2] = {RIN_TPC, RIN_TPC};
   double rmax_TPC[2] = {ROUT_TPC, ROUT_TPC};
@@ -519,11 +520,11 @@ void DetectorConstruction::MakeHypTPC(G4VPhysicalVolume *pMother, G4ThreeVector 
 						  z_TPC,
 						  rmin_TPC,
 						  rmax_TPC);
-
+  
   G4LogicalVolume* logicDetectorTPC = new G4LogicalVolume(solidDetectorTPC,
 							  mat_p10,
 							  G4String(fullNameTPC.c_str()));
-  logicDetectorTPC->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
+  logicDetectorTPC->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
   G4RotationMatrix rot_TPC;
   //rot_TPC.rotateX(-90.*deg);
   G4VPhysicalVolume *Phys_TPC = new G4PVPlacement(G4Transform3D(rot_TPC, G4ThreeVector(0, 0, 0)),
@@ -536,61 +537,61 @@ void DetectorConstruction::MakeHypTPC(G4VPhysicalVolume *pMother, G4ThreeVector 
 
   /// TPC PAD ///
   // Parameter //
-  // PadParameter :
-  // [0]: RingID
-  // [1]: Number of pads in a ring
-  // [2]: Center radius
-  // [3]: dTheta of a pad
-  // [4]: Start angle of ring
-  // [5]: length of a pad
-  const double PadParameter[32][6] = {
-    {0,         48,     14.5,   7.5     ,0.     ,9.},
-    {1,         48,     24.,    7.5     ,0.     ,9.},
-    {2,         72,     33.5,   5.      ,0.     ,9.},
-    {3,         96,     43.,    3.75    ,0.     ,9.},
-    {4,         120,    52.5,   3.      ,0.     ,9.},
-    {5,         144,    62.,    2.5     ,0.     ,9.},
-    {6,         168,    71.5,   2.14286 ,0.     ,9.},
-    {7,         192,    81.,    1.875   ,0.     ,9.},
-    {8,         216,    90.5,   1.66667 ,0.     ,9.},
-    {9,         240,    100.,   1.5     ,0.     ,9.},
-    {10,        208,    111.25, 1.49375 ,24.65  ,12.5},
-    {11,        218,    124.25, 1.32844 ,35.2   ,12.5},
-    {12,        230,    137.25, 1.2     ,42     ,12.5},
-    {13,        214,    150.25, 1.09093 ,63.27  ,12.5},
-    {14,        212,    163.25, 1.      ,74     ,12.5},
-    {15,        214,    176.25, 0.923084,       81.23   ,12.5},
-    {16,        220,    189.25, 0.857182,       85.71   ,12.5},
-    {17,        224,    202.25, 0.801786,       90.2    ,12.5},
-    {18,        232,    215.25, 0.751552,       92.82   ,12.5},
-    {19,        238,    228.25, 0.707227,       95.84   ,12.5},
-    {20,        244,    241.25, 0.667869,       98.52   ,12.5},
-    {21,        232,    254.25, 0.632672,       106.61  ,12.5},
-    {22,        218,    267.25, 0.60101 ,       114.49  ,12.5},
-    {23,        210,    280.25, 0.573238,       119.81  ,12.5},
-    {24,        206,    293.25, 0.547111,       123.648 ,12.5},
-    {25,        202,    306.25, 0.523267,       127.15  ,12.5},
-    {26,        200,    319.25, 0.5014  ,       129.86  ,12.5},
-    {27,        196,    332.25, 0.481327,       132.83  ,12.5},
-    {28,        178,    345.25, 0.463371,       138.76  ,12.5},
-    {29,        130,    358.25, 0.446154,       151     ,12.5},
-    {30,        108,    371.25, 0.430185,       156.77  ,12.5},
-    {31,        90,     384.25, 0.415333,       161.31  ,12.5}};
-
-
+  // PadParameter :                                                                                           
+  // [0]: RingID                                                                                              
+  // [1]: Number of pads in a ring                                                                            
+  // [2]: Center radius                                                                                       
+  // [3]: dTheta of a pad                                                                                     
+  // [4]: Start angle of ring                                                                                 
+  // [5]: length of a pad                                                                                     
+  const double PadParameter[32][6] = {                                                                        
+    {0,         48,     14.5,   7.5     ,0.     ,9.},                                                         
+    {1,         48,     24.,    7.5     ,0.     ,9.},                                                         
+    {2,         72,     33.5,   5.      ,0.     ,9.},                                                         
+    {3,         96,     43.,    3.75    ,0.     ,9.},                                                         
+    {4,         120,    52.5,   3.      ,0.     ,9.},                                                         
+    {5,         144,    62.,    2.5     ,0.     ,9.},                                                         
+    {6,         168,    71.5,   2.14286 ,0.     ,9.},                                                         
+    {7,         192,    81.,    1.875   ,0.     ,9.},                                                         
+    {8,         216,    90.5,   1.66667 ,0.     ,9.},                                                         
+    {9,         240,    100.,   1.5     ,0.     ,9.},                                                         
+    {10,        208,    111.25, 1.49375 ,24.65  ,12.5},                                                       
+    {11,        218,    124.25, 1.32844 ,35.2   ,12.5},                                                       
+    {12,        230,    137.25, 1.2     ,42     ,12.5},                                                       
+    {13,        214,    150.25, 1.09093 ,63.27  ,12.5},                                                       
+    {14,        212,    163.25, 1.      ,74     ,12.5},                                                       
+    {15,        214,    176.25, 0.923084,       81.23   ,12.5},                                               
+    {16,        220,    189.25, 0.857182,       85.71   ,12.5},                                               
+    {17,        224,    202.25, 0.801786,       90.2    ,12.5},                                               
+    {18,        232,    215.25, 0.751552,       92.82   ,12.5},                                               
+    {19,        238,    228.25, 0.707227,       95.84   ,12.5},                                               
+    {20,        244,    241.25, 0.667869,       98.52   ,12.5},                                               
+    {21,        232,    254.25, 0.632672,       106.61  ,12.5},                                               
+    {22,        218,    267.25, 0.60101 ,       114.49  ,12.5},                                               
+    {23,        210,    280.25, 0.573238,       119.81  ,12.5},                                               
+    {24,        206,    293.25, 0.547111,       123.648 ,12.5},                                               
+    {25,        202,    306.25, 0.523267,       127.15  ,12.5},                                               
+    {26,        200,    319.25, 0.5014  ,       129.86  ,12.5},                                               
+    {27,        196,    332.25, 0.481327,       132.83  ,12.5},                                               
+    {28,        178,    345.25, 0.463371,       138.76  ,12.5},                                     
+    {29,        130,    358.25, 0.446154,       151     ,12.5},                                               
+    {30,        108,    371.25, 0.430185,       156.77  ,12.5},                                               
+    {31,        90,     384.25, 0.415333,       161.31  ,12.5}};              
+  
+  
   //const G4double Rad_out = 33.6*mm; //for C target
-  const G4double Rad_out = 80.0/2.0*mm; //for LH2 target
-  //const G4double DZ_pad_under_target = 240*mm;
-  const G4double DZ_pad_under_target = (275-118)*mm; //for LH2 target
-  const G4double DZ_pad_normal_target= 550*mm;
+  const G4double Rad_out = 80.0/2.0*mm; //for LH2 target                                                                          
+  //const G4double DZ_pad_under_target = 240*mm;                                                                
+  const G4double DZ_pad_under_target = (275-118)*mm; //for LH2 target                                                                
+  const G4double DZ_pad_normal_target= 550*mm;                                                                
   //const G4double PZ_pad_under_target = 155*mm; //for C target
   const G4double PZ_pad_under_target = DZ_pad_normal_target/2.0 - DZ_pad_under_target/2.0; //for LH2 target
-  const G4double PZ_pad_normal_target= 0*mm;
+  const G4double PZ_pad_normal_target= 0*mm;                                                                    
   const G4double tpc_centerOffset = 143.*mm;
   std::string fullNameTPCpad = "TPC_Pad";
   // //
-
-  int padID = 0;
+  
+  int padID = 0;                                                                                              
   G4VPhysicalVolume *tpc_ring[32];
   G4Tubs *solidTube[32];
   G4LogicalVolume *logicDetectorTPCpad[32];
@@ -599,51 +600,51 @@ void DetectorConstruction::MakeHypTPC(G4VPhysicalVolume *pMother, G4ThreeVector 
   G4SDManager *SDMan = G4SDManager::GetSDMpointer();
   TpcSD *tpcSD = new TpcSD( "/TPC/Tpc" );
   SDMan->AddNewDetector( tpcSD );
-  //logicDetectorTPC->SetSensitiveDetector( tpcSD );
-
+  //logicDetectorTPC->SetSensitiveDetector( tpcSD );      
+    
   for( int i = 0; i< 32; i++)
-    {
-      padID = i;
-      G4double RMIN_pad = (PadParameter[i][2] - PadParameter[i][3]/2.)*mm;
-      G4double RMAX_pad = (PadParameter[i][2] + PadParameter[i][3]/2.)*mm;
-      G4double PZ_TPCPAD= 0;
-      G4double DZ_TPCPAD= 0;
+    {                                                                                
+      padID = i;                                                                                                
+      G4double RMIN_pad = (PadParameter[i][2] - PadParameter[i][3]/2.)*mm;                                      
+      G4double RMAX_pad = (PadParameter[i][2] + PadParameter[i][3]/2.)*mm;                                      
+      G4double PZ_TPCPAD= 0;                                                                                    
+      G4double DZ_TPCPAD= 0;                                                                                    
       if( RMIN_pad < Rad_out )
-	{
-	  DZ_TPCPAD = DZ_pad_under_target;
-	  PZ_TPCPAD = PZ_pad_under_target;
+	{                                                                                 
+	  DZ_TPCPAD = DZ_pad_under_target;                                                                        
+	  PZ_TPCPAD = PZ_pad_under_target;                                                                        
 	}
       else
-	{
-	  DZ_TPCPAD = DZ_pad_normal_target;
-	  PZ_TPCPAD = PZ_pad_normal_target;
-	}
-
+	{                                                                                                    
+	  DZ_TPCPAD = DZ_pad_normal_target;                                                                       
+	  PZ_TPCPAD = PZ_pad_normal_target;                                                                       
+	}                                                                                                         
+      
       if( i < 10 )
-	{
-	  solidTube[i] = new G4Tubs(G4String((fullNameTPCpad+Form("_%d",i)).c_str()),
+	{                                                                                             
+	  solidTube[i] = new G4Tubs(G4String((fullNameTPCpad+Form("_%d",i)).c_str()), 
 				    RMIN_pad,
 				    RMAX_pad,
 				    DZ_TPCPAD/2.,
 				    0,
-				    360*deg);
+				    360*deg);                                                          
 	}
       else
-	{
-	  solidTube[i] = new G4Tubs(G4String((fullNameTPCpad+Form("_%d",i)).c_str()),
+	{                                                                                                    
+	  solidTube[i] = new G4Tubs(G4String((fullNameTPCpad+Form("_%d",i)).c_str()), 
 					     RMIN_pad,
 					     RMAX_pad,
 					     DZ_TPCPAD/2.,
 					     (PadParameter[i][4]+90)*deg,
-					     (PadParameter[i][3]*PadParameter[i][1])*deg);
-	}
-
-      logicDetectorTPCpad[i] = new G4LogicalVolume(solidTube[i],
-						   mat_p10,
+					     (PadParameter[i][3]*PadParameter[i][1])*deg);                           
+	} 
+      
+      logicDetectorTPCpad[i] = new G4LogicalVolume(solidTube[i], 
+						   mat_p10, 
 						   G4String((fullNameTPCpad+Form("_%d",i)).c_str()));
-
-      logicDetectorTPCpad[i]->SetVisAttributes(new G4VisAttributes(G4Color::Yellow()));
-
+      
+      logicDetectorTPCpad[i]->SetVisAttributes(new G4VisAttributes(G4Color::Yellow()));                             
+      
       G4RotationMatrix rot_TPCpad;
       rot_TPCpad.rotateZ( -90.*deg );
       G4ThreeVector TVTPCpad ( 0, tpc_centerOffset, -PZ_TPCPAD);
@@ -654,7 +655,7 @@ void DetectorConstruction::MakeHypTPC(G4VPhysicalVolume *pMother, G4ThreeVector 
 				      Phys_TPC,
 				      false,
 				      i);
-      logicDetectorTPCpad[i]->SetSensitiveDetector( tpcSD );
+      logicDetectorTPCpad[i]->SetSensitiveDetector( tpcSD );      
     }
 
 }
@@ -668,19 +669,19 @@ void DetectorConstruction::MakeTarget(G4VPhysicalVolume *pMother, G4ThreeVector 
   // param //
   const G4double RIN_PW = 0.0*mm;
   const G4double ROUT_PW= 17.0*mm;
-  const G4double DZ_PW  = 310.0*mm; // in old code 310.*mm. it is placed out of TPC Frame.
+  const G4double DZ_PW  = 310.0*mm; // in old code 310.*mm. it is placed out of TPC Frame.   
   const G4double STANG_PW = 0.*deg;
   const G4double EDANG_PW = 360.*deg;
   std::string fullNamePW = "Target_PhysicsWorld";
   // //
-
+  
   G4Tubs* solidDetectorPW = new G4Tubs(G4String(fullNamePW.c_str()),
 				       RIN_PW,
 				       ROUT_PW,
 				       DZ_PW/2.,
 				       STANG_PW,
 				       EDANG_PW);
-
+  
   G4LogicalVolume* logicDetectorPW = new G4LogicalVolume(solidDetectorPW,
 							 mat_air,
 							 G4String(fullNamePW.c_str()));
@@ -701,7 +702,7 @@ void DetectorConstruction::MakeTarget(G4VPhysicalVolume *pMother, G4ThreeVector 
   const G4double DX_Target = 30.*mm;
   const G4double DY_Target = 10.*mm;
   const G4double DZ_Target = 15.*mm;
-  const G4double DZ_TargetHolder  = 295.*mm; // in old code 310.*mm. it is placed out of TPC Frame.
+  const G4double DZ_TargetHolder  = 295.*mm; // in old code 310.*mm. it is placed out of TPC Frame.   
   const G4double tpc_centerOffset = 143.*mm;
   std::string fullNameTarget = "TPC_Target";
   // //
@@ -709,7 +710,7 @@ void DetectorConstruction::MakeTarget(G4VPhysicalVolume *pMother, G4ThreeVector 
 					 DX_Target/2.,
 					 DY_Target/2.,
 					 DZ_Target/2.);
-
+  
   G4LogicalVolume* logicDetectorTarget = new G4LogicalVolume(solidDetectorTarget,
 							     mat_C,
 							     G4String(fullNameTarget.c_str()));
@@ -738,14 +739,14 @@ void DetectorConstruction::MakeTarget(G4VPhysicalVolume *pMother, G4ThreeVector 
   const G4double DZOffset_TargetHolder = DZ_TargetHolder/2. + DZ_Target/2.;
   std::string fullNameTH = "TPC_TargetHolder";
   // //
-
+  
   G4Tubs* solidDetectorTH = new G4Tubs(G4String(fullNameTH.c_str()),
 				       RIN_TargetHolder,
 				       ROUT_TargetHolder,
 				       DZ_TargetHolder/2.,
 				       STANG_TargetHolder,
 				       EDANG_TargetHolder);
-
+  
   G4LogicalVolume* logicDetectorTH = new G4LogicalVolume(solidDetectorTH,
 							 mat_p10,
 							 G4String(fullNameTH.c_str()));
@@ -765,13 +766,13 @@ void DetectorConstruction::MakeTarget(G4VPhysicalVolume *pMother, G4ThreeVector 
 							   0
 							   );
   /// ///
-
+  
   ///// Sensitive Detector /////
   G4SDManager *SDMan = G4SDManager::GetSDMpointer();
   TargetSD *targetSD = new TargetSD( "/TPC/Target" );
   SDMan->AddNewDetector( targetSD );
   logicDetectorTarget->SetSensitiveDetector( targetSD );
-
+  
 }
 
 void DetectorConstruction::MakeTOF(G4VPhysicalVolume *pMother, G4ThreeVector &pos, G4RotationMatrix &rot)
@@ -799,7 +800,7 @@ void DetectorConstruction::MakeTOF(G4VPhysicalVolume *pMother, G4ThreeVector &po
 						 z_PW,
 						 rmin_PW,
 						 rmax_PW);
-
+  
   G4LogicalVolume* logicDetectorPW = new G4LogicalVolume(solidDetectorPW,
 							 mat_air,
 							 G4String(fullNamePW.c_str()));
@@ -829,7 +830,7 @@ void DetectorConstruction::MakeTOF(G4VPhysicalVolume *pMother, G4ThreeVector &po
 				      DX_TOF/2.,
 				      DY_TOF/2.,
 				      DZ_TOF/2.);
-
+  
   G4LogicalVolume* logicDetectorTOF = new G4LogicalVolume(solidDetectorTOF,
   							  mat_Scin,
   							  G4String(fullNameTOF.c_str()));
@@ -880,10 +881,10 @@ void DetectorConstruction::MakeTOF(G4VPhysicalVolume *pMother, G4ThreeVector &po
 
 G4bool DetectorConstruction::IsVolumeStopper( G4VPhysicalVolume *physVol ) const
 {
-  // Check SksMagnet
+  // Check SksMagnet                                                                                  
   G4String name = physVol->GetName();
   if( name=="SCMagnet_CoreFrame" || name=="SCCoilSupUp" ||
-      name=="SCCoilSupDown" || name=="SCMagnet_CoilUp" || name=="SCMagnet_CoilDown" )
+      name=="SCCoilSupDown" || name=="SCMagnet_CoilUp" || name=="SCMagnet_CoilDown" ) 
     {
       //G4cout<<"particle hit: "<<name<<" Stepping action stop!"<<G4endl;
       return true;
@@ -896,26 +897,27 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 {
   // material //
 
+  //std::cout<<"Test: " << mat_C <<std::endl;
   /// Physics World ///
   // param //
   const G4double RIN_PW = 0.0*mm;
-  const G4double ROUT_PW= 65.0/2.0+1.0*mm;
-  const G4double DZ_PW  = 418.0/2.0*mm; // target tpc center (y-axis), up 350 mm, down 68 mm.
+  const G4double ROUT_PW= 80.0/2.0*mm;
+  const G4double DZ_PW  = 418.0/2.0*mm; // target tpc center (y-axis), up 350 mm, down 68 mm. 
   const G4double DZ_PW_DOWN = (118-50.0)*mm;
   const G4double STANG_PW = 0.*deg;
   const G4double EDANG_PW = 360.*deg;
   std::string fullNamePW = "Target_PhysicsWorld";
   // //
-
+  
   G4Tubs* solidDetectorPW = new G4Tubs(G4String(fullNamePW.c_str()),
 				       RIN_PW,
 				       ROUT_PW,
 				       DZ_PW,
 				       STANG_PW,
 				       EDANG_PW);
-
+  
   G4LogicalVolume* logicDetectorPW = new G4LogicalVolume(solidDetectorPW,
-							 mat_Vacuum,
+							 mat_air,
 							 G4String(fullNamePW.c_str()));
   //logicDetectorPW->SetVisAttributes(new G4VisAttributes(G4Color::Blue()));
 
@@ -929,12 +931,13 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 							   0
 							   );
 
-
+  /// ///
+  
   /// Target ///
   // param //
   const G4double RIN_Target = 0.0*mm;
-  const G4double ROUT_Target= 54.0/2.0*mm; // target radius 54 mm
-  const G4double DZ_Target  = 100.0/2.0*mm; // target length 100 mm
+  const G4double ROUT_Target= 53.0/2.0*mm; // target radius 53 mm
+  const G4double DZ_Target  = 100.0/2.0*mm; // target length 100 mm   
   const G4double STANG_Target = 0.*deg;
   const G4double EDANG_Target = 360.*deg;
   std::string fullNameTarget = "TPC_Target";
@@ -945,7 +948,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 					   DZ_Target,
 					   STANG_Target,
 					   EDANG_Target);
-
+  
   G4LogicalVolume* logicDetectorTarget = new G4LogicalVolume(solidDetectorTarget,
 							     mat_LH2,
 							     G4String(fullNameTarget.c_str()));
@@ -954,7 +957,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 
   G4RotationMatrix rot_Target;
   G4ThreeVector TVTarget ( 0, 0, -(DZ_PW - DZ_PW_DOWN - DZ_Target));
-
+  
   G4VPhysicalVolume *Phys_Target = new G4PVPlacement(G4Transform3D(rot_Target, TVTarget),
 						     G4String(fullNameTarget.c_str()),
 						     logicDetectorTarget,
@@ -962,16 +965,36 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 						     false,
 						     0
 						     );
-
+  
   /// Target holder Sidewall1///
+
   // param //
-  const G4double RIN_TargetHolder_SideWall1 = (65.0/2.0)*mm;
-  const G4double ROUT_TargetHolder_SideWall1 = (65.0/2.0+1.0)*mm;
+  const G4double RIN_TargetHolder_SideWall1 = (80.0/2.0-1.5)*mm;
+  const G4double ROUT_TargetHolder_SideWall1= 80.0/2.0*mm;
   const G4double DZ_TargetHolder_SideWall1 = 418.0/2.0*mm;
   const G4double STANG_TargetHolder_SideWall1 = 0.*deg;
   const G4double EDANG_TargetHolder_SideWall1 = 360.*deg;
+  const G4double EDANG_TargetHolder_SideWall1_Window = 26.0*deg;
+  const G4double STANG_TargetHolder_SideWall1_Window = (-270.0- EDANG_TargetHolder_SideWall1_Window/deg/2.0)*deg;
+  const G4double ANG_TargetHolder_SideWall1_Window = 28.0*deg;
+  //const G4double DZ_Window = DZ_TargetHolder_SideWall1+1.0;
+  const G4double DZ_Window = DZ_Target;
   std::string fullNameTHSW1 = "TPC_TargetHolder_SideWall1";
+  std::string fullNameTHSW1_Window = "TPC_TargetHolder_SideWall1_Window";
 
+  G4ThreeVector TVTHSW1_Window (TVTarget);
+  //G4ThreeVector TVTHSW1_Window;
+  // //
+
+  // Making window to SideWall1 //
+  // Window SideWall1 //
+  G4Tubs* solidDetectorTHSW1_Window1 = new G4Tubs(G4String(fullNameTHSW1_Window.c_str()),
+						  RIN_TargetHolder_SideWall1-1,
+						  ROUT_TargetHolder_SideWall1+1,
+						  DZ_Window,
+						  STANG_TargetHolder_SideWall1_Window,
+						  EDANG_TargetHolder_SideWall1_Window);
+  // //
   G4Tubs* solidDetectorTHSW1 = new G4Tubs(G4String(fullNameTHSW1.c_str()),
 					  RIN_TargetHolder_SideWall1,
 					  ROUT_TargetHolder_SideWall1,
@@ -979,10 +1002,145 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 					  STANG_TargetHolder_SideWall1,
 					  EDANG_TargetHolder_SideWall1);
 
-  G4LogicalVolume* logicDetectorTHSW1 = new G4LogicalVolume(solidDetectorTHSW1,
+  G4VSolid* solidDetectorTHSW1_sub1 = new G4SubtractionSolid("Wall-Window1",
+							    solidDetectorTHSW1,
+							    solidDetectorTHSW1_Window1,
+							    0,
+							    TVTHSW1_Window
+							    );
+  
+  G4Tubs* solidDetectorTHSW1_Window2 = new G4Tubs(G4String(fullNameTHSW1_Window.c_str()),
+						  RIN_TargetHolder_SideWall1-1,
+						  ROUT_TargetHolder_SideWall1+1,
+						  DZ_Window,
+						  STANG_TargetHolder_SideWall1_Window-2*ANG_TargetHolder_SideWall1_Window,
+						  EDANG_TargetHolder_SideWall1_Window);
+  
+  G4VSolid* solidDetectorTHSW1_sub2 = new G4SubtractionSolid("Wall-Window2",
+							     solidDetectorTHSW1_sub1,
+							     solidDetectorTHSW1_Window2,
+							     0,
+							     TVTHSW1_Window
+							     );
+  
+  G4Tubs* solidDetectorTHSW1_Window3 = new G4Tubs(G4String(fullNameTHSW1_Window.c_str()),
+						  RIN_TargetHolder_SideWall1-1,
+						  ROUT_TargetHolder_SideWall1+1,
+						  DZ_Window,
+						  STANG_TargetHolder_SideWall1_Window-ANG_TargetHolder_SideWall1_Window,
+						  EDANG_TargetHolder_SideWall1_Window);
+
+  G4VSolid* solidDetectorTHSW1_sub3 = new G4SubtractionSolid("Wall-Window3",
+							     solidDetectorTHSW1_sub2,
+							     solidDetectorTHSW1_Window3,
+							     0,
+							     TVTHSW1_Window
+							     );
+
+  G4Tubs* solidDetectorTHSW1_Window4 = new G4Tubs(G4String(fullNameTHSW1_Window.c_str()),
+						  RIN_TargetHolder_SideWall1-1,
+						  ROUT_TargetHolder_SideWall1+1,
+						  DZ_Window,
+						  STANG_TargetHolder_SideWall1_Window+ ANG_TargetHolder_SideWall1_Window,
+						  EDANG_TargetHolder_SideWall1_Window);
+
+  G4VSolid* solidDetectorTHSW1_sub4 = new G4SubtractionSolid("Wall-Window4",
+							     solidDetectorTHSW1_sub3,
+							     solidDetectorTHSW1_Window4,
+							     0,
+							     TVTHSW1_Window
+							     );
+  
+  G4Tubs* solidDetectorTHSW1_Window5 = new G4Tubs(G4String(fullNameTHSW1_Window.c_str()),
+						  RIN_TargetHolder_SideWall1-1,
+						  ROUT_TargetHolder_SideWall1+1,
+						  DZ_Window,
+						  STANG_TargetHolder_SideWall1_Window + 2*ANG_TargetHolder_SideWall1_Window,
+						  EDANG_TargetHolder_SideWall1_Window);
+  
+  G4VSolid* solidDetectorTHSW1_sub5 = new G4SubtractionSolid("Wall-Window5",
+							     solidDetectorTHSW1_sub4,
+							     solidDetectorTHSW1_Window5,
+							     0,
+							     TVTHSW1_Window
+							     );
+  
+  G4Tubs* solidDetectorTHSW1_Window6 = new G4Tubs(G4String(fullNameTHSW1_Window.c_str()),
+						  RIN_TargetHolder_SideWall1-1,
+						  ROUT_TargetHolder_SideWall1+1,
+						  DZ_Window,
+						  STANG_TargetHolder_SideWall1_Window+180.0*degree,
+						  EDANG_TargetHolder_SideWall1_Window);
+  
+  G4VSolid* solidDetectorTHSW1_sub6 = new G4SubtractionSolid("Wall-Window6",
+							     solidDetectorTHSW1_sub5,
+							     solidDetectorTHSW1_Window6,
+							     0,
+							     TVTHSW1_Window
+							     );
+
+  G4Tubs* solidDetectorTHSW1_Window7 = new G4Tubs(G4String(fullNameTHSW1_Window.c_str()),
+						  RIN_TargetHolder_SideWall1-1,
+						  ROUT_TargetHolder_SideWall1+1,
+						  DZ_Window,
+						  STANG_TargetHolder_SideWall1_Window+180.0*degree - 2*ANG_TargetHolder_SideWall1_Window,
+						  EDANG_TargetHolder_SideWall1_Window);
+  
+  G4VSolid* solidDetectorTHSW1_sub7 = new G4SubtractionSolid("Wall-Window7",
+							     solidDetectorTHSW1_sub6,
+							     solidDetectorTHSW1_Window7,
+							     0,
+							     TVTHSW1_Window
+							     );
+
+  G4Tubs* solidDetectorTHSW1_Window8 = new G4Tubs(G4String(fullNameTHSW1_Window.c_str()),
+						  RIN_TargetHolder_SideWall1-1,
+						  ROUT_TargetHolder_SideWall1+1,
+						  DZ_Window,
+						  STANG_TargetHolder_SideWall1_Window+180.0*degree - ANG_TargetHolder_SideWall1_Window,
+						  EDANG_TargetHolder_SideWall1_Window);
+  
+  G4VSolid* solidDetectorTHSW1_sub8 = new G4SubtractionSolid("Wall-Window8",
+							     solidDetectorTHSW1_sub7,
+							     solidDetectorTHSW1_Window8,
+							     0,
+							     TVTHSW1_Window
+							     );
+
+  G4Tubs* solidDetectorTHSW1_Window9 = new G4Tubs(G4String(fullNameTHSW1_Window.c_str()),
+						  RIN_TargetHolder_SideWall1-1,
+						  ROUT_TargetHolder_SideWall1+1,
+						  DZ_Window,
+						  STANG_TargetHolder_SideWall1_Window+180.0*degree + ANG_TargetHolder_SideWall1_Window,
+						  EDANG_TargetHolder_SideWall1_Window);
+  
+  G4VSolid* solidDetectorTHSW1_sub9 = new G4SubtractionSolid("Wall-Window9",
+							     solidDetectorTHSW1_sub8,
+							     solidDetectorTHSW1_Window9,
+							     0,
+							     TVTHSW1_Window
+							     );
+
+  G4Tubs* solidDetectorTHSW1_Window10 = new G4Tubs(G4String(fullNameTHSW1_Window.c_str()),
+						  RIN_TargetHolder_SideWall1-1,
+						  ROUT_TargetHolder_SideWall1+1,
+						  DZ_Window,
+						  STANG_TargetHolder_SideWall1_Window+180.0*degree + 2*ANG_TargetHolder_SideWall1_Window,
+						  EDANG_TargetHolder_SideWall1_Window);
+  
+  G4VSolid* solidDetectorTHSW1_sub10 = new G4SubtractionSolid("Wall-Window10",
+							     solidDetectorTHSW1_sub9,
+							     solidDetectorTHSW1_Window10,
+							     0,
+							     TVTHSW1_Window
+							     );
+  
+
+
+  G4LogicalVolume* logicDetectorTHSW1 = new G4LogicalVolume(solidDetectorTHSW1_sub10,
 							    mat_G10,
 							    G4String(fullNameTHSW1.c_str()));
-  logicDetectorTHSW1->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
+  logicDetectorTHSW1->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
 
   G4RotationMatrix rot_THSW1;
   G4ThreeVector TVTHSW1 ( 0, 0, 0.);
@@ -995,29 +1153,29 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 							   0
 							   );
   /// ///
-
+ 
   /// Target holder SideWall2///
   // param //
-  const G4double RIN_TargetHolder_SideWall2 = 54.0/2.0*mm;
-  const G4double ROUT_TargetHolder_SideWall2 = (54.0/2.0+0.25)*mm;
+  const G4double RIN_TargetHolder_SideWall2= 53.0/2.0*mm;
+  const G4double ROUT_TargetHolder_SideWall2 = (53.0/2.0+0.25)*mm;
   //const G4double DZ_TargetHolder_SideWall2 = (DZ_PW*2.0-DZ_PW_DOWN-DZ_Target*2.0)/2.0*mm;
   const G4double DZ_TargetHolder_SideWall2 = (DZ_Target*2.0 + 12.0*2.0)/2.0*mm;
   const G4double STANG_TargetHolder_SideWall2 = 0.*deg;
   const G4double EDANG_TargetHolder_SideWall2 = 360.*deg;
   std::string fullNameTHSW2 = "TPC_TargetHolder_SideWall2";
   // //
-
+  
   G4Tubs* solidDetectorTHSW2 = new G4Tubs(G4String(fullNameTHSW2.c_str()),
 					  RIN_TargetHolder_SideWall2,
 					  ROUT_TargetHolder_SideWall2,
 					  DZ_TargetHolder_SideWall2,
 					  STANG_TargetHolder_SideWall2,
 					  EDANG_TargetHolder_SideWall2);
-
+  
   G4LogicalVolume* logicDetectorTHSW2 = new G4LogicalVolume(solidDetectorTHSW2,
 							    mat_Mylar,
 							    G4String(fullNameTHSW2.c_str()));
-  logicDetectorTHSW2->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
+  logicDetectorTHSW2->SetVisAttributes(new G4VisAttributes(G4Color::Cyan()));
 
   G4RotationMatrix rot_THSW2;
   //G4ThreeVector TVTHSW2 ( 0, 0, (DZ_PW_DOWN+DZ_Target*2.0)/2.0);
@@ -1041,18 +1199,18 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   const G4double EDANG_TargetHolder_SideWall3 = 360.*deg;
   std::string fullNameTHSW3 = "TPC_TargetHolder_SideWall3";
   // //
-
+  
   G4Tubs* solidDetectorTHSW3 = new G4Tubs(G4String(fullNameTHSW3.c_str()),
 					  RIN_TargetHolder_SideWall3,
 					  ROUT_TargetHolder_SideWall3,
 					  DZ_TargetHolder_SideWall3,
 					  STANG_TargetHolder_SideWall3,
 					  EDANG_TargetHolder_SideWall3);
-
+  
   G4LogicalVolume* logicDetectorTHSW3 = new G4LogicalVolume(solidDetectorTHSW3,
 							    mat_G10,
 							    G4String(fullNameTHSW3.c_str()));
-  logicDetectorTHSW3->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
+  logicDetectorTHSW3->SetVisAttributes(new G4VisAttributes(G4Color::Blue()));
 
   G4RotationMatrix rot_THSW3;
   G4ThreeVector TVTHSW3 ( 0, 0, (DZ_PW_DOWN+DZ_Target*2.0)/2.0);
@@ -1075,14 +1233,14 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   const G4double EDANG_TargetHolder_BottomPlate1 = 360.*deg;
   std::string fullNameTHBP1 = "TPC_TargetHolder_BottomPlate1";
   // //
-
+  
   G4Tubs* solidDetectorTHBP1 = new G4Tubs(G4String(fullNameTHBP1.c_str()),
 					  RIN_TargetHolder_BottomPlate1,
 					  ROUT_TargetHolder_BottomPlate1,
 					  DZ_TargetHolder_BottomPlate1,
 					  STANG_TargetHolder_BottomPlate1,
 					  EDANG_TargetHolder_BottomPlate1);
-
+  
   G4LogicalVolume* logicDetectorTHBP1 = new G4LogicalVolume(solidDetectorTHBP1,
 							    mat_G10,
 							    G4String(fullNameTHBP1.c_str()));
@@ -1109,14 +1267,14 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
   const G4double EDANG_TargetHolder_BottomPlate2 = 360.*deg;
   std::string fullNameTHBP2 = "TPC_TargetHolder_BottomPlate2";
   // //
-
+  
   G4Tubs* solidDetectorTHBP2 = new G4Tubs(G4String(fullNameTHBP2.c_str()),
 					  RIN_TargetHolder_BottomPlate2,
 					  ROUT_TargetHolder_BottomPlate2,
 					  DZ_TargetHolder_BottomPlate2,
 					  STANG_TargetHolder_BottomPlate2,
 					  EDANG_TargetHolder_BottomPlate2);
-
+  
   G4LogicalVolume* logicDetectorTHBP2 = new G4LogicalVolume(solidDetectorTHBP2,
 							    mat_G10,
 							    G4String(fullNameTHBP2.c_str()));
@@ -1136,7 +1294,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 
   /// Bottom plate3 ///
   // param //
-  const G4double RIN_TargetHolder_BottomPlate3 = 0.0*mm;
+  const G4double RIN_TargetHolder_BottomPlate3= 0.0*mm;
   const G4double ROUT_TargetHolder_BottomPlate3 = (RIN_TargetHolder_SideWall2/mm) *mm;
   const G4double DZ_TargetHolder_BottomPlate3 = DZ_TargetHolder_BottomPlate1;
   const G4double STANG_TargetHolder_BottomPlate3 = 0.*deg;
@@ -1163,7 +1321,7 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 							    solidDetectorTHBP3_hole
 							    );
 
-
+  
   G4LogicalVolume* logicDetectorTHBP3 = new G4LogicalVolume(solidDetectorTHBP3_sub,
 							    mat_G10,
 							    G4String(fullNameTHBP3.c_str()));
@@ -1180,13 +1338,13 @@ void DetectorConstruction::MakeTargetH(G4VPhysicalVolume *pMother, G4ThreeVector
 							   0
 							   );
   /// ///
-
+    
   ///// Sensitive Detector /////
   G4SDManager *SDMan = G4SDManager::GetSDMpointer();
   TargetSD *targetSD = new TargetSD( "/TPC/Target" );
   SDMan->AddNewDetector( targetSD );
   logicDetectorTarget->SetSensitiveDetector( targetSD );
-
+      
 }
 
 
@@ -1195,13 +1353,13 @@ void DetectorConstruction::MakeHypTPC2(G4VPhysicalVolume *pMother, G4ThreeVector
   /// Target hole ///
   // param //
   const G4double RIN_TH = 0.0*mm;
-  const G4double ROUT_TH= 65.0/2.0+1.0*mm;
-  const G4double DZ_TH  = (418.0)/2.0*mm; // target tpc center (y-axis), up 350 mm, down 68 mm.
+  const G4double ROUT_TH= 80.0/2.0*mm;
+  const G4double DZ_TH  = (418.0)/2.0*mm; // target tpc center (y-axis), up 350 mm, down 68 mm. 
   const G4double STANG_TH = 0.*deg;
   const G4double EDANG_TH = 360.*deg;
   std::string fullNameTH = "Target_PhysicsWorld";
   // //
-
+  
   G4Tubs* solidDetectorTH = new G4Tubs(G4String(fullNameTH.c_str()),
 				       RIN_TH,
 				       ROUT_TH,
@@ -1241,12 +1399,12 @@ void DetectorConstruction::MakeHypTPC2(G4VPhysicalVolume *pMother, G4ThreeVector
 							 0,
 							 TVTH
 							 );
-
+  
   G4LogicalVolume* logicDetectorPW = new G4LogicalVolume(solidDetectorPW_sub,
 							 mat_air,
 							 G4String(fullNamePW.c_str()));
 
-  logicDetectorPW->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
+  logicDetectorPW->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
 
   // position //
   G4RotationMatrix rot_PW = rot;
@@ -1289,7 +1447,7 @@ void DetectorConstruction::MakeHypTPC2(G4VPhysicalVolume *pMother, G4ThreeVector
 							 0,
 							 TVTH
 							 );
-
+  
   G4LogicalVolume* logicDetectorFC = new G4LogicalVolume(solidDetectorFC_sub,
 							 mat_p10,
 							 G4String(fullNameFC.c_str()));
@@ -1303,7 +1461,7 @@ void DetectorConstruction::MakeHypTPC2(G4VPhysicalVolume *pMother, G4ThreeVector
 							     false,
 							     0);
   /// ///
-
+  
   /// TPC frame ///
   // param //
   const G4double STANG_TPC     = 22.5*deg;
@@ -1314,7 +1472,7 @@ void DetectorConstruction::MakeHypTPC2(G4VPhysicalVolume *pMother, G4ThreeVector
   const G4double ROUT_TPC      = 574./2.*mm;
   const G4double DZ_TPC_OFFSET = 0.*mm;
   std::string fullNameTPC = "TPC_Frame";
-
+  
   double z_TPC[2] = {-DZ_TPC/2.,DZ_TPC/2.};
   double rmin_TPC[2] = {RIN_TPC, RIN_TPC};
   double rmax_TPC[2] = {ROUT_TPC, ROUT_TPC};
@@ -1333,11 +1491,11 @@ void DetectorConstruction::MakeHypTPC2(G4VPhysicalVolume *pMother, G4ThreeVector
 							 0,
 							 TVTH
 							 );
-
+  
   G4LogicalVolume* logicDetectorTPC = new G4LogicalVolume(solidDetectorTPC_sub,
 							  mat_p10,
 							  G4String(fullNameTPC.c_str()));
-  logicDetectorTPC->SetVisAttributes(new G4VisAttributes(G4Color::Black()));
+  logicDetectorTPC->SetVisAttributes(new G4VisAttributes(G4Color::Green()));
   G4RotationMatrix rot_TPC;
   //rot_TPC.rotateX(-90.*deg);
   G4VPhysicalVolume *Phys_TPC = new G4PVPlacement(G4Transform3D(rot_TPC, G4ThreeVector(0, 0, 0)),
@@ -1350,62 +1508,62 @@ void DetectorConstruction::MakeHypTPC2(G4VPhysicalVolume *pMother, G4ThreeVector
 
   /// TPC PAD ///
   // Parameter //
-  // PadParameter :
-  // [0]: RingID
-  // [1]: Number of pads in a ring
-  // [2]: Center radius
-  // [3]: dTheta of a pad
-  // [4]: Start angle of ring
-  // [5]: length of a pad
-  const double PadParameter[32][6] = {
-    {0,         48,     14.5,   7.5     ,0.     ,9.},
-    {1,         48,     24.,    7.5     ,0.     ,9.},
-    {2,         72,     33.5,   5.      ,0.     ,9.},
-    {3,         96,     43.,    3.75    ,0.     ,9.},
-    {4,         120,    52.5,   3.      ,0.     ,9.},
-    {5,         144,    62.,    2.5     ,0.     ,9.},
-    {6,         168,    71.5,   2.14286 ,0.     ,9.},
-    {7,         192,    81.,    1.875   ,0.     ,9.},
-    {8,         216,    90.5,   1.66667 ,0.     ,9.},
-    {9,         240,    100.,   1.5     ,0.     ,9.},
-    {10,        208,    111.25, 1.49375 ,24.65  ,12.5},
-    {11,        218,    124.25, 1.32844 ,35.2   ,12.5},
-    {12,        230,    137.25, 1.2     ,42     ,12.5},
-    {13,        214,    150.25, 1.09093 ,63.27  ,12.5},
-    {14,        212,    163.25, 1.      ,74     ,12.5},
-    {15,        214,    176.25, 0.923084,       81.23   ,12.5},
-    {16,        220,    189.25, 0.857182,       85.71   ,12.5},
-    {17,        224,    202.25, 0.801786,       90.2    ,12.5},
-    {18,        232,    215.25, 0.751552,       92.82   ,12.5},
-    {19,        238,    228.25, 0.707227,       95.84   ,12.5},
-    {20,        244,    241.25, 0.667869,       98.52   ,12.5},
-    {21,        232,    254.25, 0.632672,       106.61  ,12.5},
-    {22,        218,    267.25, 0.60101 ,       114.49  ,12.5},
-    {23,        210,    280.25, 0.573238,       119.81  ,12.5},
-    {24,        206,    293.25, 0.547111,       123.648 ,12.5},
-    {25,        202,    306.25, 0.523267,       127.15  ,12.5},
-    {26,        200,    319.25, 0.5014  ,       129.86  ,12.5},
-    {27,        196,    332.25, 0.481327,       132.83  ,12.5},
-    {28,        178,    345.25, 0.463371,       138.76  ,12.5},
-    {29,        130,    358.25, 0.446154,       151     ,12.5},
-    {30,        108,    371.25, 0.430185,       156.77  ,12.5},
-    {31,        90,     384.25, 0.415333,       161.31  ,12.5}};
-
-
+  // PadParameter :                                                                                           
+  // [0]: RingID                                                                                              
+  // [1]: Number of pads in a ring                                                                            
+  // [2]: Center radius                                                                                       
+  // [3]: dTheta of a pad                                                                                     
+  // [4]: Start angle of ring                                                                                 
+  // [5]: length of a pad                                                                                     
+  const double PadParameter[32][6] = {                                                                        
+    {0,         48,     14.5,   7.5     ,0.     ,9.},                                                         
+    {1,         48,     24.,    7.5     ,0.     ,9.},                                                         
+    {2,         72,     33.5,   5.      ,0.     ,9.},                                                         
+    {3,         96,     43.,    3.75    ,0.     ,9.},                                                         
+    {4,         120,    52.5,   3.      ,0.     ,9.},                                                         
+    {5,         144,    62.,    2.5     ,0.     ,9.},                                                         
+    {6,         168,    71.5,   2.14286 ,0.     ,9.},                                                         
+    {7,         192,    81.,    1.875   ,0.     ,9.},                                                         
+    {8,         216,    90.5,   1.66667 ,0.     ,9.},                                                         
+    {9,         240,    100.,   1.5     ,0.     ,9.},                                                         
+    {10,        208,    111.25, 1.49375 ,24.65  ,12.5},                                                       
+    {11,        218,    124.25, 1.32844 ,35.2   ,12.5},                                                       
+    {12,        230,    137.25, 1.2     ,42     ,12.5},                                                       
+    {13,        214,    150.25, 1.09093 ,63.27  ,12.5},                                                       
+    {14,        212,    163.25, 1.      ,74     ,12.5},                                                       
+    {15,        214,    176.25, 0.923084,       81.23   ,12.5},                                               
+    {16,        220,    189.25, 0.857182,       85.71   ,12.5},                                               
+    {17,        224,    202.25, 0.801786,       90.2    ,12.5},                                               
+    {18,        232,    215.25, 0.751552,       92.82   ,12.5},                                               
+    {19,        238,    228.25, 0.707227,       95.84   ,12.5},                                               
+    {20,        244,    241.25, 0.667869,       98.52   ,12.5},                                               
+    {21,        232,    254.25, 0.632672,       106.61  ,12.5},                                               
+    {22,        218,    267.25, 0.60101 ,       114.49  ,12.5},                                               
+    {23,        210,    280.25, 0.573238,       119.81  ,12.5},                                               
+    {24,        206,    293.25, 0.547111,       123.648 ,12.5},                                               
+    {25,        202,    306.25, 0.523267,       127.15  ,12.5},                                               
+    {26,        200,    319.25, 0.5014  ,       129.86  ,12.5},                                               
+    {27,        196,    332.25, 0.481327,       132.83  ,12.5},                                               
+    {28,        178,    345.25, 0.463371,       138.76  ,12.5},                                     
+    {29,        130,    358.25, 0.446154,       151     ,12.5},                                               
+    {30,        108,    371.25, 0.430185,       156.77  ,12.5},                                               
+    {31,        90,     384.25, 0.415333,       161.31  ,12.5}};              
+  
+  
   //const G4double Rad_out = 33.6*mm; //for C target
-  const G4double Rad_out = 80.0/2.0*mm; //for LH2 target
-  //const G4double Rad_out = 82.0/2.0*mm; //for LH2 target
-  //const G4double DZ_pad_under_target = 240*mm;
-  const G4double DZ_pad_under_target = (275-118)*mm; //for LH2 target
-  const G4double DZ_pad_normal_target= 550*mm;
+  const G4double Rad_out = 80.0/2.0*mm; //for LH2 target                                                                          
+  //const G4double Rad_out = 82.0/2.0*mm; //for LH2 target                                                                          
+  //const G4double DZ_pad_under_target = 240*mm;                                                                
+  const G4double DZ_pad_under_target = (275-118)*mm; //for LH2 target                                                                
+  const G4double DZ_pad_normal_target= 550*mm;                                                                
   //const G4double PZ_pad_under_target = 155*mm; //for C target
   const G4double PZ_pad_under_target = DZ_pad_normal_target/2.0 - DZ_pad_under_target/2.0; //for LH2 target
-  const G4double PZ_pad_normal_target= 0*mm;
+  const G4double PZ_pad_normal_target= 0*mm;                                                                    
   const G4double tpc_centerOffset = 143.*mm;
   std::string fullNameTPCpad = "TPC_Pad";
   // //
-
-  int padID = 0;
+  
+  int padID = 0;                                                                                              
   G4VPhysicalVolume *tpc_ring[32];
   G4Tubs *solidTube[32];
   G4LogicalVolume *logicDetectorTPCpad[32];
@@ -1414,51 +1572,51 @@ void DetectorConstruction::MakeHypTPC2(G4VPhysicalVolume *pMother, G4ThreeVector
   G4SDManager *SDMan = G4SDManager::GetSDMpointer();
   TpcSD *tpcSD = new TpcSD( "/TPC/Tpc" );
   SDMan->AddNewDetector( tpcSD );
-  //logicDetectorTPC->SetSensitiveDetector( tpcSD );
-
+  //logicDetectorTPC->SetSensitiveDetector( tpcSD );      
+    
   for( int i = 0; i< 32; i++)
-    {
-      padID = i;
-      G4double RMIN_pad = (PadParameter[i][2] - PadParameter[i][3]/2.)*mm;
-      G4double RMAX_pad = (PadParameter[i][2] + PadParameter[i][3]/2.)*mm;
-      G4double PZ_TPCPAD= 0;
-      G4double DZ_TPCPAD= 0;
+    {                                                                                
+      padID = i;                                                                                                
+      G4double RMIN_pad = (PadParameter[i][2] - PadParameter[i][3]/2.)*mm;                                      
+      G4double RMAX_pad = (PadParameter[i][2] + PadParameter[i][3]/2.)*mm;                                      
+      G4double PZ_TPCPAD= 0;                                                                                    
+      G4double DZ_TPCPAD= 0;                                                                                    
       if( RMIN_pad < Rad_out )
-	{
-	  DZ_TPCPAD = DZ_pad_under_target;
-	  PZ_TPCPAD = PZ_pad_under_target;
+	{                                                                                 
+	  DZ_TPCPAD = DZ_pad_under_target;                                                                        
+	  PZ_TPCPAD = PZ_pad_under_target;                                                                        
 	}
       else
-	{
-	  DZ_TPCPAD = DZ_pad_normal_target;
-	  PZ_TPCPAD = PZ_pad_normal_target;
-	}
-
+	{                                                                                                    
+	  DZ_TPCPAD = DZ_pad_normal_target;                                                                       
+	  PZ_TPCPAD = PZ_pad_normal_target;                                                                       
+	}                                                                                                         
+      
       if( i < 10 )
-	{
-	  solidTube[i] = new G4Tubs(G4String((fullNameTPCpad+Form("_%d",i)).c_str()),
+	{                                                                                             
+	  solidTube[i] = new G4Tubs(G4String((fullNameTPCpad+Form("_%d",i)).c_str()), 
 				    RMIN_pad,
 				    RMAX_pad,
 				    DZ_TPCPAD/2.,
 				    0,
-				    360*deg);
+				    360*deg);                                                          
 	}
       else
-	{
-	  solidTube[i] = new G4Tubs(G4String((fullNameTPCpad+Form("_%d",i)).c_str()),
+	{                                                                                                    
+	  solidTube[i] = new G4Tubs(G4String((fullNameTPCpad+Form("_%d",i)).c_str()), 
 					     RMIN_pad,
 					     RMAX_pad,
 					     DZ_TPCPAD/2.,
 					     (PadParameter[i][4]+90)*deg,
-					     (PadParameter[i][3]*PadParameter[i][1])*deg);
-	}
-
-      logicDetectorTPCpad[i] = new G4LogicalVolume(solidTube[i],
-						   mat_p10,
+					     (PadParameter[i][3]*PadParameter[i][1])*deg);                           
+	} 
+      
+      logicDetectorTPCpad[i] = new G4LogicalVolume(solidTube[i], 
+						   mat_p10, 
 						   G4String((fullNameTPCpad+Form("_%d",i)).c_str()));
-
-      logicDetectorTPCpad[i]->SetVisAttributes(new G4VisAttributes(G4Color::Yellow()));
-
+      
+      logicDetectorTPCpad[i]->SetVisAttributes(new G4VisAttributes(G4Color::Yellow()));                             
+      
       G4RotationMatrix rot_TPCpad;
       rot_TPCpad.rotateZ( -90.*deg );
       G4ThreeVector TVTPCpad ( 0, tpc_centerOffset, -PZ_TPCPAD);
@@ -1469,10 +1627,10 @@ void DetectorConstruction::MakeHypTPC2(G4VPhysicalVolume *pMother, G4ThreeVector
 				      Phys_TPC,
 				      false,
 				      i);
-      logicDetectorTPCpad[i]->SetSensitiveDetector( tpcSD );
+      logicDetectorTPCpad[i]->SetSensitiveDetector( tpcSD );      
     }
 
-
+  
 }
 
 
@@ -1485,16 +1643,16 @@ void DetectorConstruction::MakeTargetDummy(G4VPhysicalVolume *pMother, G4ThreeVe
   // param //
   const G4double X_PW = 5000.0/2.0*mm;
   const G4double Y_PW= 5000.0/2.0*mm;
-  const G4double Z_PW  = 5000.0/2.0*mm;
+  const G4double Z_PW  = 5000.0/2.0*mm; 
   std::string fullNamePW = "Target_PhysicsWorld";
   // //
-
+  
   G4Box* solidDetectorPW = new G4Box(G4String(fullNamePW.c_str()),
 				     X_PW,
 				     Y_PW,
 				     Z_PW
 				     );
-
+  
   G4LogicalVolume* logicDetectorPW = new G4LogicalVolume(solidDetectorPW,
 							 NistMan->FindOrBuildMaterial("G4_Galactic"),
 							 G4String(fullNamePW.c_str()));
@@ -1511,12 +1669,12 @@ void DetectorConstruction::MakeTargetDummy(G4VPhysicalVolume *pMother, G4ThreeVe
 							   );
 
   /// ///
-
+  
   /// Target ///
   // param //
   const G4double X_Target = 500.0/2.0*mm;
   const G4double Y_Target= 100.0/2.0*mm; // target radius 53 mm
-  const G4double Z_Target  = 0.1/2.0*mm; // target length 100 mm
+  const G4double Z_Target  = 0.1/2.0*mm; // target length 100 mm   
   std::string fullNameTarget = "TPC_Target";
   // //
   G4Box* solidDetectorTarget = new G4Box(G4String(fullNameTarget.c_str()),
@@ -1524,16 +1682,16 @@ void DetectorConstruction::MakeTargetDummy(G4VPhysicalVolume *pMother, G4ThreeVe
 					 Y_Target,
 					 Z_Target
 					 );
-
+  
   G4LogicalVolume* logicDetectorTarget = new G4LogicalVolume(solidDetectorTarget,
 							     NistMan->FindOrBuildMaterial("G4_Galactic"),
 							     G4String(fullNameTarget.c_str()));
-
+  
   logicDetectorTarget->SetVisAttributes(new G4VisAttributes(G4Color::Red()));
-
+  
   G4RotationMatrix rot_Target;
   G4ThreeVector TVTarget ( 0, 0, 0);
-
+  
   G4VPhysicalVolume *Phys_Target = new G4PVPlacement(G4Transform3D(rot_Target, TVTarget),
 						     G4String(fullNameTarget.c_str()),
 						     logicDetectorTarget,
@@ -1541,7 +1699,7 @@ void DetectorConstruction::MakeTargetDummy(G4VPhysicalVolume *pMother, G4ThreeVe
 						     false,
 						     0
 						     );
-
+  
   /// ///
 
   ///// Sensitive Detector /////
@@ -1549,5 +1707,5 @@ void DetectorConstruction::MakeTargetDummy(G4VPhysicalVolume *pMother, G4ThreeVe
   TargetSD *targetSD = new TargetSD( "/TPC/Target" );
   SDMan->AddNewDetector( targetSD );
   logicDetectorTarget->SetSensitiveDetector( targetSD );
-
+      
 }
