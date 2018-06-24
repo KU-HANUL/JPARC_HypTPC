@@ -275,23 +275,23 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
   EvtParticle* Nstar(0);
   EvtId evtid_N;
   if(C==-1){
-    if(momMode==0)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1460)0")); //p=0.635 GeV/c
-    else if(momMode==1)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1580)0")); //p=0.835 GeV/c
-    else if(momMode==2)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1690)0")); //p=1.035 GeV/c
-    else if(momMode==3)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1800)0")); //p=1.235 GeV/c
-    else if(momMode==4)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1900)0")); //p=1.435 GeV/c
-    else if(momMode==5)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1990)0")); //p=1.635 GeV/c
-    else if(momMode==6)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(2090)0")); //p=1.835 GeV/c
-    else if(momMode==7)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(2160)0")); //p=2.000 GeV/c
+    if(momMode==0)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1460)0")); //p=0.635 GeV/c
+    else if(momMode==1)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1580)0")); //p=0.835 GeV/c
+    else if(momMode==2)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1690)0")); //p=1.035 GeV/c
+    else if(momMode==3)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1800)0")); //p=1.235 GeV/c
+    else if(momMode==4)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1900)0")); //p=1.435 GeV/c
+    else if(momMode==5)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1990)0")); //p=1.635 GeV/c
+    else if(momMode==6)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(2090)0")); //p=1.835 GeV/c
+    else if(momMode==7)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(2160)0")); //p=2.000 GeV/c
 
-    else if(momMode==8)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1460)0")); //p=0.635 GeV/c
-    else if(momMode==9)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(1580)0")); //p=0.835 GeV/c
-    else if(momMode==10)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(1690)0")); //p=1.035 GeV/c
-    else if(momMode==11)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(1800)0")); //p=1.235 GeV/c
-    else if(momMode==12)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(1900)0")); //p=1.435 GeV/c
-    else if(momMode==13)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(1990)0")); //p=1.635 GeV/c
-    else if(momMode==14)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(2090)0")); //p=1.835 GeV/c
-    else if(momMode==15)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(2160)0")); //p=2.000 GeV/c
+    else if(momMode==8)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1460)0")); //p=0.635 GeV/c
+    else if(momMode==9)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1580)0")); //p=0.835 GeV/c
+    else if(momMode==10)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1690)0")); //p=1.035 GeV/c
+    else if(momMode==11)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1800)0")); //p=1.235 GeV/c
+    else if(momMode==12)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1900)0")); //p=1.435 GeV/c
+    else if(momMode==13)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1990)0")); //p=1.635 GeV/c
+    else if(momMode==14)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(2090)0")); //p=1.835 GeV/c
+    else if(momMode==15)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(2160)0")); //p=2.000 GeV/c
 
     else{
       G4cout<<"### No Particle data in param/EVT ###"<<G4endl;
@@ -299,23 +299,23 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
     }
   }
   else if(C==1){
-    if(momMode==0)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1460)++")); //p=0.635 GeV/c
-    else if(momMode==1)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1580)++")); //p=0.835 GeV/c
-    else if(momMode==2)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1690)++")); //p=1.035 GeV/c
-    else if(momMode==3)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1800)++")); //p=1.235 GeV/c
-    else if(momMode==4)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1900)++")); //p=1.435 GeV/c
-    else if(momMode==5)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(1990)++")); //p=1.635 GeV/c
-    else if(momMode==6)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(2090)++")); //p=1.835 GeV/c
-    else if(momMode==7)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipip(2160)++")); //p=2.000 GeV/c
+    if(momMode==0)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1460)++")); //p=0.635 GeV/c
+    else if(momMode==1)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1580)++")); //p=0.835 GeV/c
+    else if(momMode==2)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1690)++")); //p=1.035 GeV/c
+    else if(momMode==3)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1800)++")); //p=1.235 GeV/c
+    else if(momMode==4)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1900)++")); //p=1.435 GeV/c
+    else if(momMode==5)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1990)++")); //p=1.635 GeV/c
+    else if(momMode==6)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(2090)++")); //p=1.835 GeV/c
+    else if(momMode==7)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(2160)++")); //p=2.000 GeV/c
 
-    else if(momMode==8)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(1460)++")); //p=0.635 GeV/c
-    else if(momMode==9)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(1580)++")); //p=0.835 GeV/c
-    else if(momMode==10)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(1690)++")); //p=1.035 GeV/c
-    else if(momMode==11)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(1800)++")); //p=1.235 GeV/c
-    else if(momMode==12)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(1900)++")); //p=1.435 GeV/c
-    else if(momMode==13)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(1990)++")); //p=1.635 GeV/c
-    else if(momMode==14)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(2090)++")); //p=1.835 GeV/c
-    else if(momMode==15)  evtid_N = EvtPDL::getId(std::string("PhaseSpace_pipin(2160)++")); //p=2.000 GeV/c
+    else if(momMode==8)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1460)++")); //p=0.635 GeV/c
+    else if(momMode==9)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1580)++")); //p=0.835 GeV/c
+    else if(momMode==10)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1690)++")); //p=1.035 GeV/c
+    else if(momMode==11)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1800)++")); //p=1.235 GeV/c
+    else if(momMode==12)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1900)++")); //p=1.435 GeV/c
+    else if(momMode==13)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1990)++")); //p=1.635 GeV/c
+    else if(momMode==14)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(2090)++")); //p=1.835 GeV/c
+    else if(momMode==15)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(2160)++")); //p=2.000 GeV/c
 
     else{
       G4cout<<"### No Particle data in param/EVT ###"<<G4endl;
