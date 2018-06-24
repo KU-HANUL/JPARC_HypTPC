@@ -87,7 +87,6 @@ class e45{
 
  public:
 
-  void beam_through();
   void display_draw();
   void draw_evtgen();
   void draw_multiplicity();
@@ -493,47 +492,6 @@ void e45::draw_multiplicity(){
   class_e45++;
 }
 
-void e45::beam_through(){
-
-  bool pdf=false;
-  //bool pdf=true;
-  //bool printout=false;
-  bool printout=true;
-
-  TCanvas *can_beamthrough = new TCanvas("can_beamthrough","",1200,1200);
-  can_beamthrough -> Divide(4,2);
-
-  //gStyle->SetOptStat(0);
-  TFile *file[4];
-  file[0] = new TFile("../rootfile/e45/beam/pi_plus/p730_phsp.root","READ");
-  file[1] = new TFile("../rootfile/e45/beam/pi_plus/p2000_phsp.root","READ");
-  file[2] = new TFile("../rootfile/e45/beam/pi_minus/p730_phsp.root","READ");
-  file[3] = new TFile("../rootfile/e45/beam/pi_minus/p2000_phsp.root","READ");
-
-  TTree *tree[4];
-
-  TString name[4]={"pi+, p=0.73 GeV/c","pi+, p=2.0 GeV/c","pi-, p=0.73 GeV/c","pi-, p=2.0 GeV/c"};
-  TH1D *hist_beamseg[4];
-  TH1D *hist_beamposx[4];
-
-  for(int i=0;i<4;i++){
-    tree[i] = (TTree*)file[i]->Get("tree");
-    hist_beamseg[i] = new TH1D(Form("hist_beamseg_%d",i),Form("hit segments, %s;#Hit Segment;Counts",name[i].Data()),4,0,4);
-    hist_beamposx[i] = new TH1D(Form("hist_beamposx_%d",i),Form("hit X position, %s;X Hit position(mm);Counts",name[i].Data()),100,-70,70);
-
-    can_beamthrough -> cd(2*i+1);
-    tree[i] -> Draw(Form("tofseg>>hist_beamseg_%d",i));
-    can_beamthrough -> cd(2*i+2);
-    tree[i] -> Draw(Form("tofposx>>hist_beamposx_%d",i));
-  }
-
-
-  if(pdf){
-
-  }
-
-  class_e45++;
-}
 
 
 void e45::draw_edep(){

@@ -327,7 +327,7 @@ void AnalysisManager::SetBeam(int j,
 			      G4ThreeVector P
 			      )
 {
-  G4cout<<"[AnalysisManager] SetBeam : "<<nEvt<<G4endl;
+  //xG4cout<<"[AnalysisManager] SetBeam : "<<nEvt<<G4endl;
   nBeam = j;
   bpx[j-1] = P.x();
   bpy[j-1] = P.y();
