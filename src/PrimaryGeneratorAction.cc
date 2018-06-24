@@ -59,6 +59,9 @@
 #include <string>
 #include <list>
 #include <zlib.h>
+
+#include <TRandom.h>
+
 //#include <boost/iostreams/filtering_streambuf.hpp>
 //#include <boost/iostreams/copy.hpp>
 //#include <boost/iostreams/filter/gzip.hpp>
@@ -105,12 +108,17 @@ void PrimaryGeneratorAction::GeneratePrimaries( G4Event *anEvent )
   bvy = confMan->GetBeamVY();
   bvz = confMan->GetBeamVZ();
   if(beamMode==1){ // if put beam profile
-    bvx = G4RandGauss::shoot(bvx_,sigmabvx_);
-    bvy = G4RandGauss::shoot(bvy_,sigmabvy_);
-    bvz = G4RandGauss::shoot(bvz_,sigmabvz_);
+    /*
+      bvx = G4RandGauss::shoot(bvx_,sigmabvx_);
+      bvy = G4RandGauss::shoot(bvy_,sigmabvy_);
+      bvz = G4RandGauss::shoot(bvz_,sigmabvz_);
+    */
+    TRandom *eventgen = new TRandom();
+    bvx = eventgen->Gaus(bvx_,sigmabvx_);
+    bvy = eventgen->Gaus(bvy_,sigmabvy_);
+    bvz = eventgen->Gaus(bvz_,sigmabvz_);
   }
   G4ThreeVector D(bvx, bvy, bvz);
-
   bpx_ = confMan->GetBeamPX();
   bpy_ = confMan->GetBeamPY();
   bpz_ = confMan->GetBeamPZ();
