@@ -90,7 +90,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 void PrimaryGeneratorAction::GeneratePrimaries( G4Event *anEvent )
 {
-  //std::cout<<"Beam generated "<< std::endl;
+  std::cout<<"Beam generated "<< std::endl;
   G4int event_num = anEvent->GetEventID()+1;
   //G4cout<<"Events: "<< event_num <<G4endl;
   if(event_num% 1000 == 0)
@@ -369,6 +369,7 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
       if(TMath::Sqrt(   (TV_bvx-D.x())*(TV_bvx-D.x()) + (TV_bvz-D.z())*(TV_bvz-D.z())  )< 54.0 && TMath::Abs(TV_bvy-D.y())<50.0)  flag=0;	    
       prmclass++;
     }
+    std::cout<<"x : "<<TV_bvx <<std::endl;
   }
   else{
     TV_bvx = D.x();

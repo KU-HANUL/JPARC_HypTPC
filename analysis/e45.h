@@ -522,8 +522,8 @@ void e45::beam_through(){
   for(int i=0;i<4;i++){
     tree[i] = (TTree*)file[i]->Get("tree");
     hist_beamseg[i] = new TH1D(Form("hist_beamseg_%d",i),Form("hit segments, %s;#Hit Segment;Counts",name[i].Data()),4,0,4);
-    hist_beamposx[i] = new TH1D(Form("hist_beamposx_%d",i),Form("hit X position, %s;X Hit position(mm);Counts",name[i].Data()),100,-70,70);
-    hist_beamposy[i] = new TH1D(Form("hist_beamposy_%d",i),Form("hit Y position, %s;Y Hit position(mm);Counts",name[i].Data()),100,-70,70);
+    hist_beamposx[i] = new TH1D(Form("hist_beamposx_%d",i),Form("hit X position, %s;X Hit position(mm);Counts",name[i].Data()),100,-100,100);
+    hist_beamposy[i] = new TH1D(Form("hist_beamposy_%d",i),Form("hit Y position, %s;Y Hit position(mm);Counts",name[i].Data()),100,-100,100);
 
     can_beamthrough -> cd(2*i+1);
     tree[i] -> Draw(Form("tofseg>>hist_beamseg_%d",i));

@@ -98,9 +98,6 @@ public:
   double GetBeamVX( void ) const { return bvx_; }
   double GetBeamVY( void ) const { return bvy_; }
   double GetBeamVZ( void ) const { return bvz_; }
-  double GetBeamVXSig( void ) const { return sigmabvx_; }
-  double GetBeamVYSig( void ) const { return sigmabvy_; }
-  double GetBeamVZSig( void ) const { return sigmabvz_; }
 
 private:
   // ConfMan

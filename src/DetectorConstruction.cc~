@@ -148,10 +148,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
   G4RotationMatrix TOFRot;
   TOFRot.rotateX( -90.*deg );
 
-  MakeSCMagnet( physiWorld );
-  MakeTOF( physiWorld, TOFPos, TOFRot );
+  //MakeSCMagnet( physiWorld );
+  //MakeTOF( physiWorld, TOFPos, TOFRot );
   ///MakeHypTPC( physiWorld, TPCPos, TPCRot  );
-  MakeHypTPC2( physiWorld, TPCPos, TPCRot  );
+  //MakeHypTPC2( physiWorld, TPCPos, TPCRot  );
   //MakeTarget( physiWorld, TargetPos, TargetRot );
   MakeTargetH( physiWorld, TargetPos, TargetRot );
 

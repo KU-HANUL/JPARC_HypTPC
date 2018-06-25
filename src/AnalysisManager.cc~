@@ -42,7 +42,7 @@ void AnalysisManager::SaveFile( void ) const
 
 void AnalysisManager::Terminate ( void ) const
 {
-  //G4cout << "[Analysis] Terminate()"<< G4endl;
+  G4cout << "[Analysis] Terminate()"<< G4endl;
   if ( fActive_ )
     {
       hfile->Write();
@@ -145,7 +145,7 @@ void AnalysisManager::BeginOfRun(const G4Run*)
 
 void AnalysisManager::EndOfRun(const G4Run*)
 {
-  //G4cout<<"[AnalysisManager] End of Event: "<<G4endl;
+  G4cout<<"[AnalysisManager] End of Event: "<<G4endl;
   tree->Write();
   hfile->Write();
   hfile->Close();
@@ -154,7 +154,7 @@ void AnalysisManager::EndOfRun(const G4Run*)
 void AnalysisManager::BeginOfEvent(const G4Event*)
 {
   //nEvt = 0;
-  //G4cout<<"[AnalysisManager] Begin of Event: "<<nEvt<<G4endl;
+  G4cout<<"[AnalysisManager] Begin of Event: "<<nEvt<<G4endl;
 }
 
 void AnalysisManager::EndOfEvent(const G4Event* anEvent)
@@ -284,7 +284,7 @@ void AnalysisManager::EndOfEvent(const G4Event* anEvent)
   tree->Fill();
   event++;
 
-  //G4cout<<"[AnalysisManager]Event: "<<event<<" nEvt: "<<nEvt << " nhTarget: " << nhTarget<<G4endl;
+  G4cout<<"[AnalysisManager]Event: "<<event<<" nEvt: "<<nEvt << " nhTarget: " << nhTarget<<G4endl;
   nEvt = 0;
   nhTpcPad = 0;
   nhTof = 0;
