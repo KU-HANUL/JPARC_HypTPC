@@ -502,6 +502,8 @@ void e45::beam_through(){
 
   TCanvas *can_beamthrough = new TCanvas("can_beamthrough","",1200,1200);
   can_beamthrough -> Divide(4,2);
+  TCanvas *can_beamthrough_y = new TCanvas("can_beamthrough_y","",1200,1200);
+  can_beamthrough_y -> Divide(2,2);
 
   //gStyle->SetOptStat(0);
   TFile *file[4];
@@ -515,16 +517,20 @@ void e45::beam_through(){
   TString name[4]={"pi+, p=0.73 GeV/c","pi+, p=2.0 GeV/c","pi-, p=0.73 GeV/c","pi-, p=2.0 GeV/c"};
   TH1D *hist_beamseg[4];
   TH1D *hist_beamposx[4];
+  TH1D *hist_beamposy[4];
 
   for(int i=0;i<4;i++){
     tree[i] = (TTree*)file[i]->Get("tree");
     hist_beamseg[i] = new TH1D(Form("hist_beamseg_%d",i),Form("hit segments, %s;#Hit Segment;Counts",name[i].Data()),4,0,4);
     hist_beamposx[i] = new TH1D(Form("hist_beamposx_%d",i),Form("hit X position, %s;X Hit position(mm);Counts",name[i].Data()),100,-70,70);
+    hist_beamposy[i] = new TH1D(Form("hist_beamposy_%d",i),Form("hit Y position, %s;Y Hit position(mm);Counts",name[i].Data()),100,-70,70);
 
     can_beamthrough -> cd(2*i+1);
     tree[i] -> Draw(Form("tofseg>>hist_beamseg_%d",i));
     can_beamthrough -> cd(2*i+2);
     tree[i] -> Draw(Form("tofposx>>hist_beamposx_%d",i));
+    can_beamthrough_y -> cd(i+1);
+    tree[i] -> Draw(Form("tofposy>>hist_beamposy_%d",i));
   }
 
 

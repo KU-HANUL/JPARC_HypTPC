@@ -15,7 +15,7 @@
 
 using namespace std;
 
-void test()
+void fifc()
 {
   //gStyle -> SetOptFit(1000);
 
@@ -89,8 +89,14 @@ void test()
   mg1 -> Add(gr_N_pipin_w);
 
   c1 -> cd();
-  mg1 -> Draw("APL");
-  c1 -> BuildLegend();
+  mg1 -> Draw("AP");
+  TLegend *legend1 = new TLegend(0.6,0.6,0.9,0.9);
+  gStyle -> SetLegendFont(42);
+  gStyle -> SetLegendTextSize(0.03);
+
+  legend1 -> AddEntry(gr_N_pipip_wo,"","ep");
+  legend1 -> AddEntry((TObject*)0,"MPV value corresconding to","");
+  legend1 -> Draw("same");
 
   /*
     TGraphErrors *gr_Delta_pipip_wo = new TGraphErrors();
