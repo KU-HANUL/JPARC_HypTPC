@@ -482,7 +482,8 @@ void PhysicsList::ConstructEM()
 void PhysicsList:: ConstructHadronic()
 {
   //Elastic models
-  const G4double elastic_elimitPi = 1.0*GeV;
+  //const G4double elastic_elimitPi = 1.0*GeV;
+  const G4double elastic_elimitPi = 2.5*GeV;
 
   G4HadronElastic* elastic_lhep0 = new G4HadronElastic();
   G4HadronElastic* elastic_lhep1 = new G4HadronElastic();
@@ -576,7 +577,7 @@ void PhysicsList:: ConstructHadronic()
 	  //Absorption
 	  pmanager->AddRestProcess(new G4PiMinusAbsorptionBertini, ordDefault);
 	}
-
+      /*
       else if (particleName == "kaon+")
 	{
 	  // Elastic scattering
@@ -641,7 +642,7 @@ void PhysicsList:: ConstructHadronic()
 	  pmanager->AddDiscreteProcess( theInelasticProcess );
 	  pmanager->AddRestProcess(new G4KaonMinusAbsorptionBertini, ordDefault);
 	}
-
+      */
       else if (particleName == "proton")
 	{
 	  // Elastic scattering
@@ -658,6 +659,7 @@ void PhysicsList:: ConstructHadronic()
           theInelasticProcess->RegisterMe( theBERTModel0 );
 	  pmanager->AddDiscreteProcess( theInelasticProcess );
 	}
+      /*
       else if (particleName == "anti_proton")
 	{
 	  // Elastic scattering
@@ -775,7 +777,7 @@ void PhysicsList:: ConstructHadronic()
           theInelasticProcess->RegisterMe( theBERTModel0 );
 	  pmanager->AddDiscreteProcess( theInelasticProcess );
 	}
-
+      */
     }
 }
 
