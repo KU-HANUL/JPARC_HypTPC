@@ -38,12 +38,14 @@
 
 #include "ConfMan.hh"
 
+#include "DMXMinEkineCuts.hh"
+
 PhysicsList::PhysicsList()
   : G4VUserPhysicsList()
 {
   defaultCutValue = 0.1*cm;
 }
-//
+
 PhysicsList::~PhysicsList()
 {
 }
@@ -85,14 +87,14 @@ void PhysicsList::ConstructMesons()
   G4ParticleDefinition *particle;
 
   //test
-  particle
+  particle 
     = new G4ParticleDefinition("kaonT1",    0.493677*GeV,  5.352e-14*MeV,    -1.*eplus,
 			       0,              -1,             0,
 			       1,              -1,             0,
 			       "meson",         0,             0,        -321,
 			       false,         1.238e-8*s,          NULL,
 			       false,       "kaon");
-
+  
   decayTable =  new G4DecayTable();
   mode  = new G4PhaseSpaceDecayChannel( "kaonT1", 1.0, 2, "mu-", "anti_nu_mu" );
   decayTable->Insert( mode );
@@ -102,67 +104,67 @@ void PhysicsList::ConstructMesons()
 
   //K- -> pi- pi0
   #if 0
-  particle
+  particle 
     = new G4ParticleDefinition("kaonM1",    0.493677*GeV,  5.352e-14*MeV,    -1.*eplus,
 			       0,              -1,             0,
 			       1,              -1,             0,
 			       "meson",         0,             0,        -321,
 			       true,         -1.0,          NULL,
 			       false,       "kaon");
-
+  
   decayTable =  new G4DecayTable();
   mode  = new G4PhaseSpaceDecayChannel( "kaonM1", 1.0, 2, "pi-", "pi0" );
   decayTable->Insert( mode );
   particle->SetDecayTable( decayTable );
 
-  //K- -> mu- an-nu-mu
-  particle
+  //K- -> mu- an-nu-mu 
+  particle 
     = new G4ParticleDefinition("kaonM2",    0.493677*GeV,  5.352e-14*MeV,    -1.*eplus,
 			       0,              -1,             0,
 			       1,              -1,             0,
 			       "meson",         0,             0,         -321,
 			       true,         -1.0,          NULL,
 			       false,       "kaon");
-
+  
   decayTable =  new G4DecayTable();
   mode  = new G4PhaseSpaceDecayChannel( "kaonM2", 1.0, 2, "mu-", "anti_nu_mu" );
   decayTable->Insert( mode );
   particle->SetDecayTable( decayTable );
 
-  //pi- no decay
-  particle
+  //pi- no decay 
+  particle 
     = new G4ParticleDefinition("pionM1",    0.1395700*GeV,  2.5452e-14*MeV,    -1.*eplus,
 			       0,              -1,             0,
 			       2,              -2,             -1,
 			       "meson",         0,             0,         -211,
 			       true,         -1.0,          NULL,
 			       false,       "pi");
-
+  
   decayTable =  new G4DecayTable();
   mode  = new G4PhaseSpaceDecayChannel( "pionM1", 1.0, 2, "mu-", "anti_nu_mu" );
   decayTable->Insert( mode );
   particle->SetDecayTable( decayTable );
 
-  //pi+ no decay
-  particle
+  //pi+ no decay 
+  particle 
     = new G4ParticleDefinition("pionP1",    0.1395700*GeV,  2.5452e-14*MeV,    +1.*eplus,
 			       0,              -1,             0,
 			       2,              +2,             -1,
 			       "meson",         0,             0,          211,
 			       true,         -1.0,          NULL,
 			       false,       "pi");
-
+  
   decayTable =  new G4DecayTable();
   mode  = new G4PhaseSpaceDecayChannel( "pionP1", 1.0, 2, "mu+", "nu_mu" );
   decayTable->Insert( mode );
   particle->SetDecayTable( decayTable );
 
   //K->Pi+ Pi- Pi-
-  particle
+  particle 
     = new G4ParticleDefinition(
-			       "kaon1-",    0.493677*GeV, 5.315e-14*MeV,    -1.*eplus,
-			       0,              -1,             0,
-			       1,              -1,             0,
+			       "kaon1-",    0.493677*GeV, 5.315e-14*MeV,    -1.*eplus, 
+			       0,              -1,             0,          
+			       1,              -1,             0,             
 			       "meson",         0,             0,            -321,
 			       false,          0.0,           NULL,
 			       false,         "kaon" );
@@ -173,31 +175,31 @@ void PhysicsList::ConstructMesons()
   particle->SetDecayTable( decayTable );
 
   //K->e- Pi0 nue
-  particle
-    = new G4ParticleDefinition (
-				"kaon2-",    0.493677*GeV, 5.315e-14*MeV,    -1.*eplus,
-				0,              -1,             0,
-				1,              -1,             0,
+  particle 
+    = new G4ParticleDefinition (            
+				"kaon2-",    0.493677*GeV, 5.315e-14*MeV,    -1.*eplus, 
+				0,              -1,             0,          
+				1,              -1,             0,             
 				"meson",         0,             0,           -321,
 				false,         0.0,            NULL,
 				false,        "kaon" );
-
+  
   decayTable =  new G4DecayTable();
   mode  = new G4PhaseSpaceDecayChannel("kaon2-",1.0, 3,
 				       "e-","pi0", "anti_nu_e");
   decayTable->Insert(mode);
-  particle->SetDecayTable(decayTable);
+  particle->SetDecayTable(decayTable);  
 
   //K->Mu- Pi0 nuMu
-  particle
-    = new G4ParticleDefinition (
-				"kaon3-",    0.493677*GeV, 5.315e-14*MeV,    -1.*eplus,
-				0,              -1,             0,
-				1,              -1,             0,
+  particle 
+    = new G4ParticleDefinition (            
+				"kaon3-",    0.493677*GeV, 5.315e-14*MeV,    -1.*eplus, 
+				0,              -1,             0,          
+				1,              -1,             0,             
 				"meson",         0,             0,            -321,
 				false,         0.0,            NULL,
 				false,        "kaon" );
-
+  
   decayTable =  new G4DecayTable();
   mode  = new G4PhaseSpaceDecayChannel("kaon3-",1.0, 3,
 				       "mu-","pi0", "anti_nu_mu");
@@ -205,15 +207,15 @@ void PhysicsList::ConstructMesons()
   particle->SetDecayTable(decayTable);
 
   //K->Pi- Pi0 Pi0
-  particle
-    = new G4ParticleDefinition (
-				"kaon4-",    0.493677*GeV, 5.315e-14*MeV,    -1.*eplus,
-				0,              -1,             0,
-				1,              -1,             0,
+  particle 
+    = new G4ParticleDefinition (            
+				"kaon4-",    0.493677*GeV, 5.315e-14*MeV,    -1.*eplus, 
+				0,              -1,             0,          
+				1,              -1,             0,             
 				"meson",         0,             0,            -321,
 				false,         0.0,            NULL,
 				false,        "kaon" );
-
+  
   decayTable =  new G4DecayTable();
   mode  = new G4PhaseSpaceDecayChannel("kaon4-",1.0, 3,
 				       "pi-","pi0", "pi0");
@@ -236,7 +238,7 @@ void PhysicsList::ConstructBaryons()
 void PhysicsList::ConstructHeavyIon()
 {
   G4IonConstructor pConstructor;
-  pConstructor.ConstructParticle();
+  pConstructor.ConstructParticle();  
 }
 
 
@@ -247,8 +249,9 @@ void PhysicsList::ConstructProcess()
 
   AddTransportationSks();
   ConstructEM();
-  ConstructHadronic();
+  //ConstructHadronic();
   ConstructDecay();
+  ConstructElastic();
 
   //if( GetFPhysProcEM(flag) ){
   //  ConstructEM();
@@ -287,19 +290,26 @@ void PhysicsList::AddTransportationSks()
   while( (*theParticleIterator)() ){
     G4ParticleDefinition* particle = theParticleIterator->value();
     G4ProcessManager* pmanager = particle->GetProcessManager();
+
+    pmanager->AddDiscreteProcess(new DMXMinEkineCuts());
+
+    // Step limit applied to all particles:                                                                      
+    pmanager->AddProcess(new G4StepLimiter,       -1,-1,1);
+    
+
     if ( !particle->IsShortLived() ) {
       // Add transportation process for all particles other than  "shortlived"
       if ( pmanager == 0) {
         // Error !! no process manager
         //G4Exception("PhysicsList::AddTransportation : no process manager!");
-      }
+      } 
       else {
         // add transportation with ordering = ( -1, "first", "first" )
         pmanager->AddProcess(theTransportationProcess);
         pmanager->SetProcessOrderingToFirst(theTransportationProcess,
                                             idxAlongStep);
-        pmanager ->SetProcessOrderingToFirst(theTransportationProcess,
-                                             idxPostStep);
+	pmanager->SetProcessOrderingToFirst(theTransportationProcess,
+                                            idxPostStep);
       }
     }
     else {
@@ -320,7 +330,7 @@ void PhysicsList::SetCuts()
   SetCutValue(defaultCutValue, "e-");
   SetCutValue(defaultCutValue, "e+");
 
-  SetCutsWithDefault();
+  SetCutsWithDefault();  
   //  theParticleIterator->reset();
   //  while( (*theParticleIterator)() ){
   //    G4ParticleDefinition *particle=theParticleIterator->value();
@@ -363,7 +373,7 @@ void PhysicsList::ConstructEM()
     G4String particleName = particle->GetParticleName();
 
     if( particleName == "gamma" ){
-      pManager->AddProcess( new G4UserSpecialCuts(), -1, -1, 1 );
+      pManager->AddProcess( new G4UserSpecialCuts(), -1, -1, 1 );    
       pManager->AddDiscreteProcess( new G4PhotoElectricEffect() );
       pManager->AddDiscreteProcess( new G4ComptonScattering() );
       pManager->AddDiscreteProcess( new G4GammaConversion() );
@@ -384,12 +394,12 @@ void PhysicsList::ConstructEM()
     else if( particleName == "mu+" || particleName == "mu-" ){
       pManager->AddProcess( new G4UserSpecialCuts(),      -1, -1, 1 );
       pManager->AddProcess( new G4MuMultipleScattering(), -1,  1, 2 );
-      pManager->AddProcess( new G4MuIonisation(),         -1,  2, 3 );
+      pManager->AddProcess( new G4MuIonisation(),         -1,  2, 3 ); 
       pManager->AddProcess( new G4MuBremsstrahlung(),     -1, -1, 4 );
       pManager->AddProcess( new G4MuPairProduction(),     -1, -1, 5 );
     }
     else if( !(particle->IsShortLived()) && particle->GetPDGCharge()!=0 &&
-	     !( particleName=="chargedgeantino"
+	     !( particleName=="chargedgeantino" 
 		|| particleName=="antichargedgeantino") ){
       pManager->AddProcess(new G4UserSpecialCuts(),     -1, -1, 1 );
       pManager->AddProcess(new G4hMultipleScattering(), -1,  1, 2 );
@@ -479,6 +489,77 @@ void PhysicsList::ConstructEM()
 #include "G4AntiProtonAbsorptionFritiof.hh"
 
 //version 4.10.4
+
+void PhysicsList:: ConstructElastic()
+{
+  //Elastic models
+  const G4double elastic_elimitPi = 1.0*GeV;
+  //const G4double elastic_elimitPi = 2.5*GeV;
+
+  G4HadronElastic* elastic_lhep0 = new G4HadronElastic();
+  G4HadronElastic* elastic_lhep1 = new G4HadronElastic();
+  elastic_lhep1->SetMaxEnergy( elastic_elimitPi );
+  G4ChipsElasticModel* elastic_chip = new G4ChipsElasticModel();
+  G4ElasticHadrNucleusHE* elastic_he = new G4ElasticHadrNucleusHE(); 
+  elastic_he->SetMinEnergy( elastic_elimitPi );
+
+  //auto particleIterator=GetParticleIterator();
+  theParticleIterator->reset();
+  while ((*theParticleIterator)())
+    {
+      G4ParticleDefinition* particle = theParticleIterator->value();
+      G4ProcessManager* pmanager = particle->GetProcessManager();
+      G4String particleName = particle->GetParticleName();
+
+      if (particleName == "pi+") 
+	{
+	  // Elastic scattering
+          G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
+          theElasticProcess->AddDataSet( new G4BGGPionElasticXS( particle ) );
+          theElasticProcess->RegisterMe( elastic_lhep1 );
+          theElasticProcess->RegisterMe( elastic_he );
+	  pmanager->AddDiscreteProcess( theElasticProcess );
+	} 
+
+      else if (particleName == "pi-") 
+	{
+	  // Elastic scattering
+          G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
+          theElasticProcess->AddDataSet( new G4BGGPionElasticXS( particle ) );
+          theElasticProcess->RegisterMe( elastic_lhep1 );
+          theElasticProcess->RegisterMe( elastic_he );
+	  pmanager->AddDiscreteProcess( theElasticProcess );
+	}
+      
+
+      else if (particleName == "proton") 
+	{
+	  // Elastic scattering
+          G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
+          theElasticProcess->AddDataSet(G4CrossSectionDataSetRegistry::Instance()->
+					GetCrossSectionDataSet(G4ChipsProtonElasticXS::Default_Name()));
+          theElasticProcess->RegisterMe( elastic_chip );
+	  pmanager->AddDiscreteProcess( theElasticProcess );
+	}
+      else if (particleName == "anti_proton") 
+	{
+	  // Elastic scattering
+          const G4double elastic_elimitAntiNuc = 100.0*MeV;
+          G4AntiNuclElastic* elastic_anuc = new G4AntiNuclElastic();
+          elastic_anuc->SetMinEnergy( elastic_elimitAntiNuc );
+          G4CrossSectionElastic* elastic_anucxs = new G4CrossSectionElastic( elastic_anuc->GetComponentCrossSection() );
+          G4HadronElastic* elastic_lhep2 = new G4HadronElastic();
+          elastic_lhep2->SetMaxEnergy( elastic_elimitAntiNuc );
+          G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
+          theElasticProcess->AddDataSet( elastic_anucxs );
+          theElasticProcess->RegisterMe( elastic_lhep2 );
+          theElasticProcess->RegisterMe( elastic_anuc );
+	  pmanager->AddDiscreteProcess( theElasticProcess );
+	}
+    }
+}
+
+
 void PhysicsList:: ConstructHadronic()
 {
   //Elastic models
@@ -489,10 +570,10 @@ void PhysicsList:: ConstructHadronic()
   G4HadronElastic* elastic_lhep1 = new G4HadronElastic();
   elastic_lhep1->SetMaxEnergy( elastic_elimitPi );
   G4ChipsElasticModel* elastic_chip = new G4ChipsElasticModel();
-  G4ElasticHadrNucleusHE* elastic_he = new G4ElasticHadrNucleusHE();
+  G4ElasticHadrNucleusHE* elastic_he = new G4ElasticHadrNucleusHE(); 
   elastic_he->SetMinEnergy( elastic_elimitPi );
 
-
+  
   // Inelastic scattering
   const G4double theFTFMin0 =    0.0*GeV;
   const G4double theFTFMin1 =    4.0*GeV;
@@ -542,7 +623,7 @@ void PhysicsList:: ConstructHadronic()
       G4ProcessManager* pmanager = particle->GetProcessManager();
       G4String particleName = particle->GetParticleName();
 
-      if (particleName == "pi+")
+      if (particleName == "pi+") 
 	{
 	  // Elastic scattering
           G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
@@ -551,15 +632,15 @@ void PhysicsList:: ConstructHadronic()
           theElasticProcess->RegisterMe( elastic_he );
 	  pmanager->AddDiscreteProcess( theElasticProcess );
 	  //Inelastic scattering
-	  G4PionPlusInelasticProcess* theInelasticProcess =
+	  G4PionPlusInelasticProcess* theInelasticProcess = 
 	    new G4PionPlusInelasticProcess("inelastic");
 	  theInelasticProcess->AddDataSet( thePiData );
 	  theInelasticProcess->RegisterMe( theFTFModel1 );
           theInelasticProcess->RegisterMe( theBERTModel0 );
 	  pmanager->AddDiscreteProcess( theInelasticProcess );
-	}
+	} 
 
-      else if (particleName == "pi-")
+      else if (particleName == "pi-") 
 	{
 	  // Elastic scattering
           G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
@@ -568,23 +649,24 @@ void PhysicsList:: ConstructHadronic()
           theElasticProcess->RegisterMe( elastic_he );
 	  pmanager->AddDiscreteProcess( theElasticProcess );
 	  //Inelastic scattering
-	  G4PionMinusInelasticProcess* theInelasticProcess =
+	  G4PionMinusInelasticProcess* theInelasticProcess = 
 	    new G4PionMinusInelasticProcess("inelastic");
 	  theInelasticProcess->AddDataSet( thePiData );
 	  theInelasticProcess->RegisterMe( theFTFModel1 );
           theInelasticProcess->RegisterMe( theBERTModel0 );
-	  pmanager->AddDiscreteProcess( theInelasticProcess );
+	  pmanager->AddDiscreteProcess( theInelasticProcess );	  
 	  //Absorption
 	  pmanager->AddRestProcess(new G4PiMinusAbsorptionBertini, ordDefault);
 	}
-      else if (particleName == "kaon+")
+      
+      else if (particleName == "kaon+") 
 	{
 	  // Elastic scattering
           G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
           theElasticProcess->RegisterMe( elastic_lhep0 );
 	  pmanager->AddDiscreteProcess( theElasticProcess );
-          // Inelastic scattering
-	  G4KaonPlusInelasticProcess* theInelasticProcess =
+          // Inelastic scattering	
+	  G4KaonPlusInelasticProcess* theInelasticProcess = 
 	    new G4KaonPlusInelasticProcess("inelastic");
 	  theInelasticProcess->AddDataSet( G4CrossSectionDataSetRegistry::Instance()->
 					   GetCrossSectionDataSet(G4ChipsKaonPlusInelasticXS::Default_Name()));
@@ -592,48 +674,48 @@ void PhysicsList:: ConstructHadronic()
           theInelasticProcess->RegisterMe( theBERTModel0 );
 	  pmanager->AddDiscreteProcess( theInelasticProcess );
 	}
-
-      else if (particleName == "kaon0S")
+      
+      else if (particleName == "kaon0S") 
 	{
 	  // Elastic scattering
           G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
           theElasticProcess->RegisterMe( elastic_lhep0 );
 	  pmanager->AddDiscreteProcess( theElasticProcess );
-          // Inelastic scattering
-	  G4KaonZeroSInelasticProcess* theInelasticProcess =
+          // Inelastic scattering	 
+	  G4KaonZeroSInelasticProcess* theInelasticProcess = 
 	    new G4KaonZeroSInelasticProcess("inelastic");
 	  theInelasticProcess->AddDataSet( G4CrossSectionDataSetRegistry::Instance()->
 					   GetCrossSectionDataSet(G4ChipsKaonZeroInelasticXS::Default_Name()));
 	  theInelasticProcess->RegisterMe( theFTFModel1 );
           theInelasticProcess->RegisterMe( theBERTModel0 );
-	  pmanager->AddDiscreteProcess( theInelasticProcess );
+	  pmanager->AddDiscreteProcess( theInelasticProcess );	  
 	}
 
-      else if (particleName == "kaon0L")
+      else if (particleName == "kaon0L") 
 	{
 	  // Elastic scattering
           G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
           theElasticProcess->RegisterMe( elastic_lhep0 );
 	  pmanager->AddDiscreteProcess( theElasticProcess );
 	  // Inelastic scattering
-	  G4KaonZeroLInelasticProcess* theInelasticProcess =
+	  G4KaonZeroLInelasticProcess* theInelasticProcess = 
 	    new G4KaonZeroLInelasticProcess("inelastic");
 	  theInelasticProcess->AddDataSet( G4CrossSectionDataSetRegistry::Instance()->
 					   GetCrossSectionDataSet(G4ChipsKaonZeroInelasticXS::Default_Name()));
 	  theInelasticProcess->RegisterMe( theFTFModel1 );
-          theInelasticProcess->RegisterMe( theBERTModel0 );
-	  pmanager->AddDiscreteProcess( theInelasticProcess );
+          theInelasticProcess->RegisterMe( theBERTModel0 ); 
+	  pmanager->AddDiscreteProcess( theInelasticProcess );	  
 	}
 
-      else if (particleName == "kaon-")
+      else if (particleName == "kaon-") 
 	{
 	  // Elastic scattering
           G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
           theElasticProcess->RegisterMe( elastic_lhep0 );
 	  pmanager->AddDiscreteProcess( theElasticProcess );
           // Inelastic scattering
-	  G4KaonMinusInelasticProcess* theInelasticProcess =
-	    new G4KaonMinusInelasticProcess("inelastic");
+	  G4KaonMinusInelasticProcess* theInelasticProcess = 
+	    new G4KaonMinusInelasticProcess("inelastic");	
           theInelasticProcess->AddDataSet( G4CrossSectionDataSetRegistry::Instance()->
 					   GetCrossSectionDataSet(G4ChipsKaonMinusInelasticXS::Default_Name()));
 	  theInelasticProcess->RegisterMe( theFTFModel1 );
@@ -641,7 +723,8 @@ void PhysicsList:: ConstructHadronic()
 	  pmanager->AddDiscreteProcess( theInelasticProcess );
 	  pmanager->AddRestProcess(new G4KaonMinusAbsorptionBertini, ordDefault);
 	}
-      else if (particleName == "proton")
+
+      else if (particleName == "proton") 
 	{
 	  // Elastic scattering
           G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
@@ -650,15 +733,14 @@ void PhysicsList:: ConstructHadronic()
           theElasticProcess->RegisterMe( elastic_chip );
 	  pmanager->AddDiscreteProcess( theElasticProcess );
 	  // Inelastic scattering
-	  G4ProtonInelasticProcess* theInelasticProcess =
+	  G4ProtonInelasticProcess* theInelasticProcess = 
 	    new G4ProtonInelasticProcess("inelastic");
 	  theInelasticProcess->AddDataSet( new G4BGGNucleonInelasticXS( G4Proton::Proton() ) );
 	  theInelasticProcess->RegisterMe( theFTFModel1 );
           theInelasticProcess->RegisterMe( theBERTModel0 );
 	  pmanager->AddDiscreteProcess( theInelasticProcess );
 	}
-
-      else if (particleName == "anti_proton")
+      else if (particleName == "anti_proton") 
 	{
 	  // Elastic scattering
           const G4double elastic_elimitAntiNuc = 100.0*MeV;
@@ -673,7 +755,7 @@ void PhysicsList:: ConstructHadronic()
           theElasticProcess->RegisterMe( elastic_anuc );
 	  pmanager->AddDiscreteProcess( theElasticProcess );
 	  // Inelastic scattering
-	  G4AntiProtonInelasticProcess* theInelasticProcess =
+	  G4AntiProtonInelasticProcess* theInelasticProcess = 
 	    new G4AntiProtonInelasticProcess("inelastic");
 	  theInelasticProcess->AddDataSet( theAntiNucleonData );
 	  theInelasticProcess->RegisterMe( theFTFModel0 );
@@ -695,7 +777,7 @@ void PhysicsList:: ConstructHadronic()
 	theElasticProcess->RegisterMe( theElasticNeutronHP );
 	theElasticProcess->AddDataSet( new G4ParticleHPElasticData );
 	pmanager->AddDiscreteProcess( theElasticProcess );
-	// inelastic scattering
+	// inelastic scattering		
 	G4NeutronInelasticProcess* theInelasticProcess =
 	  new G4NeutronInelasticProcess("inelastic");
 	theInelasticProcess->AddDataSet( new G4BGGNucleonInelasticXS( G4Neutron::Neutron() ) );
@@ -718,66 +800,66 @@ void PhysicsList:: ConstructHadronic()
 	pmanager->AddDiscreteProcess(theCaptureProcess);
 
       }
-      else if (particleName == "anti_neutron")
+      else if (particleName == "anti_neutron") 
 	{
 	  // Elastic scattering
           G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
           theElasticProcess->RegisterMe( elastic_lhep0 );
 	  pmanager->AddDiscreteProcess( theElasticProcess );
           // Inelastic scattering (include annihilation on-fly)
-	  G4AntiNeutronInelasticProcess* theInelasticProcess =
+	  G4AntiNeutronInelasticProcess* theInelasticProcess = 
 	    new G4AntiNeutronInelasticProcess("inelastic");
 	  theInelasticProcess->AddDataSet( theAntiNucleonData );
 	  theInelasticProcess->RegisterMe( theFTFModel0 );
-	  pmanager->AddDiscreteProcess( theInelasticProcess );
+	  pmanager->AddDiscreteProcess( theInelasticProcess );	  
 	}
 
-      else if (particleName == "deuteron")
+      else if (particleName == "deuteron") 
 	{
 	  // Elastic scattering
           G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
           theElasticProcess->RegisterMe( elastic_lhep0 );
 	  pmanager->AddDiscreteProcess( theElasticProcess );
           // Inelastic scattering
-	  G4DeuteronInelasticProcess* theInelasticProcess =
+	  G4DeuteronInelasticProcess* theInelasticProcess = 
 	    new G4DeuteronInelasticProcess("inelastic");
 	  theInelasticProcess->AddDataSet( theGGNuclNuclData );
 	  theInelasticProcess->RegisterMe( theFTFModel1 );
           theInelasticProcess->RegisterMe( theBERTModel0 );
 	  pmanager->AddDiscreteProcess( theInelasticProcess );
 	}
-
-      else if (particleName == "triton")
+      
+      else if (particleName == "triton") 
 	{
 	  // Elastic scattering
           G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
           theElasticProcess->RegisterMe( elastic_lhep0 );
 	  pmanager->AddDiscreteProcess( theElasticProcess );
           // Inelastic scattering
-	  G4TritonInelasticProcess* theInelasticProcess =
+	  G4TritonInelasticProcess* theInelasticProcess = 
 	    new G4TritonInelasticProcess("inelastic");
 	  theInelasticProcess->AddDataSet( theGGNuclNuclData );
 	  theInelasticProcess->RegisterMe( theFTFModel1 );
           theInelasticProcess->RegisterMe( theBERTModel0 );
 	  pmanager->AddDiscreteProcess( theInelasticProcess );
 	}
-      else if (particleName == "alpha")
+      else if (particleName == "alpha") 
 	{
 	  // Elastic scattering
           G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
           theElasticProcess->RegisterMe( elastic_lhep0 );
 	  pmanager->AddDiscreteProcess( theElasticProcess );
           // Inelastic scattering
-	  G4AlphaInelasticProcess* theInelasticProcess =
-	    new G4AlphaInelasticProcess("inelastic");
+	  G4AlphaInelasticProcess* theInelasticProcess = 
+	    new G4AlphaInelasticProcess("inelastic");	 
           theInelasticProcess->AddDataSet( theGGNuclNuclData );
 	  theInelasticProcess->RegisterMe( theFTFModel1 );
           theInelasticProcess->RegisterMe( theBERTModel0 );
 	  pmanager->AddDiscreteProcess( theInelasticProcess );
 	}
+
     }
 }
-
 
 
 
@@ -789,28 +871,28 @@ void PhysicsList:: ConstructHadronic()
   //G4LElastic* theElasticModel = new G4LElastic;
   G4HadronElastic* theElasticModel = new G4HadronElastic;
   theElasticProcess->RegisterMe(theElasticModel);
-
+  
   theParticleIterator->reset();
   while( (*theParticleIterator)() ){
     G4ParticleDefinition* particle = theParticleIterator->value();
     G4ProcessManager* pmanager = particle->GetProcessManager();
     G4String particleName = particle->GetParticleName();
-
-    //Pion
+    
+    //Pion      
     if( particleName == "pi+" ) {
       pmanager->AddProcess( theElasticProcess );
-      G4PionPlusInelasticProcess* theInelasticProcess
+      G4PionPlusInelasticProcess* theInelasticProcess 
 	= new G4PionPlusInelasticProcess( "inelastic" );
-      G4LEPionPlusInelastic* theLEInelasticModel
+      G4LEPionPlusInelastic* theLEInelasticModel 
 	= new G4LEPionPlusInelastic;
       theInelasticProcess->RegisterMe(theLEInelasticModel);
       pmanager->AddDiscreteProcess(theInelasticProcess);
     }
     else if( particleName == "pi-" ) {
       pmanager->AddProcess( theElasticProcess );
-      G4PionMinusInelasticProcess* theInelasticProcess
+      G4PionMinusInelasticProcess* theInelasticProcess 
 	= new G4PionMinusInelasticProcess( "inelastic" );
-      G4LEPionMinusInelastic* theLEInelasticModel
+      G4LEPionMinusInelastic* theLEInelasticModel 
 	= new G4LEPionMinusInelastic;
       theInelasticProcess->RegisterMe(theLEInelasticModel);
       pmanager->AddDiscreteProcess(theInelasticProcess);
@@ -818,36 +900,36 @@ void PhysicsList:: ConstructHadronic()
     //Kaon
     else if( particleName == "kaon+" ) {
       pmanager->AddProcess( theElasticProcess );
-      G4KaonPlusInelasticProcess* theInelasticProcess
+      G4KaonPlusInelasticProcess* theInelasticProcess 
 	= new G4KaonPlusInelasticProcess( "inelastic" );
-      G4LEKaonPlusInelastic* theLEInelasticModel
+      G4LEKaonPlusInelastic* theLEInelasticModel 
 	= new G4LEKaonPlusInelastic;
       theInelasticProcess->RegisterMe(theLEInelasticModel);
       pmanager->AddDiscreteProcess(theInelasticProcess);
     }
     else if( particleName == "kaon-" ) {
       pmanager->AddProcess( theElasticProcess );
-      G4KaonMinusInelasticProcess* theInelasticProcess
+      G4KaonMinusInelasticProcess* theInelasticProcess 
 	= new G4KaonMinusInelasticProcess( "inelastic" );
-      G4LEKaonMinusInelastic* theLEInelasticModel
+      G4LEKaonMinusInelastic* theLEInelasticModel 
 	= new G4LEKaonMinusInelastic;
       theInelasticProcess->RegisterMe(theLEInelasticModel);
       pmanager->AddDiscreteProcess(theInelasticProcess);
     }
     else if( particleName == "kaon0S" ) {
       pmanager->AddProcess( theElasticProcess );
-      G4KaonZeroSInelasticProcess* theInelasticProcess
+      G4KaonZeroSInelasticProcess* theInelasticProcess 
 	= new G4KaonZeroSInelasticProcess( "inelastic" );
-      G4LEKaonZeroSInelastic* theLEInelasticModel
+      G4LEKaonZeroSInelastic* theLEInelasticModel 
 	= new G4LEKaonZeroSInelastic;
       theInelasticProcess->RegisterMe(theLEInelasticModel);
       pmanager->AddDiscreteProcess(theInelasticProcess);
     }
     else if( particleName == "kaon0L" ) {
       pmanager->AddProcess( theElasticProcess );
-      G4KaonZeroLInelasticProcess* theInelasticProcess
+      G4KaonZeroLInelasticProcess* theInelasticProcess 
 	= new G4KaonZeroLInelasticProcess( "inelastic" );
-      G4LEKaonZeroLInelastic* theLEInelasticModel
+      G4LEKaonZeroLInelastic* theLEInelasticModel 
 	= new G4LEKaonZeroLInelastic;
       theInelasticProcess->RegisterMe(theLEInelasticModel);
       pmanager->AddDiscreteProcess(theInelasticProcess);
@@ -855,18 +937,18 @@ void PhysicsList:: ConstructHadronic()
     //Nucleon
     else if( particleName == "proton" ) {
       pmanager->AddProcess( theElasticProcess );
-      G4ProtonInelasticProcess* theInelasticProcess
+      G4ProtonInelasticProcess* theInelasticProcess 
 	= new G4ProtonInelasticProcess( "inelastic" );
-      G4LEProtonInelastic* theLEInelasticModel
+      G4LEProtonInelastic* theLEInelasticModel 
 	= new G4LEProtonInelastic;
       theInelasticProcess->RegisterMe(theLEInelasticModel);
       pmanager->AddDiscreteProcess(theInelasticProcess);
     }
     else if( particleName == "neutron" ) {
       pmanager->AddProcess( theElasticProcess );
-      G4NeutronInelasticProcess* theInelasticProcess
+      G4NeutronInelasticProcess* theInelasticProcess 
 	= new G4NeutronInelasticProcess( "inelastic" );
-      G4LENeutronInelastic* theLEInelasticModel
+      G4LENeutronInelastic* theLEInelasticModel 
 	= new G4LENeutronInelastic;
       theInelasticProcess->RegisterMe(theLEInelasticModel);
       pmanager->AddDiscreteProcess(theInelasticProcess);
