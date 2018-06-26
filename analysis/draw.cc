@@ -23,11 +23,9 @@ void draw()
   //bool pdf_saving = false;
 
   e45 e45_class;
-  e45_class.beam_through();
-  //e45_class.display_draw();
-  //e45_class.draw_evtgen();
-  //e45_class.draw_multiplicity();
-  //e45_class.draw_edep();
-  //e45_class.draw_elastic();
+  //e45_class.beam_through();
+  e45_class.draw_evtgen();
+  e45_class.draw_hodoscope();
+  e45_class.draw_edep();
 
 }//end

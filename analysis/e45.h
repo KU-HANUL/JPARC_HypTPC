@@ -63,7 +63,7 @@ class e45{
   int tofparentpid2[100];
   int tofparentpid3[100];
 
-  TFile *file = new TFile("../rootfile/e45/phsp/pi_plus/pipip/p1035_phsp.root","READ");
+  TFile *file = new TFile("../rootfile/e45/phsp/pi_plus/pipip/p2000_phsp.root","READ");
   TTree *tree = (TTree*)file->Get("tree");
 
   double R=305, L=4*70;
@@ -90,9 +90,8 @@ class e45{
   void beam_through();
   void display_draw();
   void draw_evtgen();
-  void draw_multiplicity();
+  void draw_hodoscope();
   void draw_edep();
-  void draw_elastic();
 
   e45() = default;
 
@@ -358,53 +357,48 @@ void e45::draw_evtgen(){
   tree->SetBranchAddress("evtvy",evtvy);
   tree->SetBranchAddress("evtvz",evtvz);
 
-  TCanvas *can_pid = new TCanvas("can_pid","",1200,1200);
-  TCanvas *can_p = new TCanvas("can_p","",1200,1200);
-  can_p -> Divide(1,2);
+  TCanvas *can_evtpid = new TCanvas("can_evtpid","",1200,1200);
+  TCanvas *can_evtp = new TCanvas("can_evtp","",1200,1200);
+  can_evtp -> Divide(2,1);
 
-  TH1D *hist_pid =new TH1D("hist_pid","Evtgen PID;PDG encording;counts",4600,-2300,2300);
-  TH1D *hist_p_p=new TH1D("hist_p_p","P momentum;P(GeV/c);Counts",1000,0,2);
-  TH1D *hist_p_pi=new TH1D("hist_p_pi","pi momentum;P(GeV/c);Counts",1000,0,2);
+  TH1D *hist_evtpid=new TH1D("hist_evtpid","Evtgen PID;PDG encording;counts",4600,-2300,2300);
+  TH1D *hist_evtp_p=new TH1D("hist_evtp_p","Evtgen P momentum;P(GeV/c);Counts",1000,0,3);
+  TH1D *hist_evtp_pi=new TH1D("hist_evtp_pi","Evtgen pi momentum;P(GeV/c);Counts",1000,0,3);
 
   int nevent=tree->GetEntries();
   for(int i=0;i<nevent;i++){
     tree->GetEntry(i);
     for(int j=0;j<nEvt;j++){
-      hist_pid -> Fill(evtpid[j]); //PID
+      hist_evtpid -> Fill(evtpid[j]); //PID
       if(TMath::Abs(evtpid[j])==211){ //for selecting events w/ pi
 	p_pi=TMath::Sqrt(evtpx[j]*evtpx[j]+evtpy[j]*evtpy[j]+evtpz[j]*evtpz[j]);
-	hist_p_pi -> Fill(p_pi);
+	hist_evtp_pi -> Fill(p_pi);
       }
       else if(evtpid[j]==2212){ //for selecting events w/ p
 	p_p=TMath::Sqrt(evtpx[j]*evtpx[j]+evtpy[j]*evtpy[j]+evtpz[j]*evtpz[j]);
-	hist_p_p -> Fill(p_p);
+	hist_evtp_p -> Fill(p_p);
       }
     }
   }
 
-  can_pid -> cd();
-  hist_pid->Draw();
-  can_p -> cd(1);
-  hist_p_p->Draw();
-  can_p -> cd(2);
-  hist_p_pi->Draw();
-
-  if(pdf){
-    can_pid ->SaveAs("pdf/evt_pid");
-    can_p ->SaveAs("pdf/evt_p");
-  }
+  can_evtpid -> cd();
+  hist_evtpid->Draw();
+  can_evtp -> cd(1);
+  hist_evtp_p->Draw();
+  can_evtp -> cd(2);
+  hist_evtp_pi->Draw();
 
   class_e45++;
 }
 
 
 
-void e45::draw_multiplicity(){
+void e45::draw_hodoscope(){
 
   bool pdf=false;
   //bool pdf=true;
   //bool printout=false;
-  bool printout=true;
+  bool printout=false;
 
   //gStyle->SetOptStat(0);
 
@@ -414,16 +408,23 @@ void e45::draw_multiplicity(){
   tree->SetBranchAddress("tofpid",tofpid);
   tree->SetBranchAddress("tofedep",tofedep);
   tree->SetBranchAddress("toftrid",toftrid);
+  tree->SetBranchAddress("tofmomx",tofmomx);
+  tree->SetBranchAddress("tofmomy",tofmomy);
+  tree->SetBranchAddress("tofmomz",tofmomz);
 
-  TCanvas *can_multi = new TCanvas("can_multi","",1200,1200);
+  //TCanvas *can_multi = new TCanvas("can_multi","",1200,1200);
   TCanvas *can_pid = new TCanvas("can_pid","",1200,1200);
+  TCanvas *can_p = new TCanvas("can_p","",1200,1200);
+  can_p -> Divide(2,1);
 
   TH1D *hist_pid =new TH1D("hist_pid","Hodoscope PID",4600,-2300,2300);
   TH1D *hist_multi =new TH1D("hist_multi","Hodoscope Multiplicity",7,0,7);
   TH1D *hist_multi_pi=new TH1D("hist_multi_pi","Hodoscope Multiplicity",7,0,7);
+  TH1D *hist_p_p =new TH1D("hist_p_p","Hodoscope hit P momentum",1000,0,3);
+  TH1D *hist_p_pi =new TH1D("hist_p_pi","Hodoscope hit pi momentum",1000,0,3);
 
   int nevent=tree->GetEntries();
-  ecut=0.1;
+  ecut=1.0;
   double evt_pi=0, evt_mu;
   for(int i=0;i<nevent;i++){
     tree->GetEntry(i);
@@ -439,10 +440,14 @@ void e45::draw_multiplicity(){
       if(TMath::Abs(tofpid[j])==211&&tofedep[j]>ecut){ //for selecting events w/ pi
 	total_count++;
 	count_pi++;
+	p_pi=TMath::Sqrt(tofmomx[j]*tofmomx[j]+tofmomy[j]*tofmomy[j]+tofmomz[j]*tofmomz[j]);
+	hist_p_pi -> Fill(p_pi);
       }
       else if(tofpid[j]==2212&&tofedep[j]>ecut){ //for selecting events w/ p
 	total_count++;
 	count_p++;
+	p_p=TMath::Sqrt(tofmomx[j]*tofmomx[j]+tofmomy[j]*tofmomy[j]+tofmomz[j]*tofmomz[j]);
+	hist_p_p -> Fill(p_p);
       }
       else if(tofpid[j]==11&&tofedep[j]>ecut) count_e++;
       else if(tofpid[j]==-11&&tofedep[j]>ecut) count_e++;
@@ -468,12 +473,17 @@ void e45::draw_multiplicity(){
   hist_pid->GetXaxis()->SetTitle("PID(PDG encording) ");
   hist_pid->GetYaxis()->SetTitle("Counts");
 
-  can_multi->cd();
-  hist_multi->Draw();
-  hist_multi_pi->Draw("same");
-  hist_multi_pi->SetLineColor(kRed);
-  hist_multi->GetXaxis()->SetTitle("Multiplicity of TPC hodo ");
-  hist_multi->GetYaxis()->SetTitle("Counts");
+  can_p -> cd(1);
+  hist_p_p->Draw();
+  can_p -> cd(2);
+  hist_p_pi->Draw();
+
+  //can_multi->cd();
+  //hist_multi->Draw();
+  //hist_multi_pi->Draw("same");
+  //hist_multi_pi->SetLineColor(kRed);
+  //hist_multi->GetXaxis()->SetTitle("Multiplicity of TPC hodo ");
+  //hist_multi->GetYaxis()->SetTitle("Counts");
 
   if(pdf){
 
@@ -575,8 +585,11 @@ void e45::draw_edep(){
 
   TCanvas *can_edep = new TCanvas("can_edep","",1200,1200);
   can_edep -> Divide(2,2);
-  TCanvas *can_vtx = new TCanvas("can_vtx","",1200,1200);
-  can_vtx -> Divide(2,2);
+  //TCanvas *can_vtx = new TCanvas("can_vtx","",1200,1200);
+  //can_vtx -> Divide(1,2);
+  TCanvas *can_edep_hitpos_p = new TCanvas("can_edep_hitpos_p","",1200,1200);
+  TCanvas *can_edep_hitpos_pi = new TCanvas("can_edep_hitpos_pi","",1200,1200);
+  //can_vtx -> Divide(1,2);
 
   TH1D *hist_edep_p=new TH1D("hist_edep_p","P deposit energy;E(MeV);Counts",100,0,20);
   TH1D *hist_edep_pi=new TH1D("hist_edep_pi","pi deposit energy;E(MeV);Counts",100,0,15);
@@ -594,9 +607,10 @@ void e45::draw_edep(){
     total_count=0, count_all=0, count_p=0, count_pi=0, count_e=0, count_mu=0, count_gamma=0;
     edep_p=0, edep_pi=0, edep_mu=0;
     for(int j=0;j<nhTof;j++){
-      if(TMath::Abs(tofpid[j])==211&&tofedep[j]>ecut){ //for selecting events w/ pi
+      //if(TMath::Abs(tofpid[j])==211&&tofedep[j]>ecut){ //for selecting events w/ pi
+      if(TMath::Abs(tofpid[j])==211){ //for selecting events w/ pi
 	count_pi++;
-	edep_pi=edep_pi+tofedep[j];
+	hist_edep_pi-> Fill(tofedep[j]);
 	hist_vtx_pi-> Fill(tofposx[j],tofposz[j]);
 	if(count_pi==1){
 	  tof_pi=toftime[j];
@@ -607,9 +621,10 @@ void e45::draw_edep(){
 	  seg_pi=tofseg[j];
 	}
       }
-      else if(tofpid[j]==2212&&tofedep[j]>ecut){ //for selecting events w/ p
+      //else if(tofpid[j]==2212&&tofedep[j]>ecut){ //for selecting events w/ p
+      else if(tofpid[j]==2212){ //for selecting events w/ p
 	count_p++;
-	edep_p=edep_p+tofedep[j];
+	hist_edep_p-> Fill(tofedep[j]);
 	hist_vtx_p-> Fill(tofposx[j],tofposz[j]);
 	if(count_p==1){
 	  tof_p=toftime[j];
@@ -623,9 +638,9 @@ void e45::draw_edep(){
       else if(tofpid[j]==11&&tofedep[j]>ecut) count_e++;
       else if(tofpid[j]==-11&&tofedep[j]>ecut) count_e++;
       else if(tofpid[j]==22&&tofedep[j]>ecut) count_gamma++;
-      else if(TMath::Abs(tofpid[j])==13&&tofedep[j]>ecut){
+      else if(TMath::Abs(tofpid[j])==13){
 	count_mu++;
-	edep_mu=edep_mu+tofedep[j];
+	hist_edep_mu-> Fill(tofedep[j]);
 	hist_vtx_mu-> Fill(tofvtxx[j],tofvtxz[j]);
 	if(count_mu==1){
 	  tof_mu=toftime[j];
@@ -641,14 +656,8 @@ void e45::draw_edep(){
 	}
       }
     }
-    if(count_p>0&&count_pi>0){ // selecting events w/ p,pi
-      hist_edep_p -> Fill(edep_p);
-      hist_edep_pi -> Fill(edep_pi);
-    }
-    if(count_mu>0)  hist_edep_mu-> Fill(edep_mu);
     if(count_p>0&&count_pi>0&&count_mu>0){
       if(seg_mu==seg_pi){
-	hist_edep_pimu-> Fill(edep_mu);
 	hist_vtx_pimu-> Fill(vtxx_mu,vtxz_mu);
       }
     }
@@ -660,96 +669,24 @@ void e45::draw_edep(){
   hist_edep_pi -> Draw();
   can_edep -> cd(3);
   hist_edep_mu -> Draw();
-  hist_edep_pimu -> Draw("same");
-  hist_edep_pimu -> SetLineColor(2);
-  can_edep -> cd(4);
-  hist_edep_mu -> Draw();
-  hist_edep_pimu -> Draw("same");
-  hist_edep_pimu -> SetLineColor(2);
-  gPad -> SetLogy();
-  can_vtx -> cd(1);
+
+  //can_edep -> cd(4);
+  //hist_edep_mu -> Draw();
+  //hist_edep_pimu -> Draw("same");
+  //hist_edep_pimu -> SetLineColor(2);
+  //gPad -> SetLogy();
+
+  can_edep_hitpos_p -> cd();
   hist_vtx_p -> Draw("colz");
-  can_vtx -> cd(2);
+  can_edep_hitpos_pi -> cd();
   hist_vtx_pi -> Draw("colz");
+
+  /*
   can_vtx -> cd(3);
   hist_vtx_mu -> Draw("colz");
   can_vtx -> cd(4);
   hist_vtx_pimu -> Draw("colz");
-
-  if(pdf){
-  }
-
-  class_e45++;
-}
-
-void e45::draw_elastic(){
-
-  bool pdf=false;
-  //bool pdf=true;
-  //bool printout=false;
-  bool printout=true;
-
-  //gStyle->SetOptStat(0);
-
-  TChain* chain = new TChain("tree");
-  chain -> Add("../rootfile/e45/elastic/p1035_elastic.root");
-
-  chain->SetBranchAddress("event",&event);
-  chain->SetBranchAddress("nhTof",&nhTof);
-
-  chain->SetBranchAddress("tofpid",tofpid);
-  chain->SetBranchAddress("toftrid",toftrid);
-  chain->SetBranchAddress("tofseg",tofseg);
-  chain->SetBranchAddress("toftime",toftime);
-  chain->SetBranchAddress("tofedep",tofedep);
-  chain->SetBranchAddress("tofmomx",tofmomx);
-  chain->SetBranchAddress("tofmomy",tofmomy);
-  chain->SetBranchAddress("tofmomz",tofmomz);
-  chain->SetBranchAddress("tofpath",tofpath);
-  chain->SetBranchAddress("tofposx",tofposx);
-  chain->SetBranchAddress("tofposy",tofposy);
-  chain->SetBranchAddress("tofposz",tofposz);
-  chain->SetBranchAddress("tofvtxx",tofvtxx);
-  chain->SetBranchAddress("tofvtxy",tofvtxy);
-  chain->SetBranchAddress("tofvtxz",tofvtxz);
-  chain->SetBranchAddress("tofparentpid1",tofparentpid1);
-  chain->SetBranchAddress("tofparentpid2",tofparentpid2);
-  chain->SetBranchAddress("tofparentpid3",tofparentpid3);
-
-  TCanvas *can_beamseg = new TCanvas("can_beamseg","",1200,1200);
-  TCanvas *can_beamhit  = new TCanvas("can_beamhit","",1200,1200);
-  TCanvas *can_beampid = new TCanvas("can_beampid","",1200,1200);
-  TCanvas *can_beamp = new TCanvas("can_beamp","",1200,1200);
-
-  TH1D *hist_pid_beam = new TH1D("hist_pid_beam","Evtgen PID;PDG encording;counts",4600,-2300,2300);
-  TH1D *hist_seg_beam = new TH1D("hist_seg_beam","segment;# of Seg;Counts",32,0,32);
-  TH1D *hist_p_beam = new TH1D("hist_p_beam","pi momentum;GeV/c;Counts",100,0,2);
-
-  TH2D *hist_hitpos_beam = new TH2D("hist_hitpos_beam","pi hit position;x(mm);z(mm)",800,-400,400,800,-400,400);
-
-  int nevent=chain->GetEntries();
-  for(int i=0;i<nevent;i++){
-    chain->GetEntry(i);
-    for(int j=0;j<nhTof;j++){
-      hist_pid_beam -> Fill(tofpid[j]);
-      if(TMath::Abs(tofpid[j])==211){ //for selecting events w/ pi
-	hist_seg_beam -> Fill(tofseg[j]);
-	hist_hitpos_beam -> Fill(tofposx[j],tofposz[j]);
-	p_pi=TMath::Sqrt(tofmomx[j]*tofmomx[j]+tofmomy[j]*tofmomy[j]+tofmomz[j]*tofmomz[j]);
-	hist_p_beam -> Fill(p_pi);
-      }
-    }
-  }
-
-  can_beampid -> cd();
-  hist_pid_beam->Draw();
-  can_beamseg -> cd();
-  hist_seg_beam -> Draw();
-  can_beamhit -> cd();
-  hist_hitpos_beam ->Draw("colz");
-  can_beamp -> cd();
-  hist_p_beam ->Draw();
-
+  */
   if(pdf){
   }
 
