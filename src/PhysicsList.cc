@@ -577,7 +577,6 @@ void PhysicsList:: ConstructHadronic()
 	  //Absorption
 	  pmanager->AddRestProcess(new G4PiMinusAbsorptionBertini, ordDefault);
 	}
-      /*
       else if (particleName == "kaon+")
 	{
 	  // Elastic scattering
@@ -642,7 +641,6 @@ void PhysicsList:: ConstructHadronic()
 	  pmanager->AddDiscreteProcess( theInelasticProcess );
 	  pmanager->AddRestProcess(new G4KaonMinusAbsorptionBertini, ordDefault);
 	}
-      */
       else if (particleName == "proton")
 	{
 	  // Elastic scattering
@@ -683,7 +681,7 @@ void PhysicsList:: ConstructHadronic()
 	  // Absorption
 	  pmanager->AddRestProcess(new G4AntiProtonAbsorptionFritiof, ordDefault);
 	}
-      /*
+
       else if (particleName == "neutron") {
 	// elastic scattering
 	G4HadronElasticProcess* theElasticProcess = new G4HadronElasticProcess;
@@ -777,7 +775,6 @@ void PhysicsList:: ConstructHadronic()
           theInelasticProcess->RegisterMe( theBERTModel0 );
 	  pmanager->AddDiscreteProcess( theInelasticProcess );
 	}
-      */
     }
 }
 
