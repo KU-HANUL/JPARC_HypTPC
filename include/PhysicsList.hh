@@ -37,6 +37,7 @@ private:
   void ConstructDecay();
   void ConstructEM();
   void ConstructHadronic();
+  void ConstructElastic();
 
   G4ParticleTable *theParticleTable = G4ParticleTable::GetParticleTable();
   G4ParticleTable::G4PTblDicIterator *theParticleIterator = theParticleTable->GetIterator();
