@@ -482,8 +482,8 @@ void PhysicsList::ConstructEM()
 void PhysicsList:: ConstructHadronic()
 {
   //Elastic models
-  //const G4double elastic_elimitPi = 1.0*GeV;
-  const G4double elastic_elimitPi = 2.5*GeV;
+  const G4double elastic_elimitPi = 1.0*GeV;
+  //const G4double elastic_elimitPi = 2.5*GeV;
 
   G4HadronElastic* elastic_lhep0 = new G4HadronElastic();
   G4HadronElastic* elastic_lhep1 = new G4HadronElastic();
