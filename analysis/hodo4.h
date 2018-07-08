@@ -293,11 +293,7 @@ void hodo4::pipip(TFile *file, double ecut, bool window, double &acceptance, boo
 	count_m2++;
       }
       else count_m0++;
-      if(count_p>0){
-	hist_multi[class_hodo] -> Fill(multiplicity); //Hodoscope multiplicity
-	hist_multi[class_hodo] -> Fill(multiplicity); //Hodoscope multiplicity
-      }
-      else hist_multi[class_hodo] -> Fill(multiplicity); //Hodoscope multiplicity
+      hist_multi[class_hodo] -> Fill(multiplicity); //Hodoscope multiplicity
     }
   }
 
