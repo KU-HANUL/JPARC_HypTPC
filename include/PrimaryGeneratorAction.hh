@@ -60,7 +60,7 @@ protected:
   void DeleteGuns();
   void GenerateDecay(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector D);
   void GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector P, G4ThreeVector D);
-
+  double GetCos(TLorentzVector lv1, TLorentzVector lv2);
 
   // Beam //
   double bpx_; //beam momentum

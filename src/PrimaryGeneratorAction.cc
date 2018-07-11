@@ -579,6 +579,7 @@ void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGe
   double cos_CM;
 
   TVector3 beta_CM(0,0,-p_beam/(e_beam+m_p));
+  EvtVector4R p4_pi;
 
   static EvtStdHep evtstdhep;
   static EvtSecondary evtsecondary;
@@ -671,16 +672,6 @@ void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGe
     anaMan_->SetEvtGen(j, partnum, jmotherfirst, jmotherlast, jdaugfirst, jdauglast, tr_id, evx4, evp4);
   }
 
-
-
-
-
-
-
-
-
-
-
 #if 0
   G4cout<<"############# Particle decay table  ##############"<<G4endl;
   G4cout<<"Npart: "<<npart<<G4endl;
@@ -716,4 +707,10 @@ void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGe
 #endif
   particle->deleteTree();
 
+}
+
+double PrimaryGeneratorAction::GetCos(TLorentzVector lv1, TLorentzVector lv2) {
+  double dot_product = lv1.Px()*lv2.Px() + lv1.Py()*lv2.Py() + lv1.Pz()*lv2.Pz();
+  double cos = dot_product / (lv1.P() * lv2.P());
+  return cos;
 }
