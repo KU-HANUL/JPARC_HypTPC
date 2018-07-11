@@ -28,7 +28,7 @@ using namespace RooFit;
 
 static int class_hodo = 0;
 
-class hodo4{
+class elastic{
 
  private:
 
@@ -74,9 +74,9 @@ class hodo4{
 
  public:
 
-  void pipip(TFile *file, double ecut, bool window, double &acceptance, bool printout=false);
+  void pip(TFile *file, double ecut, bool window, double &acceptance, bool printout=false);
 
-  hodo4() = default;
+  elastic() = default;
 
   TCanvas *can_multi[100];
   TCanvas *can_pid[100];
@@ -106,7 +106,7 @@ class hodo4{
 
 };
 
-void hodo4::pipip(TFile *file, double ecut, bool window, double &acceptance, bool printout=false){
+void elastic::pip(TFile *file, double ecut, bool window, double &acceptance, bool printout=false){
 
   TTree *tree = (TTree*)file->Get("tree");
 

@@ -62,12 +62,14 @@
 
 #include <TRandom.h>
 #include <TMath.h>
+#include <TF1.h>
 
 //#include <boost/iostreams/filtering_streambuf.hpp>
 //#include <boost/iostreams/copy.hpp>
 //#include <boost/iostreams/filter/gzip.hpp>
 
 static int prmclass=0;
+static int prmclass2=0;
 
 PrimaryGeneratorAction::PrimaryGeneratorAction( DetectorConstruction *det,
 						AnalysisManager *analysisManager,
@@ -184,7 +186,7 @@ void PrimaryGeneratorAction::GenerateTestPion(G4Event* anEvent, G4ThreeVector D,
       TRandom *eventgen = new TRandom(prmclass);
       TV_bvx = eventgen->Gaus(D.x(),sigmabvx);
       TV_bvy = eventgen->Gaus(D.y(),sigmabvy);
-      if(TMath::Abs(TV_bvy-D.y())<50.0 && TMath::Abs(TV_bvx-D.x())<27.0)  flag=0;	    
+      if(TMath::Abs(TV_bvy-D.y())<50.0 && TMath::Abs(TV_bvx-D.x())<27.0)  flag=0;
       prmclass++;
     }
     TV_bvz = D.z();
@@ -207,7 +209,7 @@ void PrimaryGeneratorAction::GenerateTestPion(G4Event* anEvent, G4ThreeVector D,
   particleGun->SetParticlePosition( beamx );
   particleGun->SetParticleEnergy( energy );
   particleGun->GeneratePrimaryVertex( anEvent);
-  
+
 
 }
 
@@ -352,7 +354,7 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
 
   G4LorentzVector Lv_N;
   G4ThreeVector TVp (lv_particle.x(), lv_particle.y(), lv_particle.z());
-  
+
   double sigmabvx, sigmabvy, sigmabvz;
   sigmabvx = confMan->GetBeamVXSig();
   sigmabvy = confMan->GetBeamVYSig();
@@ -366,7 +368,7 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
       TV_bvx = eventgen->Gaus(D.x(),sigmabvx);
       TV_bvy = eventgen->Gaus(D.y(),sigmabvy);
       TV_bvz = D.z() + eventgen->Uniform(-27.0,27.0);
-      if(TMath::Sqrt(   (TV_bvx-D.x())*(TV_bvx-D.x()) + (TV_bvz-D.z())*(TV_bvz-D.z())  )< 54.0 && TMath::Abs(TV_bvy-D.y())<50.0)  flag=0;	    
+      if(TMath::Sqrt(   (TV_bvx-D.x())*(TV_bvx-D.x()) + (TV_bvz-D.z())*(TV_bvz-D.z())  )< 54.0 && TMath::Abs(TV_bvy-D.y())<50.0)  flag=0;
       prmclass++;
     }
   }
@@ -375,7 +377,7 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
     TV_bvy = D.y();
     TV_bvz = D.z();
   }
-  
+
   G4ThreeVector TVx (TV_bvx,TV_bvy,TV_bvz);
   double mass_N = sqrt((lv_beam.e()+lv_target.e())*(lv_beam.e()+lv_target.e()) - pbeam*pbeam);
 
@@ -385,7 +387,7 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
       G4cout<<"### Beam momentum is not enough to generate Particle ###"<<G4endl;
       return;
     }
-  /*  
+  /*
   G4cout<<"########################### Test  ##############################"<<G4endl;
   G4cout<<"Momentum of K-: "<<pbeam << " GeV/c" <<G4endl;
   G4cout<<"Invariant mass of K + p: "<<lv_particle.m() << " GeV/c2" <<G4endl;
@@ -398,8 +400,8 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
 
   EvtVector4R pInit_N( Lv_N.e(), Lv_N.vect().x(), Lv_N.vect().y(), Lv_N.vect().z() );
   Nstar = EvtParticleFactory::particleFactory(evtid_N, pInit_N);
-  GenerateDecay(anEvent, evtGenerator, Nstar, TVx);
-
+  //GenerateDecay(anEvent, evtGenerator, Nstar, TVx);
+  GenerateDecay_angle(anEvent, evtGenerator, Nstar, P, TVx);
 
 }
 
@@ -558,5 +560,159 @@ void PrimaryGeneratorAction::makeGun(G4Event* anEvent, int partnum, EvtVector4R 
   particleGun->SetParticlePosition( beamx );
   particleGun->SetParticleEnergy( energy );
   particleGun->GeneratePrimaryVertex( anEvent);
+
+}
+
+
+
+
+void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector P, G4ThreeVector D)
+{
+
+  TF1 *func = new TF1("func","(3*x*x-1)/2",0,1);
+
+  double m_p = 0.938272;
+  double m_pi = 0.139570;
+  double p_beam = P.mag();
+  double e_beam = sqrt(p_beam*p_beam + m_pi*m_pi);
+  double cos_CM;
+
+  TVector3 beta_CM(0,0,-p_beam/(e_beam+m_p));
+
+  static EvtStdHep evtstdhep;
+  static EvtSecondary evtsecondary;
+
+  EvtId        list_of_stable[10];
+  EvtParticle* stable_parent[10];
+  list_of_stable[0]=EvtId(-1,-1);
+  stable_parent[0]=0;
+
+  int flag=1;
+  while(flag){
+    evtsecondary.init();
+    evtstdhep.init();
+    evtGenerator -> generateDecay(particle);
+    particle->makeStdHep(evtstdhep,evtsecondary,list_of_stable);
+    int npart = evtstdhep.getNPart();
+
+    for(int i=0;i<npart;i++){
+      if(TMath::Abs(evtstdhep.getStdHepID(i)==211)){
+	p4_pi=evtstdhep.getP4(i);
+	TLorentzVector lv_pi(p4_pi.get(1),p4_pi.get(2),p4_pi.get(3),p4_pi.get(0));
+	TLorentzVector lv_beam(P.x(),P.y(),P.z(),e_beam);
+	lv_pi.Boost(beta_CM);
+	lv_beam.Boost(beta_CM);
+	cos_CM = GetCos(lv_beam,lv_pi);
+      }
+    }
+    TRandom *eventgen2 = new TRandom(prmclass2);
+    if((eventgen2->Uniform(0,1))< (func->Eval(cos_CM)) && npart<100) flag=0;
+    prmclass2++;
+  }
+
+  int j;
+  int istat;
+  int partnum;
+  double px,py,pz,e,m;
+  double x,y,z,t;
+
+  EvtVector4R p4,x4;
+  int n_beam = 0; // number of beams
+
+  for(int i=0;i<evtstdhep.getNPart();i++){
+    j=i+1;
+    int jmotherfirst=evtstdhep.getFirstMother(i)+1;
+    int jmotherlast=evtstdhep.getLastMother(i)+1;
+    int jdaugfirst=evtstdhep.getFirstDaughter(i)+1;
+    int jdauglast=evtstdhep.getLastDaughter(i)+1;
+
+    partnum=evtstdhep.getStdHepID(i);
+
+    istat=evtstdhep.getIStat(i);
+
+    p4=evtstdhep.getP4(i);
+    x4=evtstdhep.getX4(i);
+
+    px=p4.get(1);
+    py=p4.get(2);
+    pz=p4.get(3);
+    e=p4.get(0);
+
+    x=x4.get(1)+D.x();
+    y=x4.get(2)+D.y();
+    z=x4.get(3)+D.z();
+    //t=x4.get(0)+D.t();
+    t=x4.get(0)*0.001/2.999792458 *1.e1; //mm/c --> ns
+    m=p4.mass();
+
+    EvtVector4R evx4, evp4;
+    evx4.set(1, x);
+    evx4.set(2, y);
+    evx4.set(3, z);
+    evx4.set(0, t);
+
+    evp4.set(1, px);
+    evp4.set(2, py);
+    evp4.set(3, pz);
+    evp4.set(0, e);
+
+    bool beam_flag = false;
+    int tr_id = -1;
+    //if(jdaugfirst ==0 && jdauglast ==0 && (partnum == 2212 || partnum == -211) && jmotherfirst == 2)
+    if(jdaugfirst ==0 && jdauglast ==0){
+      makeGun(anEvent, partnum, evx4, evp4);
+      beam_flag = true;
+      n_beam++;
+    }
+    if(beam_flag == true){
+      tr_id = n_beam;
+    }
+    anaMan_->SetEvtGen(j, partnum, jmotherfirst, jmotherlast, jdaugfirst, jdauglast, tr_id, evx4, evp4);
+  }
+
+
+
+
+
+
+
+
+
+
+
+#if 0
+  G4cout<<"############# Particle decay table  ##############"<<G4endl;
+  G4cout<<"Npart: "<<npart<<G4endl;
+  for(int i=0;i<evtstdhep.getNPart();i++)
+    {
+      j=i+1;
+      int jmotherfirst=evtstdhep.getFirstMother(i)+1;
+      int jmotherlast=evtstdhep.getLastMother(i)+1;
+      int jdaugfirst=evtstdhep.getFirstDaughter(i)+1;
+      int jdauglast=evtstdhep.getLastDaughter(i)+1;
+
+      p4=evtstdhep.getP4(i);
+      x4=evtstdhep.getX4(i);
+
+      px=p4.get(1);
+      py=p4.get(2);
+      pz=p4.get(3);
+      e=p4.get(0);
+
+      x=x4.get(1)+D.x();
+      y=x4.get(2)+D.y();
+      z=x4.get(3)+D.z();
+      t=x4.get(0);
+      m=p4.mass();
+      G4cout<<"x : "<<x<<" y " <<y<<" z: "<<z<<G4endl;
+
+      partnum=evtstdhep.getStdHepID(i);
+      G4cout<<"ID: " << j<< "  Particle Num: "<<partnum<<"  mf: "<<jmotherfirst<< "  ml: "<<jmotherlast << "  df: "<<jdaugfirst << "  dl: "<<jdauglast<<G4endl;
+      G4cout<< "   p: "<<(float)sqrt(px*px+py*py+pz*pz) << " e: " << (float)e << " t: "<< (float)t<< " m: "<< (float)m <<G4endl;
+    }
+
+  G4cout<<"##################################################"<<G4endl;
+#endif
+  particle->deleteTree();
 
 }

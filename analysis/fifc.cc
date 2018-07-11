@@ -11,7 +11,7 @@
 #include <fstream>
 #include <iostream>
 #include <TPad.h>
-#include "hodo3.h"
+#include "hodo_3body.h"
 
 using namespace std;
 
@@ -22,7 +22,7 @@ void fifc()
   bool pdf_saving = true;
   //bool pdf_saving = false;
 
-  hodo3 hodo_class;
+  hodo_3body hodo_class;
 
   TString pi_plus_pipip="../rootfile/e45/phsp/pi_plus/pipip/";
   TString pi_plus_pipin="../rootfile/e45/phsp/pi_plus/pipin/";

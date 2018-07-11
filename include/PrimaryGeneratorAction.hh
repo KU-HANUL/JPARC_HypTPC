@@ -59,6 +59,7 @@ protected:
   void makeGun(G4Event *anEvent, int partnum, EvtVector4R x, EvtVector4R y);
   void DeleteGuns();
   void GenerateDecay(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector D);
+  void GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector P, G4ThreeVector D);
 
 
   // Beam //
