@@ -19,7 +19,6 @@
 #include "G4RandomDirection.hh"
 #include "G4SystemOfUnits.hh"
 
-
 #include "Randomize.hh"
 
 #include "EvtGen/EvtGen.hh"
@@ -63,6 +62,8 @@
 #include <TRandom.h>
 #include <TMath.h>
 #include <TF1.h>
+#include <TVector3.h>
+#include <TLorentzVector.h>
 
 //#include <boost/iostreams/filtering_streambuf.hpp>
 //#include <boost/iostreams/copy.hpp>
