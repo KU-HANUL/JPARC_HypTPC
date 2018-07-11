@@ -10,6 +10,7 @@
 #include "G4ThreeVector.hh"
 #include "CLHEP/Vector/LorentzVector.h"
 #include <vector>
+#include <TLorentzVector.h>
 
 class DetectorConstruction;
 class AnalysisManager;
