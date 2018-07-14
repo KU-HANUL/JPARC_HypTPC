@@ -56,10 +56,8 @@ void elastic_boost(){
   //gStyle->SetOptStat(0);
 
   //TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/elastic/pi_plus/pipip/p2000_phsp.root","READ");
-  //TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/pwa/pwatest_0.root","READ");
-  //TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/pwa/pwatest_1.root","READ");
-  TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/pwa/pwatest_2.root","READ");
-  //TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/pwa/pwatest_3.root","READ");
+  TFile *file = new TFile("~/Desktop/p2000_phsp.root","READ");
+
   TTree *tree = (TTree*)file->Get("tree");
 
   int event;
@@ -123,7 +121,7 @@ void elastic_boost(){
   TH1D* hist_lab_angle_yz = new TH1D("hist_lab_angle_yz","Lab frame, YZ plane projection, P, #pi^{+} Angle Distribution;#theta_{P, #pi^{+}};counts", 100, 0, 180);
   TH1D* hist_lab_cos = new TH1D("hist_lab_cos","Lab frame, P, #pi^{+} Angle Distribution;Cos(#theta_{P, #pi^{+}});counts", 100, -1, 1);
   TH1D* hist_CM_angle = new TH1D("hist_CM_angle","Scattering Angle Distribution;#theta_{C.M.};counts", 100, 0, 180);
-  TH1D* hist_CM_cos = new TH1D("hist_CM_cos","Scattering Angle Distribution;Cos(#theta_{C.M.});counts", 100, -1, 1);
+  TH1D* hist_CM_cos = new TH1D("hist_CM_cos","Scattering Angle Distribution;Cos(#theta_{C.M.});counts", 100, -2, 2);
 
   TCanvas *can_labpT = new TCanvas("can_labpT","",1200,800);
   can_labpT -> Divide(2,2);
