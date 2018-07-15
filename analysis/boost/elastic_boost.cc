@@ -121,7 +121,7 @@ void elastic_boost(){
   TH1D* hist_lab_angle_yz = new TH1D("hist_lab_angle_yz","Lab frame, YZ plane projection, P, #pi^{+} Angle Distribution;#theta_{P, #pi^{+}};counts", 100, 0, 180);
   TH1D* hist_lab_cos = new TH1D("hist_lab_cos","Lab frame, P, #pi^{+} Angle Distribution;Cos(#theta_{P, #pi^{+}});counts", 100, -1, 1);
   TH1D* hist_CM_angle = new TH1D("hist_CM_angle","Scattering Angle Distribution;#theta_{C.M.};counts", 100, 0, 180);
-  TH1D* hist_CM_cos = new TH1D("hist_CM_cos","Scattering Angle Distribution;Cos(#theta_{C.M.});counts", 100, -2, 2);
+  TH1D* hist_CM_cos = new TH1D("hist_CM_cos","Scattering Angle Distribution;Cos(#theta_{C.M.});counts", 100, -1, 1);
 
   TCanvas *can_labpT = new TCanvas("can_labpT","",1200,800);
   can_labpT -> Divide(2,2);

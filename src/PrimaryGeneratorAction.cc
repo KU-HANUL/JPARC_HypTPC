@@ -570,9 +570,22 @@ void PrimaryGeneratorAction::makeGun(G4Event* anEvent, int partnum, EvtVector4R 
 void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector P, G4ThreeVector D)
 {
 
-  double xval[68]={ 1 ,0.9125 ,0.8875 ,0.8625 ,0.8375 ,0.8125 ,0.7875 ,0.7625 ,0.7375 ,0.7125 ,0.6875 ,0.6625 ,0.6375 ,0.6125 ,0.5875 ,0.5625 ,0.5375 ,0.5125 ,0.4875 ,0.4625 ,0.4375 ,0.4125 ,0.3875 ,0.3625 ,0.3375 ,0.3125 ,0.2875 ,0.2625 ,0.1625 ,0.0375 ,0.0125 ,-0.0125 ,-0.0375 ,-0.0625 ,-0.0875 ,-0.1125 ,-0.1375 ,-0.1625 ,-0.1875 ,-0.2125 ,-0.2375 ,-0.2625 ,-0.2875 ,-0.3125 ,-0.3375 ,-0.3625 ,-0.3875 ,-0.4125 ,-0.4375 ,-0.4625 ,-0.4875 ,-0.5125 ,-0.5375 ,-0.5625 ,-0.5875 ,-0.6125 ,-0.6375 ,-0.6625 ,-0.6875 ,-0.7125 ,-0.7375 ,-0.7625 ,-0.7875 ,-0.8125 ,-0.8375 ,-0.8625 ,-0.8875 ,-1 };
-  double yval[68]={1 ,0.548838 ,0.445976 ,0.364437 ,0.284726 ,0.225526 ,0.175872 ,0.144394 ,0.106518 ,0.0795079 ,0.0673228 ,0.0519899 ,0.0436634 ,0.032189 ,0.028635 ,0.0229487 ,0.0240656 ,0.0243703 ,0.0228471 ,0.0258934 ,0.0258934 ,0.027315 ,0.0244718 ,0.0251826 ,0.0256903 ,0.028635 ,0.0306659 ,0.0292443 ,0.0289397 ,0.0283304 ,0.023761 ,0.0242687 ,0.0223394 ,0.0234564 ,0.0218317 ,0.0208163 ,0.0209178 ,0.0218317 ,0.0223394 ,0.0189885 ,0.0228471 ,0.0229487 ,0.0221363 ,0.0193947 ,0.0235579 ,0.0205116 ,0.0219332 ,0.0191916 ,0.0209178 ,0.01909 ,0.0223394 ,0.0167545 ,0.0195977 ,0.0160437 ,0.0147237 ,0.0127944 ,0.0112712 ,0.0115759 ,0.00812342 ,0.00720953 ,0.00609256 ,0.00609256 ,0.00477251 ,0.00609256 ,0.00487405 ,0.00446788 ,0.00517868 ,0.0201731};
-  TGraph *func = new TGraph(68,xval,yval);
+  double coefficient[10] = {1, 2.162, 2.653, 2.889, 2.43, 1.665, 0.927, 0.332, 0.042, 0.06};
+
+  TF1 *legen[10];
+  legen[0] = new TF1("legen[0]","1",-1,1);
+  legen[1] = new TF1("legen[1]","x",-1,1);
+  legen[2] = new TF1("legen[2]","(3*TMath::Power(x,2)-1)/2 ",-1,1);
+  legen[3] = new TF1("legen[3]","(5*TMath::Power(x,3)-3*x)/2 ",-1,1);
+  legen[4] = new TF1("legen[4]","(35*TMath::Power(x,4)-30*TMath::Power(x,2)+3)/8 ",-1,1);
+  legen[5] = new TF1("legen[5]","(63*TMath::Power(x,5)-70*TMath::Power(x,3)+15*x)/8 ",-1,1);
+  legen[6] = new TF1("legen[6]","(231*TMath::Power(x,6)-315*TMath::Power(x,4)+105*TMath::Power(x,2)-5)/16 ",-1,1);
+  legen[7] = new TF1("legen[7]","(429*TMath::Power(x,7)-693*TMath::Power(x,5)+315*TMath::Power(x,3)-35*x)/16 ",-1,1);
+  legen[8] = new TF1("legen[8]","(6435*TMath::Power(x,8)-12012*TMath::Power(x,6)+6930*TMath::Power(x,4)-1260*TMath::Power(x,2)+35)/128 ",-1,1);
+  legen[9] = new TF1("legen[9]","(12155*TMath::Power(x,9)-25740*TMath::Power(x,7)+18018*TMath::Power(x,5)-4620*TMath::Power(x,3)+315*x)/128 ",-1,1);
+
+
+  TF1 *func = new TF1("diff",Form("legen[0]*%f+legen[1]*%f+legen[2]*%f+legen[3]*%f+legen[4]*%f+legen[5]*%f+legen[6]*%f+legen[7]*%f+legen[8]*%f+legen[9]*%f",coefficient[0],coefficient[1],coefficient[2],coefficient[3],coefficient[4],coefficient[5],coefficient[6],coefficient[7],coefficient[8],coefficient[9]),-1.0,1.0);
 
   double m_p = 0.938272;
   double m_pi = 0.139570;
