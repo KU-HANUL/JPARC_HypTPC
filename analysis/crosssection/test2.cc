@@ -91,7 +91,7 @@ void test2()
     diff[i] -> Draw();
   }
 
-
+  std::cout<<"max"<<diff[11]->GetMaximum()<<std::endl;
   for(int j=0;j<9;j++){
     //std::cout<<"amplitude : "<<" "<<amplitude[11][j]<<std::endl;
     //std::cout<<"P : "<<" "<<P[11][j]<<std::endl;

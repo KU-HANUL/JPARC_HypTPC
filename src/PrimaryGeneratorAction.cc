@@ -584,9 +584,9 @@ void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGe
   legen[8] = new TF1("legen[8]","(6435*TMath::Power(x,8)-12012*TMath::Power(x,6)+6930*TMath::Power(x,4)-1260*TMath::Power(x,2)+35)/128 ",-1,1);
   legen[9] = new TF1("legen[9]","(12155*TMath::Power(x,9)-25740*TMath::Power(x,7)+18018*TMath::Power(x,5)-4620*TMath::Power(x,3)+315*x)/128 ",-1,1);
 
-
   TF1 *func = new TF1("diff",Form("legen[0]*%f+legen[1]*%f+legen[2]*%f+legen[3]*%f+legen[4]*%f+legen[5]*%f+legen[6]*%f+legen[7]*%f+legen[8]*%f+legen[9]*%f",coefficient[0],coefficient[1],coefficient[2],coefficient[3],coefficient[4],coefficient[5],coefficient[6],coefficient[7],coefficient[8],coefficient[9]),-1.0,1.0);
 
+  double func_max = func->GetMaximum();
   double m_p = 0.938272;
   double m_pi = 0.139570;
   double p_beam = P.mag();
@@ -623,7 +623,7 @@ void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGe
       }
     }
     TRandom *eventgen2 = new TRandom(prmclass2);
-    if((eventgen2->Uniform(0,1))< (func->Eval(cos_CM)) && npart<100) flag=0;
+    if((eventgen2->Uniform(0,1))*(func_max) < (func->Eval(cos_CM)) && npart<100) flag=0;
     prmclass2++;
   }
 
