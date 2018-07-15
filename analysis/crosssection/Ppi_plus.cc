@@ -15,7 +15,7 @@
 #include "Math/IFunction.h"
 #include "TSystem.h"
 
-void test2()
+void Ppi_plus()
 {
 
   TFile *file = new TFile("HEPData-ins97248-v1-root.root","READ");
@@ -24,9 +24,10 @@ void test2()
   TDirectory *dir[16];
   TGraphAsymmErrors *gr[16];
 
-  TCanvas *can1 = new TCanvas("can1","",1200,1200);
+  TCanvas *can1 = new TCanvas("can1","",2000,1200);
   can1 -> Divide(4,4);
-
+  TCanvas *can2 = new TCanvas("can2","",2000,1200);
+  TCanvas *can3 = new TCanvas("can3","",2000,1200);
 
   for(int i=0;i<16;i++){
     dir[i] = (TDirectory*)file->GetDirectory(Form("Table %d",i+1));
@@ -39,7 +40,7 @@ void test2()
 
   TDirectory *dir_amp;
   TGraphAsymmErrors *gr_amp[16];
-  TCanvas *can_amp = new TCanvas("can_amp","",1200,1200);
+  TCanvas *can_amp = new TCanvas("can_amp","",2000,1200);
   can_amp -> Divide(4,4);
   dir_amp = (TDirectory*)file->GetDirectory("Table 17");
   dir_amp -> ls();
@@ -65,7 +66,7 @@ void test2()
   }
 
 
-  TCanvas *can_legen = new TCanvas("can_legen","",1200,1200);
+  TCanvas *can_legen = new TCanvas("can_legen","",2000,1200);
   can_legen -> Divide(4,4);
 
   TF1 *legen[10];
@@ -86,16 +87,29 @@ void test2()
     diff[i]=  new TF1(Form("diff_%d",i),Form("legen[0]*%f+legen[1]*%f+legen[2]*%f+legen[3]*%f+legen[4]*%f+legen[5]*%f+legen[6]*%f+legen[7]*%f+legen[8]*%f+legen[9]*%f",1.0,amplitude[i][0],amplitude[i][1],amplitude[i][2],amplitude[i][3],amplitude[i][4],amplitude[i][5],amplitude[i][6],amplitude[i][7],amplitude[i][8]),-0.9,0.9);
   }
 
+  const int ch=11;
   for(int i=0;i<16;i++){
     can_legen -> cd(i+1);
     diff[i] -> Draw();
+    if(i==ch){
+      can2 -> cd();
+      diff[ch] -> Draw();
+      diff[ch] -> GetHistogram() -> SetTitle("Differential cross section");
+      diff[ch] -> GetHistogram() -> GetXaxis()-> SetTitle("Cos#theta_{C.M.}");
+      diff[ch] -> GetHistogram() -> GetYaxis()-> SetTitle("d#sigma/d#Omega");
+      can3 -> cd();
+      gr[ch] -> Draw();
+      gr[ch] -> GetHistogram() -> SetTitle("Differential cross section");
+      gr[ch] -> GetHistogram() -> GetXaxis()-> SetTitle("Cos#theta_{C.M.}");
+      gr[ch] -> GetHistogram() -> GetYaxis()-> SetTitle("d#sigma/d#Omega");
+    }
   }
 
-  std::cout<<"max"<<diff[11]->GetMaximum()<<std::endl;
+  std::cout<<"max"<<diff[ch]->GetMaximum()<<std::endl;
   for(int j=0;j<9;j++){
     //std::cout<<"amplitude : "<<" "<<amplitude[11][j]<<std::endl;
     //std::cout<<"P : "<<" "<<P[11][j]<<std::endl;
-    std::cout<<", "<<amplitude[11][j]<<std::endl;
+    std::cout<<", "<<amplitude[ch][j]<<std::endl;
   }
 
 }//end

@@ -53,7 +53,7 @@ double GetAng_yz(TLorentzVector lv1, TLorentzVector lv2) {
 
 void elastic_boost(){
 
-  //gStyle->SetOptStat(0);
+  gStyle->SetOptStat(0);
 
   //TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/elastic/pi_plus/pipip/p2000_phsp.root","READ");
   TFile *file = new TFile("~/Desktop/p2000_phsp.root","READ");
