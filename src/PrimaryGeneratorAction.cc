@@ -61,7 +61,7 @@
 
 #include <TRandom.h>
 #include <TMath.h>
-#include <TGraph.h>
+#include <TF1.h>
 #include <TVector3.h>
 #include <TLorentzVector.h>
 
