@@ -24,17 +24,20 @@ void elastic()
 
   hodo_elastic hodo_class;
 
-  TString pi_plus_pip="../rootfile/e45/elastic/pi_plus/pipip/";
-  TString pi_minus_pip="../rootfile/e45/elastic/pi_minus/pipip/";
+  //TString pi_plus_pip="../rootfile/e45/elastic/pi_plus/pipip/";
+  //TString pi_minus_pip="../rootfile/e45/elastic/pi_minus/pipip/";
+  TString pi_plus_pip="~/Desktop/";
+  TString pi_minus_pip="~/Desktop/";
+
 
   TString filename[8]={"p635_phsp.root","p835_phsp.root","p1035_phsp.root","p1235_phsp.root","p1435_phsp.root","p1635_phsp.root","p1835_phsp.root","p2000_phsp.root" };
   double momentum[8]={0.635,0.835,1.035,1.235,1.435,1.635,1.835,2.000};
 
   TFile *Delta_pip[8];
   TFile *N_pip[8];
-  for(int i=0;i<8;i++){
+  for(int i=7;i<8;i++){
     Delta_pip[i] = new TFile(Form("%s%s",pi_plus_pip.Data(),filename[i].Data()),"READ");
-    N_pip[i] = new TFile(Form("%s%s",pi_minus_pip.Data(),filename[i].Data()),"READ");
+    //N_pip[i] = new TFile(Form("%s%s",pi_minus_pip.Data(),filename[i].Data()),"READ");
   }
 
 

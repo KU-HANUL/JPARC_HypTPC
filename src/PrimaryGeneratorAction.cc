@@ -401,8 +401,8 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
 
   EvtVector4R pInit_N( Lv_N.e(), Lv_N.vect().x(), Lv_N.vect().y(), Lv_N.vect().z() );
   Nstar = EvtParticleFactory::particleFactory(evtid_N, pInit_N);
-  //GenerateDecay(anEvent, evtGenerator, Nstar, TVx);
-  GenerateDecay_angle(anEvent, evtGenerator, Nstar, P, TVx);
+  GenerateDecay(anEvent, evtGenerator, Nstar, TVx);
+  //GenerateDecay_angle(anEvent, evtGenerator, Nstar, P, TVx);
 
 }
 

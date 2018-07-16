@@ -98,30 +98,30 @@ void elastic_boost(){
   double theta_CM, cos_CM, theta_lab_pip, cos_lab_pip, theta_lab_pip_xz, theta_lab_pip_yz;
 
 
-  TH1D* hist_labpT_pi = new TH1D("hist_labpT_pi","Lab p_{T} #pi^{+}", 200, -2.5, 2.5);
-  TH1D* hist_labpL_pi = new TH1D("hist_labpL_pi","Lab p_{L} #pi^{+}", 200, -2.5, 2.5);
-  TH1D* hist_labpT_p = new TH1D("hist_labpT_p","Lab p_{T} p", 200, -2.5, 2.5);
-  TH1D* hist_labpL_p = new TH1D("hist_labpL_p","Lab p_{L} p", 200, -2.5, 2.5);
+  TH1D* hist_labpT_pi = new TH1D("hist_labpT_pi","Lab p_{T} #pi^{+}", 500, -2.5, 2.5);
+  TH1D* hist_labpL_pi = new TH1D("hist_labpL_pi","Lab p_{L} #pi^{+}", 500, -2.5, 2.5);
+  TH1D* hist_labpT_p = new TH1D("hist_labpT_p","Lab p_{T} p", 500, -2.5, 2.5);
+  TH1D* hist_labpL_p = new TH1D("hist_labpL_p","Lab p_{L} p", 500, -2.5, 2.5);
 
-  TH1D* hist_labpT = new TH1D("hist_labpT","Lab P_{T}", 200, -2.5, 2.5);
-  TH1D* hist_labpL = new TH1D("hist_labpL","Lab P_{L}", 200, -2.5, 2.5);
+  TH1D* hist_labpT = new TH1D("hist_labpT","Lab P_{T}", 500, -2.5, 2.5);
+  TH1D* hist_labpL = new TH1D("hist_labpL","Lab P_{L}", 500, -2.5, 2.5);
 
-  TH1D* hist_CMpT_pi = new TH1D("hist_CMpT_pi","C.M. p_{T} #pi^{+}", 200, -2.5, 2.5);
-  TH1D* hist_CMpL_pi = new TH1D("hist_CMpL_pi","C.M. p_{L} #pi^{+}", 200, -2.5, 2.5);
-  TH1D* hist_CMpT_p = new TH1D("hist_CMpT_p","C.M. p_{T} p", 200, -2.5, 2.5);
-  TH1D* hist_CMpL_p = new TH1D("hist_CMpL_p","C.M. p_{L} p", 200, -2.5, 2.5);
+  TH1D* hist_CMpT_pi = new TH1D("hist_CMpT_pi","C.M. p_{T} #pi^{+}", 500, -2.5, 2.5);
+  TH1D* hist_CMpL_pi = new TH1D("hist_CMpL_pi","C.M. p_{L} #pi^{+}", 500, -2.5, 2.5);
+  TH1D* hist_CMpT_p = new TH1D("hist_CMpT_p","C.M. p_{T} p", 500, -2.5, 2.5);
+  TH1D* hist_CMpL_p = new TH1D("hist_CMpL_p","C.M. p_{L} p", 500, -2.5, 2.5);
 
-  TH1D* hist_CM_E = new TH1D("hist_CM_E","C.M. Energy", 200, 0, 2.5);
-  TH1D* hist_CMpT = new TH1D("hist_CMpT","C.M. P_{T}", 200, -2.5, 2.5);
-  TH1D* hist_CMpL = new TH1D("hist_CMpL","C.M. P_{L}", 200, -2.5, 2.5);
+  TH1D* hist_CM_E = new TH1D("hist_CM_E","C.M. Energy", 500, 0, 2.5);
+  TH1D* hist_CMpT = new TH1D("hist_CMpT","C.M. P_{T}", 500, -2.5, 2.5);
+  TH1D* hist_CMpL = new TH1D("hist_CMpL","C.M. P_{L}", 500, -2.5, 2.5);
 
-  TH1D* hist_lab_angle = new TH1D("hist_lab_angle","Lab frame, P, #pi^{+} Angle Distribution;#theta_{P, #pi^{+}};counts", 100, 0, 180);
-  TH1D* hist_lab_angle_xz = new TH1D("hist_lab_angle_xz","Lab frame, XZ plane projection, P, #pi^{+} Angle Distribution;#theta_{P, #pi^{+}};counts", 100, 0, 180);
-  TH1D* hist_lab_angle_xz_selected = new TH1D("hist_lab_angle_xz_selected","Lab frame, XZ plane projection, P, #pi^{+} Angle Distribution;#theta_{P, #pi^{+}};counts", 100, 0, 180);
-  TH1D* hist_lab_angle_yz = new TH1D("hist_lab_angle_yz","Lab frame, YZ plane projection, P, #pi^{+} Angle Distribution;#theta_{P, #pi^{+}};counts", 100, 0, 180);
-  TH1D* hist_lab_cos = new TH1D("hist_lab_cos","Lab frame, P, #pi^{+} Angle Distribution;Cos(#theta_{P, #pi^{+}});counts", 100, -1, 1);
-  TH1D* hist_CM_angle = new TH1D("hist_CM_angle","Scattering Angle Distribution;#theta_{C.M.};counts", 100, 0, 180);
-  TH1D* hist_CM_cos = new TH1D("hist_CM_cos","Scattering Angle Distribution;Cos(#theta_{C.M.});counts", 100, -1, 1);
+  TH1D* hist_lab_angle = new TH1D("hist_lab_angle","Lab frame, P, #pi^{+} Angle Distribution;#theta_{Lab, P, #pi^{+}};counts", 500, 0, 180);
+  TH1D* hist_lab_angle_xz = new TH1D("hist_lab_angle_xz","Lab frame, XZ plane projection, P, #pi^{+} Angle Distribution;#theta_{Lab, P, #pi^{+}};counts", 500, 0, 180);
+  TH1D* hist_lab_angle_xz_selected = new TH1D("hist_lab_angle_xz_selected","Lab frame, XZ plane projection, P, #pi^{+} Angle Distribution;#theta_{Lab, P, #pi^{+}};counts", 500, 0, 180);
+  TH1D* hist_lab_angle_yz = new TH1D("hist_lab_angle_yz","Lab frame, YZ plane projection, P, #pi^{+} Angle Distribution;#theta_{Lab, P, #pi^{+}};counts", 500, 0, 180);
+  TH1D* hist_lab_cos = new TH1D("hist_lab_cos","Lab frame, P, #pi^{+} Angle Distribution;Cos(#theta_{P, #pi^{+}});counts", 500, -1, 1);
+  TH1D* hist_CM_angle = new TH1D("hist_CM_angle","Scattering Angle Distribution;#theta_{C.M.};counts", 500, 0, 180);
+  TH1D* hist_CM_cos = new TH1D("hist_CM_cos","Scattering Angle Distribution;Cos(#theta_{C.M.});counts", 500, -1, 1);
 
   TCanvas *can_labpT = new TCanvas("can_labpT","",1200,800);
   can_labpT -> Divide(2,2);
@@ -185,7 +185,7 @@ void elastic_boost(){
     hist_lab_angle -> Fill(theta_lab_pip);
     hist_lab_cos -> Fill(cos_lab_pip);
     hist_lab_angle_xz -> Fill(theta_lab_pip_xz);
-    if(theta_lab_pip_xz<10){
+    if(theta_lab_pip_xz<20){
       hist_lab_angle_xz_selected -> Fill(theta_lab_pip_xz);
       hist_lab_angle_yz -> Fill(theta_lab_pip_yz);
     }
