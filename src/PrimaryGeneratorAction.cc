@@ -401,8 +401,8 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
 
   EvtVector4R pInit_N( Lv_N.e(), Lv_N.vect().x(), Lv_N.vect().y(), Lv_N.vect().z() );
   Nstar = EvtParticleFactory::particleFactory(evtid_N, pInit_N);
-  GenerateDecay(anEvent, evtGenerator, Nstar, TVx);
-  //GenerateDecay_angle(anEvent, evtGenerator, Nstar, P, TVx);
+  //GenerateDecay(anEvent, evtGenerator, Nstar, TVx);
+  GenerateDecay_angle(anEvent, evtGenerator, Nstar, P, TVx);
 
 }
 
@@ -570,7 +570,7 @@ void PrimaryGeneratorAction::makeGun(G4Event* anEvent, int partnum, EvtVector4R 
 void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector P, G4ThreeVector D)
 {
   //pi+, p elastic P=1.99 GeV/c
-  //  double coefficient[10] = {1, 2.162, 2.653, 2.889, 2.43, 1.665, 0.927, 0.332, 0.042, 0.06};
+  //double coefficient[10] = {1, 2.162, 2.653, 2.889, 2.43, 1.665, 0.927, 0.332, 0.042, 0.06};
 
   //pi-, p elastic P=1.98 GeV/c
   double coefficient[10] = {0.676241, 1.58781, 2.03502, 2.27108, 2.16663, 1.63134, 1.01002, 0.514946, 0.255893, 0.146594};

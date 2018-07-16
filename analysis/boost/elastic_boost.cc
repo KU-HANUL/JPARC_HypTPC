@@ -56,7 +56,8 @@ void elastic_boost(){
   gStyle->SetOptStat(0);
 
   //TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/elastic/pi_plus/pipip/p2000_phsp.root","READ");
-  TFile *file = new TFile("~/Desktop/p2000_phsp.root","READ");
+  TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/elastic/pi_minus/pipip/p2000_phsp.root","READ");
+  //TFile *file = new TFile("~/Desktop/p2000_phsp.root","READ");
 
   TTree *tree = (TTree*)file->Get("tree");
 
@@ -143,7 +144,7 @@ void elastic_boost(){
       if(TMath::Abs(evtpid[j])==211){ //for selecting events w/ pi+
 	pT_pi=TMath::Sqrt(evtpx[j]*evtpx[j]+evtpy[j]*evtpy[j]);
 	pL_pi=evtpz[j];
-	E_pi = sqrt(pT_pi*pT_pi+pL_pi*pL_pi + m_pi*m_pi);
+	E_pi =TMath::Sqrt(pT_pi*pT_pi+pL_pi*pL_pi + m_pi*m_pi);
 
 	px_pi=evtpx[j];
 	py_pi=evtpy[j];
@@ -155,7 +156,7 @@ void elastic_boost(){
       else if(evtpid[j]==2212){ //for selecting events w/ p
     	pT_p=TMath::Sqrt(evtpx[j]*evtpx[j]+evtpy[j]*evtpy[j]);
 	pL_p=evtpz[j];
-	E_p = sqrt(pT_p*pT_p+pL_p*pL_p + m_p*m_p);
+	E_p = TMath::Sqrt(pT_p*pT_p+pL_p*pL_p + m_p*m_p);
 
 	px_p=evtpx[j];
 	py_p=evtpy[j];

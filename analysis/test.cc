@@ -11,7 +11,7 @@
 #include <fstream>
 #include <iostream>
 #include <TPad.h>
-#include "hodo3.h"
+#include "hodo_3body.h"
 
 using namespace std;
 
@@ -22,7 +22,7 @@ void test()
   bool pdf_saving = true;
   //bool pdf_saving = false;
 
-  hodo3 hodo_class;
+  hodo_3body hodo_class;
 
   TString pi_plus_pipip="../rootfile/e45/phsp/pi_plus/pipip/";
   TString pi_plus_pipin="../rootfile/e45/phsp/pi_plus/pipin/";
@@ -47,7 +47,7 @@ void test()
   double accep_N_pipip_w[8];
   double accep_N_pipin_w[8];
   for(int i=7;i<8;i++){
-    hodo_class.pipip(N_pipip[i],1.0,false,accep_N_pipip_wo[i],true);
+    //hodo_class.pipip(N_pipip[i],1.0,false,accep_N_pipip_wo[i],true);
     //hodo_class.pipip(N_pipip[i],1.0,true,accep_N_pipip_w[i],true);
 
     //hodo_class.pipin(N_pipin[i],1.0,false,accep_N_pipin_wo[i],true);
@@ -63,7 +63,7 @@ void test()
     //hodo_class.pipip(Delta_pipip[i],1.0,false,accep_Delta_pipip_wo[i],true);
     //hodo_class.pipip(Delta_pipip[i],1.0,true,accep_Delta_pipip_w[i],true);
 
-    //hodo_class.pipin2(Delta_pipin[i],1.0,false,accep_Delta_pipin_wo[i],true);
+    hodo_class.pipin2(Delta_pipin[i],1.0,false,accep_Delta_pipin_wo[i],true);
     //hodo_class.pipin2(Delta_pipin[i],1.0,true,accep_Delta_pipin_w[i]);
   }
 

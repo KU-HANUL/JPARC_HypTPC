@@ -138,7 +138,7 @@ void pipip_boost(){
   TCanvas *can_lab_angle = new TCanvas("can_lab_angle","",1200,800);
   can_lab_angle -> Divide(2,2);
   TCanvas *can_CM_angle = new TCanvas("can_CM_angle","",1200,800);
-  can_CM_angle -> Divide(2,2);
+  can_CM_angle -> Divide(2,1);
 
   int nevent=tree->GetEntries();
   for(int i=0;i<nevent;i++){
@@ -286,14 +286,10 @@ void pipip_boost(){
   hist_lab_angle_yz -> Draw();
 
   can_CM_angle -> cd(1);
-  hist_CM_angle_pi -> Draw();
-  can_CM_angle -> cd(2);
   hist_CM_cos_pi -> Draw();
-  hist_CM_cos_pi -> GetYaxis() -> SetRangeUser(0,150);
-  can_CM_angle -> cd(3);
-  hist_CM_angle_p -> Draw();
-  can_CM_angle -> cd(4);
+  //hist_CM_cos_pi -> GetYaxis() -> SetRangeUser(0,150);
+  can_CM_angle -> cd(2);
   hist_CM_cos_p -> Draw();
-  hist_CM_cos_p -> GetYaxis() -> SetRangeUser(0,150);
+  //hist_CM_cos_p -> GetYaxis() -> SetRangeUser(0,150);
 
 }

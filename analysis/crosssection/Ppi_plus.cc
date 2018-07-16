@@ -96,12 +96,12 @@ void Ppi_plus()
       diff[ch] -> Draw();
       diff[ch] -> GetHistogram() -> SetTitle("Differential cross section");
       diff[ch] -> GetHistogram() -> GetXaxis()-> SetTitle("Cos#theta_{C.M.}");
-      diff[ch] -> GetHistogram() -> GetYaxis()-> SetTitle("d#sigma/d#Omega");
+      diff[ch] -> GetHistogram() -> GetYaxis()-> SetTitle("d#sigma/d(Cos#theta)(arb.)");
       can3 -> cd();
       gr[ch] -> Draw();
       gr[ch] -> GetHistogram() -> SetTitle("Differential cross section");
       gr[ch] -> GetHistogram() -> GetXaxis()-> SetTitle("Cos#theta_{C.M.}");
-      gr[ch] -> GetHistogram() -> GetYaxis()-> SetTitle("d#sigma/d#Omega");
+      gr[ch] -> GetHistogram() -> GetYaxis()-> SetTitle("d#sigma/d(Cos#theta)(arb.)");
     }
   }
 

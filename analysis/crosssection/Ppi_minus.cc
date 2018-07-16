@@ -63,7 +63,7 @@ void Ppi_minus()
       diff2 -> Draw();
       diff2 -> GetHistogram() -> SetTitle("Differential cross section");
       diff2 -> GetHistogram() -> GetXaxis()-> SetTitle("Cos#theta_{C.M.}");
-      diff2 -> GetHistogram() -> GetYaxis()-> SetTitle("d#sigma/d#Omega");
+      diff2 -> GetHistogram() -> GetYaxis()-> SetTitle("d#sigma/d(Cos#theta)(arb.)");
       can3 -> cd();
       gr[ch] -> Draw();
       gr[ch] -> GetHistogram() -> SetTitle("Differential cross section");

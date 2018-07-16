@@ -24,11 +24,8 @@ void elastic()
 
   hodo_elastic hodo_class;
 
-  //TString pi_plus_pip="../rootfile/e45/elastic/pi_plus/pipip/";
-  //TString pi_minus_pip="../rootfile/e45/elastic/pi_minus/pipip/";
-  TString pi_plus_pip="~/Desktop/";
-  TString pi_minus_pip="~/Desktop/";
-
+  TString pi_plus_pip="../rootfile/e45/elastic/pi_plus/pipip/";
+  TString pi_minus_pip="../rootfile/e45/elastic/pi_minus/pipip/";
 
   TString filename[8]={"p635_phsp.root","p835_phsp.root","p1035_phsp.root","p1235_phsp.root","p1435_phsp.root","p1635_phsp.root","p1835_phsp.root","p2000_phsp.root" };
   double momentum[8]={0.635,0.835,1.035,1.235,1.435,1.635,1.835,2.000};
@@ -44,6 +41,7 @@ void elastic()
   double ecut=1.0;
   double test;
   hodo_class.pip(Delta_pip[7],ecut,false,test,true);
+  //hodo_class.pip(N_pip[7],ecut,false,test,true);
   //hodo_class.pip(Delta_pip[7],ecut,true,test,true);
   //hodo_class.monitor(Delta_pip[7],0.1,false);
 

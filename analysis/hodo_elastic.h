@@ -74,6 +74,7 @@ class hodo_elastic{
 
  public:
 
+  double GetAng(TLorentzVector lv1);
   void pip(TFile *file, double ecut, bool window, double &m1_coin_prob, bool printout=false);
   void monitor(TFile *file, double ecut, bool window);
 
@@ -81,16 +82,31 @@ class hodo_elastic{
 
   TCanvas *can_multi[100];
   TCanvas *can_pid[100];
+  TCanvas *can_deltatof[100];
   TCanvas *can_hitpattern2D[100];
+  TCanvas *can_segpattern2D[100];
+  TCanvas *can_ang[100];
 
   TH1D *hist_pid[100];
+  TH1D *hist_deltatof[100];
   TH1D *hist_multi[100];
   TH1D *hist_evtpid[100];
+  TH1D *hist_ang_p[100];
+  TH1D *hist_ang_p2[100];
+  TH1D *hist_ang_pi[100];
+  TH1D *hist_ang_pi2[100];
 
   TH2D *hist_hitpattern2D_pi[100];
   TH2D *hist_hitpattern2D_p[100];
+  TH2D *hist_segpattern2D[100];
 
 };
+
+double hodo_elastic::GetAng(TLorentzVector lv1){
+  double tan = lv1.Py()/lv1.Pz();
+  double ang = 180*TMath::ATan(tan)/TMath::Pi();
+  return ang;
+}
 
 void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_prob, bool printout=false){
 
@@ -99,7 +115,7 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
   //bool pdf=false;
   //bool pdf=true;
 
-  //gStyle->SetOptStat(0);
+  gStyle->SetOptStat(0);
 
   tree->SetBranchAddress("event",&event);
 
@@ -107,6 +123,7 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
   tree->SetBranchAddress("tofpid",tofpid);
   tree->SetBranchAddress("toftrid",toftrid);
   tree->SetBranchAddress("tofseg",tofseg);
+  tree->SetBranchAddress("toftime",toftime);
   tree->SetBranchAddress("tofedep",tofedep);
   tree->SetBranchAddress("tofposx",tofposx);
   tree->SetBranchAddress("tofposy",tofposy);
@@ -131,14 +148,34 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
   tree->SetBranchAddress("targetpid",targetpid);
 
   can_multi[class_hodo] = new TCanvas(Form("can_multi_%d",class_hodo),"",1200,1200);
+  can_deltatof[class_hodo] = new TCanvas(Form("can_deltatof_%d",class_hodo),"",1200,1200);
+  can_segpattern2D[class_hodo] = new TCanvas(Form("can_segpattern2D_%d",class_hodo),"",1200,1200);
+  can_ang[class_hodo] = new TCanvas(Form("can_ang_%d",class_hodo),"",1200,1200);
+  can_ang[class_hodo] -> Divide(2,1);
   //can_pid[class_hodo] = new TCanvas(Form("can_pid_%d",class_hodo),"",1200,1200);
   //hist_pid[class_hodo] =new TH1D(Form("hist_pid_%d",class_hodo),"Hodoscope PID",4600,-2300,2300);
   hist_multi[class_hodo] =new TH1D(Form("hist_multi_%d",class_hodo),"Hodoscope Multiplicity",7,0,7);
+  hist_deltatof[class_hodo] =new TH1D(Form("hist_deltatof_%d",class_hodo),"Hodoscope #Delta tof",100,0,5);
+  if(window==true) hist_segpattern2D[class_hodo] = new TH2D(Form("hist_segpattern2D_%d",class_hodo),"Hodoscope hitpattern;ID of 1st hit for TPC-Hodo;ID of 2nd hit for TPC-Hodo;",38,0,37,38,0,37);
+  if(window==false) hist_segpattern2D[class_hodo] = new TH2D(Form("hist_segpattern2D_%d",class_hodo),"Hodoscope hitpattern;ID of 1st hit for TPC-Hodo;ID of 2nd hit for TPC-Hodo;",32,0,31,32,0,31);
 
+  hist_ang_p[class_hodo] = new TH1D(Form("hist_ang_p_%d",class_hodo),"proton Angle",1000,-180,180);
+  hist_ang_p2[class_hodo] = new TH1D(Form("hist_ang_p2_%d",class_hodo),"proton Angle",1000,-180,180);
+  hist_ang_pi[class_hodo] = new TH1D(Form("hist_ang_pi_%d",class_hodo),"pion Angle",1000,-180,180);
+  hist_ang_pi2[class_hodo] = new TH1D(Form("hist_ang_pi2_%d",class_hodo),"pion Angle",1000,-180,180);
   int nevent=tree->GetEntries();
   int count_p,count_pi,count_mu,count_e; //flag for counting particle
   int multiplicity, check_flag, flag_seg_pi, flag_seg_p;
+
   int hodo_seg[38]={0};
+  int hodo_seg_p[38]={0};
+  int hodo_seg_pi[38]={0};
+
+  double flag_time_pi, flag_time_p;
+  double hodo_hittime_p[38]={0};
+  double hodo_hittime_pi[38]={0};
+  double ang_p,ang_pi;
+  double E_p,E_pi;
   int count_m0=0;
   int count_m1=0, count_m1_coin=0, count_m1_p=0, count_m1_pi=0, count_m1_dummy=0;
   int count_m2=0, count_m2_coin=0, count_m2_multi=0, count_m2_p=0, count_m2_pi=0, count_m2_dummy=0;
@@ -154,6 +191,8 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
     multiplicity=0;
     check_flag=0;
     flag_seg_pi, flag_seg_p;
+    flag_time_pi=9999.;
+    flag_time_p=9999.;
 
     for(int j=0;j<nhTof;j++){
       //hist_pid[class_hodo] -> Fill(tofpid[j]); //PID
@@ -166,64 +205,85 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
 
       else if(TMath::Abs(tofpid[j])==211&&tofedep[j]>ecut){ //for selecting events w/ pi
 	count_pi++;
+	E_pi = TMath::Sqrt(evtpx[j]*evtpx[j]+evtpy[j]*evtpy[j]+evtpz[j]*evtpz[j]);
+	TLorentzVector lv_pi(evtpx[j],evtpy[j],evtpz[j],E_pi);
+	ang_pi=GetAng(lv_pi);
 	if(window==true&&tofseg[j]==0&&tofposy[j]<-window_size){
 	  hodo_seg[32+0] += 1;
-	  flag_seg_pi=32+0;
+	  hodo_seg_pi[32+0] += 1;
+	  hodo_hittime_pi[32+0]=toftime[j];
 	}
 	else if(window==true&&tofseg[j]==1&&tofposy[j]<-window_size){
 	  hodo_seg[32+1] += 1;
-	  flag_seg_pi=32+1;
+	  hodo_seg_pi[32+1] += 1;
+	  hodo_hittime_pi[32+1]=toftime[j];
 	}
 	else if(window==true&&tofseg[j]==2&&tofposy[j]<-window_size){
 	  hodo_seg[32+2] += 1;
-	  flag_seg_pi=32+2;
+	  hodo_seg_pi[32+2] += 1;
+	  hodo_hittime_pi[32+2]=toftime[j];
 	}
 	else if(window==true&&tofseg[j]==3&&tofposy[j]<-window_size){
 	  hodo_seg[32+3] += 1;
-	  flag_seg_pi=32+3;
+	  hodo_seg_pi[32+3] += 1;
+	  hodo_hittime_pi[32+3]=toftime[j];
 	}
 	else if(window==true&&tofseg[j]==17&&tofposy[j]<-window_size){
 	  hodo_seg[32+4] += 1;
-	  flag_seg_pi=32+4;
+	  hodo_seg_pi[32+4] += 1;
+	  hodo_hittime_pi[32+4]=toftime[j];
 	}
 	else if(window==true&&tofseg[j]==18&&tofposy[j]<-window_size){
 	  hodo_seg[32+5] += 1;
-	  flag_seg_pi=32+5;
+	  hodo_seg_pi[32+5] += 1;
+	  hodo_hittime_pi[32+5]=toftime[j];
 	}
 	else{
 	  hodo_seg[tofseg[j]] += 1;
-	  flag_seg_pi=tofseg[j];
+	  hodo_seg_pi[tofseg[j]] += 1;
+	  hodo_hittime_pi[tofseg[j]]=toftime[j];
 	}
       }
       else if(tofpid[j]==2212&&tofedep[j]>ecut){ //for selecting events w/ p
 	count_p++;
+	E_p = TMath::Sqrt(evtpx[j]*evtpx[j]+evtpy[j]*evtpy[j]+evtpz[j]*evtpz[j]);
+	TLorentzVector lv_p(evtpx[j],evtpy[j],evtpz[j],E_p);
+	ang_p=GetAng(lv_p);
+
 	if(window==true&&tofseg[j]==0&&tofposy[j]<-window_size){
 	  hodo_seg[32+0] += 1;
-	  flag_seg_p=32+0;
+	  hodo_seg_p[32+0] += 1;
+	  hodo_hittime_p[32+0]=toftime[j];
 	}
 	else if(window==true&&tofseg[j]==1&&tofposy[j]<-window_size){
 	  hodo_seg[32+1] += 1;
-	  flag_seg_p=32+1;
+	  hodo_seg_p[32+1] += 1;
+	  hodo_hittime_p[32+1]=toftime[j];
 	}
 	else if(window==true&&tofseg[j]==2&&tofposy[j]<-window_size){
 	  hodo_seg[32+2] += 1;
-	  flag_seg_p=32+2;
+	  hodo_seg_p[32+2] += 1;
+	  hodo_hittime_p[32+2]=toftime[j];
 	}
 	else if(window==true&&tofseg[j]==3&&tofposy[j]<-window_size){
 	  hodo_seg[32+3] += 1;
-	  flag_seg_p=32+3;
+	  hodo_seg_p[32+3] += 1;
+	  hodo_hittime_p[32+3]=toftime[j];
 	}
 	else if(window==true&&tofseg[j]==17&&tofposy[j]<-window_size){
 	  hodo_seg[32+4] += 1;
-	  flag_seg_p=32+4;
+	  hodo_seg_p[32+4] += 1;
+	  hodo_hittime_p[32+4]=toftime[j];
 	}
 	else if(window==true&&tofseg[j]==18&&tofposy[j]<-window_size){
 	  hodo_seg[32+5] += 1;
-	  flag_seg_p=32+5;
+	  hodo_seg_p[32+5] += 1;
+	  hodo_hittime_p[32+5]=toftime[j];
 	}
 	else{
 	  hodo_seg[tofseg[j]] += 1;
-	  flag_seg_p=tofseg[j];
+	  hodo_seg_p[tofseg[j]] += 1;
+	  hodo_hittime_p[tofseg[j]]=toftime[j];
 	}
       }
       else if(TMath::Abs(tofpid[j])==11&&tofedep[j]>ecut){
@@ -234,12 +294,57 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
 	count_mu++;
 	hodo_seg[tofseg[j]] += 1;
       }
+      //std::cout<<"event: "<<i<<std::endl;
+    }
+
+    if(count_p>0){
+      for(int i=0;i<38;i++){
+	if(hodo_seg_p[i]>0&&flag_time_p>hodo_hittime_p[i]){
+	  flag_time_p=hodo_hittime_p[i];
+	  flag_seg_p=i;
+	  //std::cout<<"Proton hodo time: "<<flag_time_p<<" hodo seg: "<<flag_seg_p<<std::endl;
+	}
+      }
+    }
+    if(count_pi>0){
+      for(int i=0;i<38;i++){
+	if(hodo_seg_pi[i]>0&&flag_time_pi>hodo_hittime_pi[i]){
+	  flag_time_pi=hodo_hittime_pi[i];
+	  flag_seg_pi=i;
+	  //std::cout<<"Pion hodo time: "<<flag_time_pi<<" hodo seg: "<<flag_seg_pi<<std::endl;
+	}
+      }
+    }
+    /*
+      if(count_p>0 && count_pi>0){
+      hist_deltatof[class_hodo] -> Fill(flag_time_p-flag_time_pi);
+      if(flag_time_p < flag_time_pi) hist_segpattern2D[class_hodo] -> Fill(flag_seg_p, flag_seg_pi);
+      else hist_segpattern2D[class_hodo] -> Fill(flag_seg_pi, flag_seg_p);
+    }
+    */
+    if(count_p>0 && count_pi>0){
+      hist_deltatof[class_hodo] -> Fill(flag_time_p-flag_time_pi);
+      if(flag_time_p < flag_time_pi) hist_segpattern2D[class_hodo] -> Fill((flag_seg_p+24)%32, (flag_seg_pi+24)%32);
+      else hist_segpattern2D[class_hodo] -> Fill((flag_seg_pi+24)%32, (flag_seg_p+24)%32);
+      hist_ang_p2[class_hodo] -> Fill(ang_p);
+      hist_ang_pi2[class_hodo] -> Fill(ang_pi);
+    }
+    if(count_p>0 && count_pi==0){
+      hist_ang_p[class_hodo] -> Fill(ang_p);
+    }
+    if(count_pi>0 && count_p==0){
+      hist_ang_pi[class_hodo] -> Fill(ang_pi);
     }
     for(int i=0;i<38;i++){
       if(hodo_seg[i]>0) multiplicity++;
       check_flag += hodo_seg[i];
       hodo_seg[i]=0;
+      hodo_seg_p[i]=0;
+      hodo_seg_pi[i]=0;
+      hodo_hittime_p[i]=0;
+      hodo_hittime_pi[i]=0;
     }
+
     //counting check
     if(check_flag!=count_p+count_pi+count_e+count_mu) std::cout<< "fatal error !!! "<<std::endl;
 
@@ -281,8 +386,24 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
   hist_multi[class_hodo]->GetXaxis()->SetTitle("Multiplicity of TPC hodo ");
   hist_multi[class_hodo]->GetYaxis()->SetTitle("Counts");
 
+  can_segpattern2D[class_hodo]->cd();
+  hist_segpattern2D[class_hodo]->Draw("colz");
+  hist_segpattern2D[class_hodo]-> GetZaxis() -> SetRangeUser(0,2000);
+
+  can_deltatof[class_hodo]->cd();
+  hist_deltatof[class_hodo]->Draw();
+
+  can_ang[class_hodo] -> cd(1);
+  hist_ang_p[class_hodo] -> Draw();
+  hist_ang_p2[class_hodo] -> Draw("same");
+  hist_ang_p2[class_hodo] -> SetLineColor(2);
+
+  can_ang[class_hodo] -> cd(2);
+  hist_ang_pi[class_hodo] -> Draw();
+  hist_ang_pi2[class_hodo] -> Draw("same");
+  hist_ang_pi2[class_hodo] -> SetLineColor(2);
+
   if(printout==false){
-    //can_pid[class_hodo] -> Close();
     can_multi[class_hodo] -> Close();
   }
 
