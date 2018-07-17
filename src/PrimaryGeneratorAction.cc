@@ -569,6 +569,7 @@ void PrimaryGeneratorAction::makeGun(G4Event* anEvent, int partnum, EvtVector4R 
 
 void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector P, G4ThreeVector D)
 {
+  std::cout<<"Differential cross-section included "<<std::endl;
   //pi+, p elastic P=1.99 GeV/c
   //double coefficient[10] = {1, 2.162, 2.653, 2.889, 2.43, 1.665, 0.927, 0.332, 0.042, 0.06};
 

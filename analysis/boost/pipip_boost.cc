@@ -94,7 +94,9 @@ void pipip_boost(){
   double pT_lab, pL_lab, pT_CM, pL_CM;
   double px_pi, py_pi, pz_pi, px_pi0, py_pi0, pz_pi0, px_p, py_p, pz_p;
   double E_pi, E_p, E_pi0;
-  double theta_CM_p, cos_CM_p, theta_CM_pi, cos_CM_pi, theta_lab_pip, cos_lab_pip, theta_lab_pip_xz,theta_lab_pip_yz;
+  double theta_CM_p, cos_CM_p, theta_CM_pi, cos_CM_pi, theta_lab_pip, cos_lab_pip, theta_lab_pip_xz,theta_lab_pip_yz,theta_lab_p,theta_lab_pi;
+
+  TGraph *gr = new TGraph();
 
   TH1D* hist_labpT_pi = new TH1D("hist_labpT_pi","Lab p_{T} #pi^{+}", 200, -2.2, 2.2);
   TH1D* hist_labpL_pi = new TH1D("hist_labpL_pi","Lab p_{L} #pi^{+}", 200, -2.2, 2.2);
@@ -126,6 +128,7 @@ void pipip_boost(){
   TH1D* hist_CM_angle_pi = new TH1D("hist_CM_angle_pi","#pi^{+} Angle Distribution;#theta_{C.M. #pi^{+}};counts", 100, 0, 180);
   TH1D* hist_CM_cos_pi = new TH1D("hist_CM_cos_pi","#pi^{+} Angle Distribution;Cos(#theta_{C.M. #pi^{+}});counts", 100, -1, 1);
 
+  TCanvas *can_scatterplot = new TCanvas("can_scatterplot","",1200,1200);
   TCanvas *can_labpT = new TCanvas("can_labpT","",1200,800);
   can_labpT -> Divide(2,2);
   TCanvas *can_labpL = new TCanvas("can_labpL","",1200,800);
@@ -193,8 +196,13 @@ void pipip_boost(){
     TLorentzVector lv_p(px_p,py_p,pz_p,E_p);
     TLorentzVector lv_beam(0,0,p_beam,e_beam);
 
+    theta_lab_pi = GetAng(lv_beam,lv_pi);
+    theta_lab_p = GetAng(lv_beam,lv_p);
+    gr -> SetPoint(i,theta_lab_pi,theta_lab_p);
+
     theta_lab_pip = GetAng(lv_p,lv_pi);
     cos_lab_pip = GetCos(lv_p,lv_pi);
+
     theta_lab_pip_xz = GetAng_xz(lv_p,lv_pi);
     theta_lab_pip_yz = GetAng_yz(lv_p,lv_pi);
 
@@ -235,6 +243,8 @@ void pipip_boost(){
     hist_CMpL -> Fill(lv_CM.Pz());
   }
 
+  can_scatterplot -> cd();
+  gr -> Draw("AP*");
   can_labpT -> cd(1);
   hist_labpT_pi -> Draw();
   can_labpT -> cd(2);

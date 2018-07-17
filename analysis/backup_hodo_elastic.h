@@ -76,12 +76,10 @@ class hodo_elastic{
 
   double GetCos(TLorentzVector lv1, TLorentzVector lv2);
   double GetCos_xz(TLorentzVector lv1, TLorentzVector lv2);
-  //double GetCos_yz(TLorentzVector lv1, TLorentzVector lv2);
-  double GetCos_yz(TLorentzVector lv1);
+  double GetCos_yz(TLorentzVector lv1, TLorentzVector lv2);
   double GetAng(TLorentzVector lv1, TLorentzVector lv2);
   double GetAng_xz(TLorentzVector lv1, TLorentzVector lv2);
-  //double GetAng_yz(TLorentzVector lv1, TLorentzVector lv2);
-  double GetAng_yz(TLorentzVector lv1);
+  double GetAng_yz(TLorentzVector lv1, TLorentzVector lv2);
 
   void pip(TFile *file, double ecut, bool window, double &m1_coin_prob, bool printout=false);
   void monitor(TFile *file, double ecut, bool window);
@@ -125,24 +123,12 @@ double hodo_elastic::GetCos_xz(TLorentzVector lv1, TLorentzVector lv2) {
   return cos;
 }
 
-/*
-  double hodo_elastic::GetCos_yz(TLorentzVector lv1, TLorentzVector lv2) {
+double hodo_elastic::GetCos_yz(TLorentzVector lv1, TLorentzVector lv2) {
   double dot_product = lv1.Py()*lv2.Py() + lv1.Pz()*lv2.Pz();
   double cos = dot_product / TMath::Sqrt((lv1.Py()*lv1.Py()+lv1.Pz()*lv1.Pz()) * (lv2.Py()*lv2.Py()+lv2.Pz()*lv2.Pz()));
   return cos;
-  }
+}
 
-*/
-double hodo_elastic::GetCos_yz(TLorentzVector lv1) {
-  double dot_product = lv1.Py();
-  double cos = dot_product / lv1.P();
-  return cos;
-}
-double hodo_elastic::GetAng_yz(TLorentzVector lv1){
-  //  double rad = 57.2958;
-  double ang = 90-(180*TMath::ACos(GetCos_yz(lv1)))/TMath::Pi();
-  return ang;
-}
 double hodo_elastic::GetAng(TLorentzVector lv1, TLorentzVector lv2) {
   //  double rad = 57.2958;
   double ang = (180*TMath::ACos(GetCos(lv1,lv2)))/TMath::Pi();
@@ -154,13 +140,13 @@ double hodo_elastic::GetAng_xz(TLorentzVector lv1, TLorentzVector lv2) {
   double ang = (180*TMath::ACos(GetCos_xz(lv1,lv2)))/TMath::Pi();
   return ang;
 }
-/*
-  double hodo_elastic::GetAng_yz(TLorentzVector lv1, TLorentzVector lv2) {
+
+double hodo_elastic::GetAng_yz(TLorentzVector lv1, TLorentzVector lv2) {
   //  double rad = 57.2958;
   double ang = (180*TMath::ACos(GetCos_yz(lv1,lv2)))/TMath::Pi();
   return ang;
-  }
-*/
+}
+
 void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_prob, bool printout=false){
 
   TTree *tree = (TTree*)file->Get("tree");
@@ -273,16 +259,14 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
 	E_pi = TMath::Sqrt(evtpx[j]*evtpx[j]+evtpy[j]*evtpy[j]+evtpz[j]*evtpz[j]+m_pi*m_pi);
 	TLorentzVector lv_pi(evtpx[j],evtpy[j],evtpz[j],E_pi);
 	theta_xz_pi = (evtpx[j]/TMath::Abs(evtpx[j]))*GetAng_xz(lv_beam,lv_pi);
-	//theta_yz_pi = (evtpy[j]/TMath::Abs(evtpy[j]))*GetAng_yz(lv_beam,lv_pi);
-	theta_yz_pi = GetAng_yz(lv_pi);
+	theta_yz_pi = (evtpy[j]/TMath::Abs(evtpy[j]))*GetAng_yz(lv_beam,lv_pi);
       }
       if(evtpid[j]==2212){
 	E_p = TMath::Sqrt(evtpx[j]*evtpx[j]+evtpy[j]*evtpy[j]+evtpz[j]*evtpz[j]+m_p*m_p);
 	TLorentzVector lv_p(evtpx[j],evtpy[j],evtpz[j],E_p);
 
 	theta_xz_p =(evtpx[j]/TMath::Abs(evtpx[j]))*GetAng_xz(lv_beam,lv_p);
-	//theta_yz_p =(evtpy[j]/TMath::Abs(evtpy[j]))*GetAng_yz(lv_beam,lv_p);
-	theta_yz_p =GetAng_yz(lv_p);
+	theta_yz_p =(evtpy[j]/TMath::Abs(evtpy[j]))*GetAng_yz(lv_beam,lv_p);
       }
     }
     for(int j=0;j<nhTof;j++){
@@ -417,18 +401,21 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
       hist_yzpattern2D2[class_hodo] -> Fill(theta_yz_pi,theta_yz_p);
     }
     if(count_pi>0 && count_p==0){
-      hist_xzpattern2D2[class_hodo] -> Fill(theta_xz_pi,theta_xz_p);
-      hist_yzpattern2D2[class_hodo] -> Fill(theta_yz_pi,theta_yz_p);
-
+      if(flag_seg_pi<4){
+	hist_xzpattern2D2[class_hodo] -> Fill(theta_xz_pi,theta_xz_p);
+	hist_yzpattern2D2[class_hodo] -> Fill(theta_yz_pi,theta_yz_p);
+      }
     }
     if(count_p>0 && count_pi>0){
+      hist_deltatof[class_hodo] -> Fill(flag_time_p-flag_time_pi);
+      if(flag_seg_pi<4){
+	hist_segpattern2D[class_hodo] -> Fill(flag_seg_pi, flag_seg_p);
+	hist_xzpattern2D[class_hodo] -> Fill(theta_xz_pi,theta_xz_p);
+	hist_yzpattern2D[class_hodo] -> Fill(theta_yz_pi,theta_yz_p);
+      }
+
       if(flag_seg_pi<32) flag_seg_pi=(flag_seg_pi+24)%32;
       if(flag_seg_p<32) flag_seg_p=(flag_seg_p+24)%32;
-
-      hist_deltatof[class_hodo] -> Fill(flag_time_p-flag_time_pi);
-      hist_segpattern2D[class_hodo] -> Fill(flag_seg_pi, flag_seg_p);
-      hist_xzpattern2D[class_hodo] -> Fill(theta_xz_pi,theta_xz_p);
-      hist_yzpattern2D[class_hodo] -> Fill(theta_yz_pi,theta_yz_p);
     }
 
     for(int i=0;i<38;i++){

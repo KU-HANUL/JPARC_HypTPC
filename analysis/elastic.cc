@@ -34,15 +34,16 @@ void elastic()
   TFile *N_pip[8];
   for(int i=7;i<8;i++){
     Delta_pip[i] = new TFile(Form("%s%s",pi_plus_pip.Data(),filename[i].Data()),"READ");
-    //N_pip[i] = new TFile(Form("%s%s",pi_minus_pip.Data(),filename[i].Data()),"READ");
+    N_pip[i] = new TFile(Form("%s%s",pi_minus_pip.Data(),filename[i].Data()),"READ");
   }
 
 
   double ecut=1.0;
+  //double ecut=0;
   double test;
-  hodo_class.pip(Delta_pip[7],ecut,false,test,true);
-  //hodo_class.pip(N_pip[7],ecut,false,test,true);
+  //hodo_class.pip(Delta_pip[7],ecut,false,test,true);
   //hodo_class.pip(Delta_pip[7],ecut,true,test,true);
+  hodo_class.pip(N_pip[7],ecut,false,test,true);
   //hodo_class.monitor(Delta_pip[7],0.1,false);
 
   /*

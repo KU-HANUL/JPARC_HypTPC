@@ -53,7 +53,7 @@ double GetAng_yz(TLorentzVector lv1, TLorentzVector lv2) {
 
 void elastic_boost(){
 
-  gStyle->SetOptStat(0);
+  //gStyle->SetOptStat(0);
 
   //TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/elastic/pi_plus/pipip/p2000_phsp.root","READ");
   TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/elastic/pi_minus/pipip/p2000_phsp.root","READ");
@@ -96,8 +96,9 @@ void elastic_boost(){
   double pT_lab, pL_lab, pT_CM, pL_CM;
   double px_pi, py_pi, pz_pi, px_p, py_p, pz_p;
   double E_pi, E_p;
-  double theta_CM, cos_CM, theta_lab_pip, cos_lab_pip, theta_lab_pip_xz, theta_lab_pip_yz;
+  double theta_CM, cos_CM, theta_lab_pip, cos_lab_pip, theta_lab_pip_xz, theta_lab_pip_yz,theta_lab_p,theta_lab_pi;
 
+  TGraph *gr = new TGraph();
 
   TH1D* hist_labpT_pi = new TH1D("hist_labpT_pi","Lab p_{T} #pi^{+}", 500, -2.5, 2.5);
   TH1D* hist_labpL_pi = new TH1D("hist_labpL_pi","Lab p_{L} #pi^{+}", 500, -2.5, 2.5);
@@ -124,6 +125,9 @@ void elastic_boost(){
   TH1D* hist_CM_angle = new TH1D("hist_CM_angle","Scattering Angle Distribution;#theta_{C.M.};counts", 500, 0, 180);
   TH1D* hist_CM_cos = new TH1D("hist_CM_cos","Scattering Angle Distribution;Cos(#theta_{C.M.});counts", 500, -1, 1);
 
+  TH2D* hist_dummy = new TH2D("hist_dummy","Scatter plot of scattering angles of p, #pi;Scattering angle, #theta_{p};Scattering angle, #theta_{pi}", 100,0,180,100,0,180);
+
+  TCanvas *can_scatterplot = new TCanvas("can_scatterplot","",800,800);
   TCanvas *can_labpT = new TCanvas("can_labpT","",1200,800);
   can_labpT -> Divide(2,2);
   TCanvas *can_labpL = new TCanvas("can_labpL","",1200,800);
@@ -178,6 +182,10 @@ void elastic_boost(){
     //TLorentzVector lv_target(0,0,0,m_p); //p2
     TLorentzVector lv_beam(0,0,p_beam,e_beam); //p1
 
+    theta_lab_pi = GetAng(lv_beam,lv_pi);
+    theta_lab_p = GetAng(lv_beam,lv_p);
+    gr -> SetPoint(i,theta_lab_pi,theta_lab_p);
+
     theta_lab_pip = GetAng(lv_p,lv_pi);
     cos_lab_pip = GetCos(lv_p,lv_pi);
     theta_lab_pip_xz = GetAng_xz(lv_p,lv_pi);
@@ -213,6 +221,15 @@ void elastic_boost(){
     hist_CMpT -> Fill(lv_CM.Pt());
     hist_CMpL -> Fill(lv_CM.Pz());
   }
+
+  can_scatterplot -> cd();
+  //hist_dummy -> Draw();
+  gr -> Draw("AP");
+  gr -> SetTitle("Scatter plot for scattering angles of p, #pi");
+  gr -> GetHistogram() -> GetXaxis()-> SetTitle("Scattering angle, #theta_{#pi}");
+  gr -> GetHistogram() -> GetXaxis()-> SetRangeUser(0,180);
+  gr -> GetHistogram() -> GetYaxis()-> SetTitle("Scattering angle, #theta_{p}");
+  gr -> GetHistogram() -> GetYaxis()-> SetRangeUser(0,180);
 
   can_labpT -> cd(1);
   hist_labpT_pi -> Draw();
