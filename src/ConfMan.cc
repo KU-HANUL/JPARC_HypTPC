@@ -140,16 +140,16 @@ bool ConfMan::Initialize( void )
 	}
       else if( sscanf(buf,"LEGENDRE: %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf", &val1, &val2, &val3, &val4, &val5, &val6, &val7, &val8, &val9, &val10)==10 )
 	{
-	  legendre0_=val1;
-	  legendre1_=val2;
-	  legendre2_=val3;
-	  legendre3_=val4;
-	  legendre4_=val5;
-	  legendre5_=val6;
-	  legendre6_=val7;
-	  legendre7_=val8;
-	  legendre8_=val9;
-	  legendre9_=val10;
+	  legendre_[0]=val1;
+	  legendre_[1]=val2;
+	  legendre_[2]=val3;
+	  legendre_[3]=val4;
+	  legendre_[4]=val5;
+	  legendre_[5]=val6;
+	  legendre_[6]=val7;
+	  legendre_[7]=val8;
+	  legendre_[8]=val9;
+	  legendre_[9]=val10;
 	}
       //
       // Reaction //

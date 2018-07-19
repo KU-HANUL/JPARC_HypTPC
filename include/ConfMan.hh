@@ -100,6 +100,7 @@ public:
   double GetBeamVXSig( void ) const { return sigmabvx_; }
   double GetBeamVYSig( void ) const { return sigmabvy_; }
   double GetBeamVZSig( void ) const { return sigmabvz_; }
+  double GetLegendre( int l ) const {return legendre_[l]; }
 
 private:
   // ConfMan
@@ -139,17 +140,7 @@ private:
   double sigmabvx_;
   double sigmabvy_;
   double sigmabvz_;
-  double legendre0_;
-  double legendre1_;
-  double legendre2_;
-  double legendre3_;
-  double legendre4_;
-  double legendre5_;
-  double legendre6_;
-  double legendre7_;
-  double legendre8_;
-  double legendre9_;
-
+  double legendre_[10];
 
 private:
   bool InitializeParameterFiles( void );
