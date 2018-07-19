@@ -549,13 +549,12 @@ void PrimaryGeneratorAction::makeGun(G4Event* anEvent, int partnum, EvtVector4R 
 void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector P, G4ThreeVector D)
 {
 
-  G4cout<<"angle"<<G4endl;
+
 
   ConfMan *confMan = ConfMan::GetConfManager();
   double coefficient[10];
   for(int i=0;i<10;i++){
     coefficient[i] = confMan->GetLegendre(i);
-    G4cout<<"coefficient "<< i<<" th : "<<coefficient[i]<<G4endl;
   }
 
   TF1 *legen[10];
@@ -672,8 +671,13 @@ void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGe
     anaMan_->SetEvtGen(j, partnum, jmotherfirst, jmotherlast, jdaugfirst, jdauglast, tr_id, evx4, evp4);
   }
 
-#if 1
+#if 0
+  G4cout<<"angle"<<G4endl;
   G4cout<<"############# Particle decay table  ##############"<<G4endl;
+  for(int i=0;i<10;i++){
+    G4cout<<"coefficient "<< i<<" th : "<<coefficient[i]<<G4endl;
+  }
+
   //G4cout<<"Npart: "<<npart<<G4endl;
   for(int i=0;i<evtstdhep.getNPart();i++)
     {
