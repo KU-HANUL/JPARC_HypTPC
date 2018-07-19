@@ -13,7 +13,7 @@
 
   //margins
   ildStyle -> SetPadTopMargin(0.13);
-  ildStyle -> SetPadRightMargin(0.05);
+  ildStyle -> SetPadRightMargin(0.12);
   ildStyle -> SetPadLeftMargin(0.15);
   ildStyle -> SetPadBottomMargin(0.12);
   ildStyle -> SetCanvasColor(0);

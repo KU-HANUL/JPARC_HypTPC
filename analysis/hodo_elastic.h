@@ -209,6 +209,7 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
   can_yzpattern2D2[class_hodo] = new TCanvas(Form("can_yzpattern2D2_%d",class_hodo),"",800,800);
   can_hitpattern2D[class_hodo] = new TCanvas(Form("can_hitpattern2D_%d",class_hodo),"",1200,1200);
   can_hitpattern2D[class_hodo] -> Divide(1,2);
+
   //can_pid[class_hodo] = new TCanvas(Form("can_pid_%d",class_hodo),"",1200,1200);
   //hist_pid[class_hodo] =new TH1D(Form("hist_pid_%d",class_hodo),"Hodoscope PID",4600,-2300,2300);
   hist_multi[class_hodo] =new TH1D(Form("hist_multi_%d",class_hodo),"Hodoscope Multiplicity",7,0,7);
@@ -217,9 +218,9 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
   if(window==false) hist_segpattern2D[class_hodo] = new TH2D(Form("hist_segpattern2D_%d",class_hodo),"Hodoscope hitpattern;ID of #pi hit for TPC-Hodo;ID of p hit for TPC-Hodo;",32,0,32,32,0,32);
 
   hist_xzpattern2D[class_hodo] = new TH2D(Form("hist_xzpattern2D_%d",class_hodo),"#theta_{xz} pattern;#theta_{xz} of #pi track for TPC-Hodo;#theta_{xz} of p track for TPC-Hodo",100,-180,180,100,-180,180);
-  hist_yzpattern2D[class_hodo] = new TH2D(Form("hist_yzpattern2D_%d",class_hodo),"#theta_{yz} pattern;#theta_{yz} of #pi track for TPC-Hodo;#theta_{yz} of p track for TPC-Hodo",100,-180,180,100,-180,180);
+  hist_yzpattern2D[class_hodo] = new TH2D(Form("hist_yzpattern2D_%d",class_hodo),"#theta_{yz} pattern;#theta_{yz} of #pi track for TPC-Hodo;#theta_{yz} of p track for TPC-Hodo",100,-90,90,100,-90,90);
   hist_xzpattern2D2[class_hodo] = new TH2D(Form("hist_xzpattern2D2_%d",class_hodo),"single hit, #theta_{xz} pattern;#theta_{xz} of #pi track for TPC-Hodo;#theta_{xz} of p track for TPC-Hodo",100,-180,180,100,-180,180);
-  hist_yzpattern2D2[class_hodo] = new TH2D(Form("hist_yzpattern2D2_%d",class_hodo),"single hit, #theta_{yz} pattern;#theta_{yz} of #pi track for TPC-Hodo;#theta_{yz} of p track for TPC-Hodo",100,-180,180,100,-180,180);
+  hist_yzpattern2D2[class_hodo] = new TH2D(Form("hist_yzpattern2D2_%d",class_hodo),"single hit, #theta_{yz} pattern;#theta_{yz} of #pi track for TPC-Hodo;#theta_{yz} of p track for TPC-Hodo",100,-90,90,100,-90,90);
 
   hist_hitpattern2D_pi[class_hodo] = new TH2D(Form("hist_hitpattern2D_pi_%d",class_hodo),"#pi Hit pattern near the window;X(mm);Y(mm)",1000,-140,140,1000,-50,50);
   hist_hitpattern2D_p[class_hodo] = new TH2D(Form("hist_hitpattern2D_p_%d",class_hodo),"p Hit pattern near the window;X(mm);Y(mm)",1000,-140,140,1000,-50,50);
@@ -251,7 +252,6 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
   int dummy=0;
 
   for(int i=0;i<nevent;i++){
-    //for(int i=0;i<10;i++){
     tree->GetEntry(i);
 
     count_p=0;
@@ -297,7 +297,6 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
       else if(TMath::Abs(tofpid[j])==211&&tofedep[j]>ecut){ //for selecting events w/ pi
 	count_pi++;
 	hist_hitpattern2D_pi[class_hodo] -> Fill(tofposx[j],tofposy[j]);
-	E_pi = TMath::Sqrt(evtpx[j]*evtpx[j]+evtpy[j]*evtpy[j]+evtpz[j]*evtpz[j]);
 
 	if(window==true&&tofseg[j]==0&&tofposy[j]<-window_size){
 	  hodo_seg[32+0] += 1;
@@ -338,7 +337,6 @@ void hodo_elastic::pip(TFile *file, double ecut, bool window, double &m1_coin_pr
       else if(tofpid[j]==2212&&tofedep[j]>ecut){ //for selecting events w/ p
 	count_p++;
 	hist_hitpattern2D_p[class_hodo] -> Fill(tofposx[j],tofposy[j]);
-	E_p = TMath::Sqrt(evtpx[j]*evtpx[j]+evtpy[j]*evtpy[j]+evtpz[j]*evtpz[j]);
 
 	if(window==true&&tofseg[j]==0&&tofposy[j]<-window_size){
 	  hodo_seg[32+0] += 1;

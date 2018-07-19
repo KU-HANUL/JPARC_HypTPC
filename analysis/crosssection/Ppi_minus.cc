@@ -74,7 +74,7 @@ void Ppi_minus()
 
   std::cout<<"max"<<max[ch]<<std::endl;
   for(int j=0;j<10;j++){
-    std::cout<<", "<<amplitude[ch][j]<<std::endl;
+    std::cout<<", "<<amplitude[ch][j]/amplitude[ch][0]<<std::endl;
   }
 
 }//end

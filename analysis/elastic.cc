@@ -41,9 +41,9 @@ void elastic()
   double ecut=1.0;
   //double ecut=0;
   double test;
-  //hodo_class.pip(Delta_pip[7],ecut,false,test,true);
+  hodo_class.pip(Delta_pip[7],ecut,false,test,true);
   //hodo_class.pip(Delta_pip[7],ecut,true,test,true);
-  hodo_class.pip(N_pip[7],ecut,false,test,true);
+  //hodo_class.pip(N_pip[7],ecut,false,test,true);
   //hodo_class.monitor(Delta_pip[7],0.1,false);
 
   /*

@@ -21,8 +21,8 @@ ConfMan::ConfMan( const std::string & filename )
     fStepping(0),
     EvtGenDecayName_(defEvtGenDecayFile), EvtGenPDLName_(defEvtGenPDLFile),
     ReactionMode_(0),
-    BeamMode_(0),
     BeamMomentumMode_(0),
+    CrosssectionMode_(0),
     PionCharge_(0),
     bpx_(0), bpy_(0), bpz_(0), bvx_(0), bvy_(0), bvz_(0),
     sigmabvx_(0), sigmabvy_(0), sigmabvz_(0)
@@ -48,7 +48,7 @@ bool ConfMan::Initialize( void )
   static const std::string funcname="[ConfMan::Initialize]";
 
   char buf[BufSize], buf1[BufSize];
-  G4double val1, val2, val3;
+  G4double val1, val2, val3, val4, val5, val6, val7, val8, val9, val10;
   G4int id;
 
   FILE *fp;
@@ -138,15 +138,27 @@ bool ConfMan::Initialize( void )
 	  sigmabvy_=val2;
 	  sigmabvz_=val3;
 	}
-
+      else if( sscanf(buf,"LEGENDRE: %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf", &val1, &val2, &val3, &val4, &val5, &val6, &val7, &val8, &val9, &val10)==10 )
+	{
+	  legendre0_=val1;
+	  legendre1_=val2;
+	  legendre2_=val3;
+	  legendre3_=val4;
+	  legendre4_=val5;
+	  legendre5_=val6;
+	  legendre6_=val7;
+	  legendre7_=val8;
+	  legendre8_=val9;
+	  legendre9_=val10;
+	}
       //
       // Reaction //
       else if( sscanf(buf,"REACTION: %d", &id )==1 )
         ReactionMode_=id;
-      else if( sscanf(buf,"BEAMMODE: %d", &id )==1 )
-        BeamMode_=id;
       else if( sscanf(buf,"BEAMMOMENTUMMODE: %d", &id )==1 )
         BeamMomentumMode_=id;
+      else if( sscanf(buf,"CROSSSECTIONMODE: %d", &id )==1 )
+	CrosssectionMode_=id;
       else if( sscanf(buf,"PIONCHARGE: %d", &id )==1 )
 	PionCharge_=id;
       //
@@ -198,6 +210,7 @@ void ConfMan::PrintParameters( void )
   std::cout << "Reaction Mode: " << ReactionMode_ << std::endl;
   std::cout << "************ Reaction Mode(E45) *************" << std::endl;
   std::cout << "Beam Momentum Mode: " << BeamMomentumMode_ << std::endl;
+  std::cout << "Cross-section Mode: " << CrosssectionMode_ << std::endl;
   std::cout << "Pion Charge: " << PionCharge_ << std::endl;
 
   std::cout << "************ Beam *************" << std::endl;

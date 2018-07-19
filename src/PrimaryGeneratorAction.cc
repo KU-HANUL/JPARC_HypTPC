@@ -103,9 +103,7 @@ void PrimaryGeneratorAction::GeneratePrimaries( G4Event *anEvent )
 
   ConfMan *confMan = ConfMan::GetConfManager();
   int reactionMode = confMan->ReactionMode();
-  int beamMode = confMan->BeamMode();
-
-  int momMode = confMan->BeamMomentumMode();
+  int momentum_selection = confMan->BeamMomentumMode();
   int C = confMan->PionCharge();
 
   //vertex point and beam momentum
@@ -124,7 +122,7 @@ void PrimaryGeneratorAction::GeneratePrimaries( G4Event *anEvent )
     case 1: GenerateTestKaon(anEvent, D, P); break;
     case 2: GenerateTestPion(anEvent, D, P, C); break;
     case 3: GenerateTest72(anEvent, evtgen_, D, P); break;
-    case 4: GenerateTest45(anEvent, evtgen_, D, P, C, momMode ); break;
+    case 4: GenerateTest45(anEvent, evtgen_, D, P, C, momentum_selection ); break;
     }
 }
 
@@ -166,7 +164,6 @@ void PrimaryGeneratorAction::GenerateTestKaon(G4Event* anEvent, G4ThreeVector D,
 void PrimaryGeneratorAction::GenerateTestPion(G4Event* anEvent, G4ThreeVector D, G4ThreeVector P, int C)
 {
   ConfMan *confMan = ConfMan::GetConfManager();
-  int beamMode = confMan->BeamMode();
 
   double mass_pi = 0.13957061;
   if(C==-1) particleGun -> SetParticleDefinition (particleTable -> FindParticle("pi-"));
@@ -182,21 +179,14 @@ void PrimaryGeneratorAction::GenerateTestPion(G4Event* anEvent, G4ThreeVector D,
 
   int flag=1;
   double TV_bvx, TV_bvy, TV_bvz;
-  if(beamMode==1){ // if put beam profile
-    while(flag){
-      TRandom *eventgen = new TRandom(prmclass);
-      TV_bvx = eventgen->Gaus(D.x(),sigmabvx);
-      TV_bvy = eventgen->Gaus(D.y(),sigmabvy);
-      if(TMath::Abs(TV_bvy-D.y())<50.0 && TMath::Abs(TV_bvx-D.x())<27.0)  flag=0;
-      prmclass++;
-    }
-    TV_bvz = D.z();
+  while(flag){
+    TRandom *eventgen = new TRandom(prmclass);
+    TV_bvx = eventgen->Gaus(D.x(),sigmabvx);
+    TV_bvy = eventgen->Gaus(D.y(),sigmabvy);
+    if(TMath::Abs(TV_bvy-D.y())<50.0 && TMath::Abs(TV_bvx-D.x())<27.0)  flag=0;
+    prmclass++;
   }
-  else{
-    TV_bvx = D.x();
-    TV_bvy = D.y();
-    TV_bvz = D.z();
-  }
+  TV_bvz = D.z();
 
   //G4ThreeVector dir = G4RandomDirection();
   G4ThreeVector beamx ( TV_bvx, TV_bvy, TV_bvz);
@@ -210,7 +200,6 @@ void PrimaryGeneratorAction::GenerateTestPion(G4Event* anEvent, G4ThreeVector D,
   particleGun->SetParticlePosition( beamx );
   particleGun->SetParticleEnergy( energy );
   particleGun->GeneratePrimaryVertex( anEvent);
-
 
 }
 
@@ -271,10 +260,10 @@ void PrimaryGeneratorAction::GenerateTest72(G4Event* anEvent, EvtGen *evtGenerat
   GenerateDecay(anEvent, evtGenerator, lam1663, D);
 }
 
-void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerator, G4ThreeVector D, G4ThreeVector P, int C, int momMode)
+void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerator, G4ThreeVector D, G4ThreeVector P, int C, int momentum_selection)
 {
   ConfMan *confMan = ConfMan::GetConfManager();
-  int beamMode = confMan->BeamMode();
+  int crosssection = confMan->CrosssectionMode();
 
   //G4cout<<"Start Generate Test45"<<G4endl;
   /// mother particle momentum //
@@ -301,23 +290,23 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
   EvtParticle* Nstar(0);
   EvtId evtid_N;
   if(C==-1){
-    if(momMode==0)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1460)0")); //p=0.635 GeV/c
-    else if(momMode==1)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1580)0")); //p=0.835 GeV/c
-    else if(momMode==2)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1690)0")); //p=1.035 GeV/c
-    else if(momMode==3)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1800)0")); //p=1.235 GeV/c
-    else if(momMode==4)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1900)0")); //p=1.435 GeV/c
-    else if(momMode==5)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1990)0")); //p=1.635 GeV/c
-    else if(momMode==6)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(2090)0")); //p=1.835 GeV/c
-    else if(momMode==7)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(2160)0")); //p=2.000 GeV/c
+    if(momentum_selection==0)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1460)0")); //p=0.635 GeV/c
+    else if(momentum_selection==1)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1580)0")); //p=0.835 GeV/c
+    else if(momentum_selection==2)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1690)0")); //p=1.035 GeV/c
+    else if(momentum_selection==3)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1800)0")); //p=1.235 GeV/c
+    else if(momentum_selection==4)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1900)0")); //p=1.435 GeV/c
+    else if(momentum_selection==5)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1990)0")); //p=1.635 GeV/c
+    else if(momentum_selection==6)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(2090)0")); //p=1.835 GeV/c
+    else if(momentum_selection==7)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(2160)0")); //p=2.000 GeV/c
 
-    else if(momMode==8)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1460)0")); //p=0.635 GeV/c
-    else if(momMode==9)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1580)0")); //p=0.835 GeV/c
-    else if(momMode==10)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1690)0")); //p=1.035 GeV/c
-    else if(momMode==11)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1800)0")); //p=1.235 GeV/c
-    else if(momMode==12)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1900)0")); //p=1.435 GeV/c
-    else if(momMode==13)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1990)0")); //p=1.635 GeV/c
-    else if(momMode==14)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(2090)0")); //p=1.835 GeV/c
-    else if(momMode==15)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(2160)0")); //p=2.000 GeV/c
+    else if(momentum_selection==8)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1460)0")); //p=0.635 GeV/c
+    else if(momentum_selection==9)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1580)0")); //p=0.835 GeV/c
+    else if(momentum_selection==10)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1690)0")); //p=1.035 GeV/c
+    else if(momentum_selection==11)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1800)0")); //p=1.235 GeV/c
+    else if(momentum_selection==12)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1900)0")); //p=1.435 GeV/c
+    else if(momentum_selection==13)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1990)0")); //p=1.635 GeV/c
+    else if(momentum_selection==14)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(2090)0")); //p=1.835 GeV/c
+    else if(momentum_selection==15)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(2160)0")); //p=2.000 GeV/c
 
     else{
       G4cout<<"### No Particle data in param/EVT ###"<<G4endl;
@@ -325,23 +314,23 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
     }
   }
   else if(C==1){
-    if(momMode==0)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1460)++")); //p=0.635 GeV/c
-    else if(momMode==1)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1580)++")); //p=0.835 GeV/c
-    else if(momMode==2)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1690)++")); //p=1.035 GeV/c
-    else if(momMode==3)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1800)++")); //p=1.235 GeV/c
-    else if(momMode==4)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1900)++")); //p=1.435 GeV/c
-    else if(momMode==5)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1990)++")); //p=1.635 GeV/c
-    else if(momMode==6)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(2090)++")); //p=1.835 GeV/c
-    else if(momMode==7)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(2160)++")); //p=2.000 GeV/c
+    if(momentum_selection==0)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1460)++")); //p=0.635 GeV/c
+    else if(momentum_selection==1)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1580)++")); //p=0.835 GeV/c
+    else if(momentum_selection==2)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1690)++")); //p=1.035 GeV/c
+    else if(momentum_selection==3)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1800)++")); //p=1.235 GeV/c
+    else if(momentum_selection==4)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1900)++")); //p=1.435 GeV/c
+    else if(momentum_selection==5)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(1990)++")); //p=1.635 GeV/c
+    else if(momentum_selection==6)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(2090)++")); //p=1.835 GeV/c
+    else if(momentum_selection==7)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipip(2160)++")); //p=2.000 GeV/c
 
-    else if(momMode==8)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1460)++")); //p=0.635 GeV/c
-    else if(momMode==9)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1580)++")); //p=0.835 GeV/c
-    else if(momMode==10)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1690)++")); //p=1.035 GeV/c
-    else if(momMode==11)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1800)++")); //p=1.235 GeV/c
-    else if(momMode==12)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1900)++")); //p=1.435 GeV/c
-    else if(momMode==13)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1990)++")); //p=1.635 GeV/c
-    else if(momMode==14)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(2090)++")); //p=1.835 GeV/c
-    else if(momMode==15)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(2160)++")); //p=2.000 GeV/c
+    else if(momentum_selection==8)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1460)++")); //p=0.635 GeV/c
+    else if(momentum_selection==9)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1580)++")); //p=0.835 GeV/c
+    else if(momentum_selection==10)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1690)++")); //p=1.035 GeV/c
+    else if(momentum_selection==11)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1800)++")); //p=1.235 GeV/c
+    else if(momentum_selection==12)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1900)++")); //p=1.435 GeV/c
+    else if(momentum_selection==13)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(1990)++")); //p=1.635 GeV/c
+    else if(momentum_selection==14)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(2090)++")); //p=1.835 GeV/c
+    else if(momentum_selection==15)  evtid_N = EvtPDL::getId(std::string("PhaseSpacepipin(2160)++")); //p=2.000 GeV/c
 
     else{
       G4cout<<"### No Particle data in param/EVT ###"<<G4endl;
@@ -363,20 +352,13 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
 
   int flag=1;
   double TV_bvx, TV_bvy, TV_bvz;
-  if(beamMode==1){ // if put beam profile
-    while(flag){
-      TRandom *eventgen = new TRandom(prmclass);
-      TV_bvx = eventgen->Gaus(D.x(),sigmabvx);
-      TV_bvy = eventgen->Gaus(D.y(),sigmabvy);
-      TV_bvz = D.z() + eventgen->Uniform(-27.0,27.0);
-      if(TMath::Sqrt(   (TV_bvx-D.x())*(TV_bvx-D.x()) + (TV_bvz-D.z())*(TV_bvz-D.z())  )< 54.0 && TMath::Abs(TV_bvy-D.y())<50.0)  flag=0;
-      prmclass++;
-    }
-  }
-  else{
-    TV_bvx = D.x();
-    TV_bvy = D.y();
-    TV_bvz = D.z();
+  while(flag){
+    TRandom *eventgen = new TRandom(prmclass);
+    TV_bvx = eventgen->Gaus(D.x(),sigmabvx);
+    TV_bvy = eventgen->Gaus(D.y(),sigmabvy);
+    TV_bvz = D.z() + eventgen->Uniform(-27.0,27.0);
+    if(TMath::Sqrt(   (TV_bvx-D.x())*(TV_bvx-D.x()) + (TV_bvz-D.z())*(TV_bvz-D.z())  )< 54.0 && TMath::Abs(TV_bvy-D.y())<50.0)  flag=0;
+    prmclass++;
   }
 
   G4ThreeVector TVx (TV_bvx,TV_bvy,TV_bvz);
@@ -401,9 +383,9 @@ void PrimaryGeneratorAction::GenerateTest45(G4Event* anEvent, EvtGen *evtGenerat
 
   EvtVector4R pInit_N( Lv_N.e(), Lv_N.vect().x(), Lv_N.vect().y(), Lv_N.vect().z() );
   Nstar = EvtParticleFactory::particleFactory(evtid_N, pInit_N);
-  //GenerateDecay(anEvent, evtGenerator, Nstar, TVx);
-  GenerateDecay_angle(anEvent, evtGenerator, Nstar, P, TVx);
 
+  if(crosssection==1) GenerateDecay_angle(anEvent, evtGenerator, Nstar, P, TVx);
+  else GenerateDecay(anEvent, evtGenerator, Nstar, TVx);
 }
 
 void PrimaryGeneratorAction::GenerateDecay(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector D)
@@ -564,17 +546,13 @@ void PrimaryGeneratorAction::makeGun(G4Event* anEvent, int partnum, EvtVector4R 
 
 }
 
-
-
-
 void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGenerator, EvtParticle* particle, G4ThreeVector P, G4ThreeVector D)
 {
-  std::cout<<"Differential cross-section included "<<std::endl;
   //pi+, p elastic P=1.99 GeV/c
   //double coefficient[10] = {1, 2.162, 2.653, 2.889, 2.43, 1.665, 0.927, 0.332, 0.042, 0.06};
 
   //pi-, p elastic P=1.98 GeV/c
-  double coefficient[10] = {0.676241, 1.58781, 2.03502, 2.27108, 2.16663, 1.63134, 1.01002, 0.514946, 0.255893, 0.146594};
+  double coefficient[10]={1, 2.34799, 3.00931, 3.35839, 3.20393, 2.41237, 1.49359, 0.761482, 0.378405, 0.216778};
 
   TF1 *legen[10];
   legen[0] = new TF1("legen[0]","1",-1,1);
@@ -617,7 +595,7 @@ void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGe
     int npart = evtstdhep.getNPart();
 
     for(int i=0;i<npart;i++){
-      if(TMath::Abs(evtstdhep.getStdHepID(i)==211)){
+      if(TMath::Abs(evtstdhep.getStdHepID(i))==211){
 	p4_pi=evtstdhep.getP4(i);
 	TLorentzVector lv_pi(p4_pi.get(1),p4_pi.get(2),p4_pi.get(3),p4_pi.get(0));
 	TLorentzVector lv_beam(P.x(),P.y(),P.z(),e_beam);
@@ -662,7 +640,6 @@ void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGe
     x=x4.get(1)+D.x();
     y=x4.get(2)+D.y();
     z=x4.get(3)+D.z();
-    //t=x4.get(0)+D.t();
     t=x4.get(0)*0.001/2.999792458 *1.e1; //mm/c --> ns
     m=p4.mass();
 

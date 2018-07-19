@@ -87,7 +87,6 @@ public:
 
   // Reaction mode //
   int ReactionMode( void ) const { return ReactionMode_; }
-  int BeamMode( void ) const { return BeamMode_; }
   int BeamMomentumMode( void ) const { return BeamMomentumMode_; }
   int PionCharge( void ) const { return PionCharge_; }
 
@@ -126,8 +125,8 @@ private:
 
   // Reaction mode //
   int ReactionMode_;
-  int BeamMode_;
   int BeamMomentumMode_;
+  int CrosssectionMode_;
   int PionCharge_;
 
   // Beam //
@@ -140,6 +139,17 @@ private:
   double sigmabvx_;
   double sigmabvy_;
   double sigmabvz_;
+  double legendre0_;
+  double legendre1_;
+  double legendre2_;
+  double legendre3_;
+  double legendre4_;
+  double legendre5_;
+  double legendre6_;
+  double legendre7_;
+  double legendre8_;
+  double legendre9_;
+
 
 private:
   bool InitializeParameterFiles( void );

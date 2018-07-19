@@ -56,8 +56,9 @@ void elastic_boost(){
   //gStyle->SetOptStat(0);
 
   //TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/elastic/pi_plus/pipip/p2000_phsp.root","READ");
-  TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/elastic/pi_minus/pipip/p2000_phsp.root","READ");
-  //TFile *file = new TFile("~/Desktop/p2000_phsp.root","READ");
+  //TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/elastic/pi_minus/pipip/p2000_phsp.root","READ");
+  //TFile *file = new TFile("~/Desktop/test.root","READ");
+  TFile *file = new TFile("~/Desktop/p2000_phsp.root","READ");
 
   TTree *tree = (TTree*)file->Get("tree");
 
@@ -82,6 +83,21 @@ void elastic_boost(){
   tree->SetBranchAddress("evtvx",evtvx);
   tree->SetBranchAddress("evtvy",evtvy);
   tree->SetBranchAddress("evtvz",evtvz);
+
+  TF1 *legen[10];
+  double coefficient[10];
+  legen[0] = new TF1("legen[0]","1",-1,1);
+  legen[1] = new TF1("legen[1]","x",-1,1);
+  legen[2] = new TF1("legen[2]","(3*TMath::Power(x,2)-1)/2 ",-1,1);
+  legen[3] = new TF1("legen[3]","(5*TMath::Power(x,3)-3*x)/2 ",-1,1);
+  legen[4] = new TF1("legen[4]","(35*TMath::Power(x,4)-30*TMath::Power(x,2)+3)/8 ",-1,1);
+  legen[5] = new TF1("legen[5]","(63*TMath::Power(x,5)-70*TMath::Power(x,3)+15*x)/8 ",-1,1);
+  legen[6] = new TF1("legen[6]","(231*TMath::Power(x,6)-315*TMath::Power(x,4)+105*TMath::Power(x,2)-5)/16 ",-1,1);
+  legen[7] = new TF1("legen[7]","(429*TMath::Power(x,7)-693*TMath::Power(x,5)+315*TMath::Power(x,3)-35*x)/16 ",-1,1);
+  legen[8] = new TF1("legen[8]","(6435*TMath::Power(x,8)-12012*TMath::Power(x,6)+6930*TMath::Power(x,4)-1260*TMath::Power(x,2)+35)/128 ",-1,1);
+  legen[9] = new TF1("legen[9]","(12155*TMath::Power(x,9)-25740*TMath::Power(x,7)+18018*TMath::Power(x,5)-4620*TMath::Power(x,3)+315*x)/128 ",-1,1);
+
+  TF1 *func = new TF1("func","legen[0]*[0]+legen[1]*[1]+legen[2]*[2]+legen[3]*[3]+legen[4]*[4]+legen[5]*[5]+legen[6]*[6]+legen[7]*[7]+legen[8]*[8]+legen[9]*[9]",-1.0,1.0);
 
   double c = 0.299792458;
   double m_p = 0.938272;
@@ -276,5 +292,10 @@ void elastic_boost(){
   can_CM_angle -> cd();
   hist_CM_cos -> Draw();
   //hist_CM_cos -> GetYaxis() -> SetRangeUser(0,1200);
+  hist_CM_cos -> Fit(func);
 
+  func -> GetParameters(coefficient);
+  for(int i=0;i<10;i++){
+    std::cout<<"coefficient "<<i<<" th : "<<0.676241*coefficient[i]/coefficient[0]<<std::endl;
+  }
 }
