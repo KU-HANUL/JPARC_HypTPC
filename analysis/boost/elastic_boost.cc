@@ -58,7 +58,10 @@ void elastic_boost(){
   //TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/elastic/pi_plus/pipip/p2000_phsp.root","READ");
   //TFile *file = new TFile("~/Desktop/hanul_git/JPARC_HypTPC/rootfile/e45/elastic/pi_minus/pipip/p2000_phsp.root","READ");
   //TFile *file = new TFile("~/Desktop/test.root","READ");
-  TFile *file = new TFile("~/Desktop/p2000_phsp.root","READ");
+  //TFile *file = new TFile("~/Desktop/p2000_elastic.root","READ");
+  //TFile *file = new TFile("~/Desktop/p2000_elastic.root","READ");
+  //TFile *file = new TFile("~/Desktop/elastic/pi_minus/p2000_elastic.root","READ");
+  TFile *file = new TFile("~/Desktop/elastic/pi_plus/p2000_elastic.root","READ");
 
   TTree *tree = (TTree*)file->Get("tree");
 
@@ -296,6 +299,6 @@ void elastic_boost(){
 
   func -> GetParameters(coefficient);
   for(int i=0;i<10;i++){
-    std::cout<<"coefficient "<<i<<" th : "<<0.676241*coefficient[i]/coefficient[0]<<std::endl;
+    std::cout<<"coefficient "<<i<<" th : "<<coefficient[i]/coefficient[0]<<std::endl;
   }
 }
