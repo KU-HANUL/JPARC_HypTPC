@@ -674,7 +674,7 @@ void PrimaryGeneratorAction::GenerateDecay_angle(G4Event* anEvent, EvtGen *evtGe
 
 #if 1
   G4cout<<"############# Particle decay table  ##############"<<G4endl;
-  G4cout<<"Npart: "<<npart<<G4endl;
+  //G4cout<<"Npart: "<<npart<<G4endl;
   for(int i=0;i<evtstdhep.getNPart();i++)
     {
       j=i+1;
